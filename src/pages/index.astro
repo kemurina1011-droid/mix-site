@@ -2958,6 +2958,107 @@
         }
       };
 
+      let mixManagerRegistered = false;
+
+      const getFormValue = (name) => {
+        const field = mixRequestForm?.elements.namedItem(name);
+
+        if (
+          field instanceof HTMLInputElement ||
+          field instanceof HTMLSelectElement ||
+          field instanceof HTMLTextAreaElement
+        ) {
+          return field.value.trim();
+        }
+
+        return "";
+      };
+
+      const registerProjectInMixManager = async (signal) => {
+        if (mixManagerRegistered) {
+          return {
+            success: true,
+            alreadyRegistered: true,
+          };
+        }
+
+        const response = await fetch(
+          `${R2_UPLOAD_API}/submit-project`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              requestId,
+              clientName: getFormValue("name"),
+              email: getFormValue("email"),
+              xAccount: getFormValue("x_account"),
+              songTitle: getFormValue("song_title"),
+              requestType: getFormValue("request_type"),
+              paymentMethod: getFormValue("payment_method"),
+              discount: getFormValue("discount"),
+              deadline: getFormValue("deadline"),
+              keyChange: getFormValue("key_change"),
+              originalUrl: getFormValue("original_url"),
+              referenceUrl: getFormValue("reference_url"),
+              externalAudioUrl: getFormValue("audio_url"),
+              message: getFormValue("message"),
+              uploadedFiles: uploadedFileRecords,
+            }),
+            signal,
+          }
+        );
+
+        const responseData = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(
+            responseData.detail ||
+              responseData.error ||
+              `MIX Managerへの登録に失敗しました（${response.status}）。`
+          );
+        }
+
+        mixManagerRegistered = true;
+        return responseData;
+      };
+
+      const sendToBasin = async (signal) => {
+        const formData = new FormData(mixRequestForm);
+
+        const response = await fetch(
+          mixRequestForm.action,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Accept: "application/json",
+            },
+            signal,
+          }
+        );
+
+        if (!response.ok) {
+          let detail = "";
+
+          try {
+            const responseData = await response.json();
+            detail =
+              responseData?.message ||
+              responseData?.error ||
+              "";
+          } catch {
+            detail = await response.text();
+          }
+
+          throw new Error(
+            detail ||
+              `Basinへの送信に失敗しました（${response.status}）。`
+          );
+        }
+      };
+
       if (mixRequestForm) {
         mixRequestForm.addEventListener("submit", async (event) => {
           event.preventDefault();
@@ -3002,48 +3103,25 @@
           try {
             if (submitRequestButton) {
               submitRequestButton.disabled = true;
-              submitRequestButton.textContent = "送信中…";
+              submitRequestButton.textContent =
+                "案件管理へ登録中…";
             }
 
             basinSuccess?.classList.remove("is-visible");
             basinError?.classList.remove("is-visible");
 
-            const formData = new FormData(mixRequestForm);
+            await registerProjectInMixManager(controller.signal);
 
-            const response = await fetch(
-              mixRequestForm.action,
-              {
-                method: "POST",
-                body: formData,
-                headers: {
-                  Accept: "application/json",
-                },
-                signal: controller.signal,
-              }
-            );
-
-            if (!response.ok) {
-              let detail = "";
-
-              try {
-                const responseData = await response.json();
-                detail =
-                  responseData?.message ||
-                  responseData?.error ||
-                  "";
-              } catch {
-                detail = await response.text();
-              }
-
-              throw new Error(
-                detail ||
-                  `送信に失敗しました（${response.status}）。`
-              );
+            if (submitRequestButton) {
+              submitRequestButton.textContent =
+                "通知を送信中…";
             }
+
+            await sendToBasin(controller.signal);
 
             setFormStatus(
               "success",
-              "依頼を送信しました。内容を確認のうえ、折り返しご連絡いたします。しばらくお待ちください。"
+              "依頼を送信しました。案件管理への登録と受付通知が完了しています。内容を確認のうえ、折り返しご連絡いたします。"
             );
 
             if (submitRequestButton) {
@@ -3053,7 +3131,7 @@
             const message =
               error instanceof DOMException &&
               error.name === "AbortError"
-                ? "送信が30秒以内に完了しませんでした。通信状況を確認し、再度お試しください。ファイルは再アップロード不要です。"
+                ? "送信が30秒以内に完了しませんでした。通信状況を確認し、再度お試しください。アップロード済みファイルの再送は不要です。"
                 : error instanceof Error
                   ? error.message
                   : "送信に失敗しました。時間をおいて再度お試しください。";
