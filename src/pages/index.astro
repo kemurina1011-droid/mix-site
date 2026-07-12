@@ -982,6 +982,141 @@
         line-height: 1.7;
       }
 
+      .upload-panel {
+        padding: 18px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--line);
+      }
+
+      .upload-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .upload-panel-title {
+        margin: 0;
+        font-size: 16px;
+        color: var(--text);
+      }
+
+      .upload-panel-note {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .upload-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+
+      .upload-actions .button {
+        min-height: 44px;
+      }
+
+      .upload-file-input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+
+      .upload-summary {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .upload-file-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .upload-file-item {
+        padding: 14px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.035);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+      }
+
+      .upload-file-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .upload-file-name {
+        min-width: 0;
+        color: var(--text);
+        font-size: 14px;
+        overflow-wrap: anywhere;
+      }
+
+      .upload-file-size,
+      .upload-file-state {
+        color: var(--muted);
+        font-size: 12px;
+        white-space: nowrap;
+      }
+
+      .upload-progress-track {
+        width: 100%;
+        height: 8px;
+        margin-top: 10px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .upload-progress-bar {
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: var(--accent);
+        transition: width 0.15s linear;
+      }
+
+      .upload-message {
+        display: none;
+        margin-top: 14px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .upload-message.is-visible {
+        display: block;
+      }
+
+      .upload-message.success {
+        background: var(--success-bg);
+        border: 1px solid var(--success-line);
+      }
+
+      .upload-message.error {
+        background: var(--error-bg);
+        border: 1px solid var(--error-line);
+      }
+
+      .button:disabled {
+        cursor: not-allowed;
+        opacity: 0.48;
+        transform: none;
+      }
+
       .form-status {
         display: none;
         margin-top: 18px;
@@ -1908,6 +2043,7 @@
               data-basin-error-id="mix-form-error"
               data-basin-spam-protection="none"
               class="request-form"
+              id="mixRequestForm"
             >
               <div class="form-grid">
                 <div class="form-group">
@@ -1986,14 +2122,63 @@
                 </div>
 
                 <div class="form-group full-width">
-                  <label for="audio_url">Vocal / Inst 音源URL</label>
-                  <input id="audio_url" name="audio_url" type="url" placeholder="例：ギガファイル便・Google DriveなどのURL" />
+                  <label for="audio_url">外部音源URL（任意）</label>
+                  <input
+                    id="audio_url"
+                    name="audio_url"
+                    type="url"
+                    placeholder="すでにクラウドへ保存済みの場合のみ入力してください"
+                  />
                 </div>
 
                 <div class="form-group full-width">
-                  <label for="attachment">添付ファイル（任意）</label>
-                  <input id="attachment" name="attachment" type="file" />
+                  <div class="upload-panel">
+                    <div class="upload-panel-header">
+                      <div>
+                        <h3 class="upload-panel-title">録音データ・関連ファイル</h3>
+                        <p class="upload-panel-note">
+                          このサイトから直接送信できます。最大10ファイル、1ファイル1GB、合計3GBまで。<br />
+                          対応形式：WAV / MP3 / FLAC / AIF / AIFF / ZIP
+                        </p>
+                      </div>
+                    </div>
+
+                    <input
+                      class="upload-file-input"
+                      id="r2Files"
+                      type="file"
+                      multiple
+                      accept=".wav,.mp3,.flac,.aif,.aiff,.zip"
+                    />
+
+                    <div class="upload-actions">
+                      <label class="button button-secondary" for="r2Files">ファイルを選択</label>
+                      <button
+                        class="button button-primary"
+                        id="uploadFilesButton"
+                        type="button"
+                        disabled
+                      >
+                        ファイルをアップロード
+                      </button>
+                    </div>
+
+                    <p class="upload-summary" id="uploadSummary">
+                      ファイルはまだ選択されていません。
+                    </p>
+
+                    <div class="upload-file-list" id="uploadFileList"></div>
+
+                    <div class="upload-message" id="uploadMessage" role="status"></div>
+                  </div>
                 </div>
+
+                <input id="requestIdField" name="request_id" type="hidden" />
+                <input id="uploadedFilesJsonField" name="uploaded_files_json" type="hidden" />
+                <input id="uploadedFileNamesField" name="uploaded_file_names" type="hidden" />
+                <input id="uploadedObjectKeysField" name="uploaded_object_keys" type="hidden" />
+                <input id="uploadedTotalBytesField" name="uploaded_total_bytes" type="hidden" />
+                <input id="uploadStatusField" name="upload_status" type="hidden" value="not_selected" />
 
                 <div class="form-group full-width">
                   <label for="message">ご要望・備考</label>
@@ -2006,7 +2191,7 @@
                 </div>
               </div>
 
-              <button class="button button-primary" type="submit">この内容で依頼する</button>
+              <button class="button button-primary" id="submitRequestButton" type="submit">この内容で依頼する</button>
             </form>
 
             <div id="mix-form-success" class="form-status success">
@@ -2261,6 +2446,529 @@
 
       setupScrollButtons("worksScrollFull", "worksPrevButton", "worksNextButton");
       setupScrollButtons("worksScrollShort", "worksPrevButtonShort", "worksNextButtonShort");
+
+      const R2_UPLOAD_API =
+        "https://mix-upload-api.kemurina1011.workers.dev";
+
+      const MAX_UPLOAD_FILES = 10;
+      const MAX_SINGLE_FILE_SIZE = 1024 * 1024 * 1024;
+      const MAX_TOTAL_FILE_SIZE = 3 * 1024 * 1024 * 1024;
+      const ALLOWED_UPLOAD_EXTENSIONS = new Set([
+        "wav",
+        "mp3",
+        "flac",
+        "aif",
+        "aiff",
+        "zip",
+      ]);
+
+      const mixRequestForm = document.getElementById("mixRequestForm");
+      const r2FilesInput = document.getElementById("r2Files");
+      const uploadFilesButton = document.getElementById("uploadFilesButton");
+      const submitRequestButton = document.getElementById("submitRequestButton");
+      const uploadSummary = document.getElementById("uploadSummary");
+      const uploadFileList = document.getElementById("uploadFileList");
+      const uploadMessage = document.getElementById("uploadMessage");
+
+      const requestIdField = document.getElementById("requestIdField");
+      const uploadedFilesJsonField = document.getElementById("uploadedFilesJsonField");
+      const uploadedFileNamesField = document.getElementById("uploadedFileNamesField");
+      const uploadedObjectKeysField = document.getElementById("uploadedObjectKeysField");
+      const uploadedTotalBytesField = document.getElementById("uploadedTotalBytesField");
+      const uploadStatusField = document.getElementById("uploadStatusField");
+
+      let selectedUploadFiles = [];
+      let uploadedFileRecords = [];
+      let uploadCompleted = false;
+      let uploadInProgress = false;
+
+      const requestId = crypto.randomUUID();
+
+      if (requestIdField) {
+        requestIdField.value = requestId;
+      }
+
+      const formatBytes = (bytes) => {
+        if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
+
+        const units = ["B", "KB", "MB", "GB"];
+        const unitIndex = Math.min(
+          Math.floor(Math.log(bytes) / Math.log(1024)),
+          units.length - 1
+        );
+
+        const value = bytes / 1024 ** unitIndex;
+        const digits = unitIndex >= 2 ? 2 : 0;
+
+        return `${value.toFixed(digits)} ${units[unitIndex]}`;
+      };
+
+      const getFileExtension = (fileName) => {
+        const index = fileName.lastIndexOf(".");
+        return index === -1
+          ? ""
+          : fileName.slice(index + 1).toLowerCase();
+      };
+
+      const setUploadMessage = (message, type = "") => {
+        if (!uploadMessage) return;
+
+        uploadMessage.textContent = message;
+        uploadMessage.className = "upload-message";
+
+        if (message) {
+          uploadMessage.classList.add("is-visible");
+
+          if (type) {
+            uploadMessage.classList.add(type);
+          }
+        }
+      };
+
+      const resetUploadMetadata = () => {
+        uploadedFileRecords = [];
+        uploadCompleted = false;
+
+        if (uploadedFilesJsonField) uploadedFilesJsonField.value = "";
+        if (uploadedFileNamesField) uploadedFileNamesField.value = "";
+        if (uploadedObjectKeysField) uploadedObjectKeysField.value = "";
+        if (uploadedTotalBytesField) uploadedTotalBytesField.value = "";
+        if (uploadStatusField) uploadStatusField.value = "selected";
+      };
+
+      const updateSubmitAvailability = () => {
+        if (!submitRequestButton) return;
+
+        const filesNeedUpload =
+          selectedUploadFiles.length > 0 && !uploadCompleted;
+
+        submitRequestButton.disabled =
+          uploadInProgress || filesNeedUpload;
+      };
+
+      const validateSelectedFiles = (files) => {
+        if (files.length > MAX_UPLOAD_FILES) {
+          throw new Error(
+            `選択できるファイルは最大${MAX_UPLOAD_FILES}個です。`
+          );
+        }
+
+        let totalSize = 0;
+
+        for (const file of files) {
+          const extension = getFileExtension(file.name);
+
+          if (!ALLOWED_UPLOAD_EXTENSIONS.has(extension)) {
+            throw new Error(
+              `${file.name}は対応していない形式です。`
+            );
+          }
+
+          if (file.size <= 0) {
+            throw new Error(
+              `${file.name}の容量を確認できません。`
+            );
+          }
+
+          if (file.size > MAX_SINGLE_FILE_SIZE) {
+            throw new Error(
+              `${file.name}は1GBを超えています。`
+            );
+          }
+
+          totalSize += file.size;
+        }
+
+        if (totalSize > MAX_TOTAL_FILE_SIZE) {
+          throw new Error(
+            "選択したファイルの合計容量が3GBを超えています。"
+          );
+        }
+
+        return totalSize;
+      };
+
+      const renderSelectedFiles = () => {
+        if (!uploadFileList || !uploadSummary) return;
+
+        uploadFileList.innerHTML = "";
+
+        if (selectedUploadFiles.length === 0) {
+          uploadSummary.textContent =
+            "ファイルはまだ選択されていません。";
+          return;
+        }
+
+        const totalSize = selectedUploadFiles.reduce(
+          (sum, file) => sum + file.size,
+          0
+        );
+
+        uploadSummary.textContent =
+          `${selectedUploadFiles.length}ファイル・合計${formatBytes(totalSize)}`;
+
+        selectedUploadFiles.forEach((file, index) => {
+          const item = document.createElement("div");
+          item.className = "upload-file-item";
+          item.dataset.uploadIndex = String(index);
+
+          item.innerHTML = `
+            <div class="upload-file-row">
+              <span class="upload-file-name"></span>
+              <span class="upload-file-size"></span>
+            </div>
+            <div class="upload-progress-track" aria-hidden="true">
+              <div class="upload-progress-bar"></div>
+            </div>
+            <div class="upload-file-row" style="margin-top: 8px;">
+              <span class="upload-file-state">アップロード待ち</span>
+            </div>
+          `;
+
+          const nameElement = item.querySelector(".upload-file-name");
+          const sizeElement = item.querySelector(".upload-file-size");
+
+          if (nameElement) nameElement.textContent = file.name;
+          if (sizeElement) sizeElement.textContent = formatBytes(file.size);
+
+          uploadFileList.appendChild(item);
+        });
+      };
+
+      const updateFileProgress = (index, percent, stateText) => {
+        const item = uploadFileList?.querySelector(
+          `[data-upload-index="${index}"]`
+        );
+
+        if (!item) return;
+
+        const progressBar = item.querySelector(".upload-progress-bar");
+        const state = item.querySelector(".upload-file-state");
+
+        if (progressBar) {
+          progressBar.style.width =
+            `${Math.max(0, Math.min(100, percent))}%`;
+        }
+
+        if (state && stateText) {
+          state.textContent = stateText;
+        }
+      };
+
+      const requestPresignedUrl = async (file) => {
+        const contentType =
+          file.type || "application/octet-stream";
+
+        const response = await fetch(
+          `${R2_UPLOAD_API}/presign`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              requestId,
+              fileName: file.name,
+              fileSize: file.size,
+              contentType,
+            }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.error || "アップロードURLの発行に失敗しました。"
+          );
+        }
+
+        return {
+          ...data,
+          contentType,
+        };
+      };
+
+      const uploadFileWithProgress = (
+        file,
+        uploadUrl,
+        contentType,
+        index
+      ) =>
+        new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+
+          xhr.open("PUT", uploadUrl);
+          xhr.setRequestHeader("Content-Type", contentType);
+
+          xhr.upload.addEventListener("progress", (event) => {
+            if (!event.lengthComputable) return;
+
+            const percent = Math.round(
+              (event.loaded / event.total) * 100
+            );
+
+            updateFileProgress(
+              index,
+              percent,
+              `アップロード中 ${percent}%`
+            );
+          });
+
+          xhr.addEventListener("load", () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              updateFileProgress(index, 100, "アップロード完了");
+              resolve();
+              return;
+            }
+
+            reject(
+              new Error(
+                `R2アップロードに失敗しました（${xhr.status}）。`
+              )
+            );
+          });
+
+          xhr.addEventListener("error", () => {
+            reject(
+              new Error(
+                "通信エラーによりアップロードできませんでした。"
+              )
+            );
+          });
+
+          xhr.addEventListener("abort", () => {
+            reject(
+              new Error("アップロードが中断されました。")
+            );
+          });
+
+          xhr.send(file);
+        });
+
+      if (r2FilesInput) {
+        r2FilesInput.addEventListener("change", () => {
+          try {
+            const files = Array.from(r2FilesInput.files || []);
+            validateSelectedFiles(files);
+
+            selectedUploadFiles = files;
+            resetUploadMetadata();
+            renderSelectedFiles();
+            setUploadMessage("");
+
+            if (uploadFilesButton) {
+              uploadFilesButton.disabled =
+                selectedUploadFiles.length === 0;
+            }
+
+            updateSubmitAvailability();
+          } catch (error) {
+            selectedUploadFiles = [];
+            resetUploadMetadata();
+            renderSelectedFiles();
+
+            if (r2FilesInput) {
+              r2FilesInput.value = "";
+            }
+
+            if (uploadFilesButton) {
+              uploadFilesButton.disabled = true;
+            }
+
+            if (uploadStatusField) {
+              uploadStatusField.value = "validation_error";
+            }
+
+            setUploadMessage(
+              error instanceof Error
+                ? error.message
+                : "ファイルを確認できませんでした。",
+              "error"
+            );
+
+            updateSubmitAvailability();
+          }
+        });
+      }
+
+      if (uploadFilesButton) {
+        uploadFilesButton.addEventListener("click", async () => {
+          if (
+            uploadInProgress ||
+            selectedUploadFiles.length === 0
+          ) {
+            return;
+          }
+
+          try {
+            validateSelectedFiles(selectedUploadFiles);
+
+            uploadInProgress = true;
+            uploadCompleted = false;
+            uploadedFileRecords = [];
+
+            uploadFilesButton.disabled = true;
+
+            if (r2FilesInput) {
+              r2FilesInput.disabled = true;
+            }
+
+            if (uploadStatusField) {
+              uploadStatusField.value = "uploading";
+            }
+
+            setUploadMessage(
+              "アップロードを開始しました。この画面を閉じずにお待ちください。"
+            );
+
+            updateSubmitAvailability();
+
+            for (
+              let index = 0;
+              index < selectedUploadFiles.length;
+              index += 1
+            ) {
+              const file = selectedUploadFiles[index];
+
+              updateFileProgress(
+                index,
+                0,
+                "アップロード準備中"
+              );
+
+              const presignData =
+                await requestPresignedUrl(file);
+
+              await uploadFileWithProgress(
+                file,
+                presignData.uploadUrl,
+                presignData.contentType,
+                index
+              );
+
+              uploadedFileRecords.push({
+                originalFileName: file.name,
+                fileSize: file.size,
+                contentType: presignData.contentType,
+                objectKey: presignData.objectKey,
+              });
+            }
+
+            const totalBytes = uploadedFileRecords.reduce(
+              (sum, file) => sum + file.fileSize,
+              0
+            );
+
+            if (uploadedFilesJsonField) {
+              uploadedFilesJsonField.value =
+                JSON.stringify(uploadedFileRecords);
+            }
+
+            if (uploadedFileNamesField) {
+              uploadedFileNamesField.value =
+                uploadedFileRecords
+                  .map((file) => file.originalFileName)
+                  .join(" / ");
+            }
+
+            if (uploadedObjectKeysField) {
+              uploadedObjectKeysField.value =
+                uploadedFileRecords
+                  .map((file) => file.objectKey)
+                  .join("\n");
+            }
+
+            if (uploadedTotalBytesField) {
+              uploadedTotalBytesField.value =
+                String(totalBytes);
+            }
+
+            if (uploadStatusField) {
+              uploadStatusField.value = "completed";
+            }
+
+            uploadCompleted = true;
+
+            setUploadMessage(
+              `${uploadedFileRecords.length}ファイルのアップロードが完了しました。続けて依頼内容を送信してください。`,
+              "success"
+            );
+          } catch (error) {
+            uploadedFileRecords = [];
+            uploadCompleted = false;
+
+            if (uploadStatusField) {
+              uploadStatusField.value = "failed";
+            }
+
+            setUploadMessage(
+              error instanceof Error
+                ? error.message
+                : "ファイルのアップロードに失敗しました。",
+              "error"
+            );
+
+            selectedUploadFiles.forEach((_, index) => {
+              const item = uploadFileList?.querySelector(
+                `[data-upload-index="${index}"]`
+              );
+
+              const state =
+                item?.querySelector(".upload-file-state");
+
+              if (
+                state &&
+                state.textContent !== "アップロード完了"
+              ) {
+                state.textContent = "未完了";
+              }
+            });
+          } finally {
+            uploadInProgress = false;
+
+            if (r2FilesInput) {
+              r2FilesInput.disabled = false;
+            }
+
+            if (uploadFilesButton) {
+              uploadFilesButton.disabled =
+                selectedUploadFiles.length === 0 ||
+                uploadCompleted;
+            }
+
+            updateSubmitAvailability();
+          }
+        });
+      }
+
+      if (mixRequestForm) {
+        mixRequestForm.addEventListener(
+          "submit",
+          (event) => {
+            if (
+              selectedUploadFiles.length > 0 &&
+              !uploadCompleted
+            ) {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+
+              setUploadMessage(
+                "選択したファイルのアップロードを完了してから、依頼内容を送信してください。",
+                "error"
+              );
+
+              uploadMessage?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            }
+          },
+          true
+        );
+      }
+
+      updateSubmitAvailability();
 
       const basinSuccess = document.getElementById("mix-form-success");
       const basinError = document.getElementById("mix-form-error");
