@@ -2037,11 +2037,6 @@
               method="POST"
               enctype="multipart/form-data"
               accept-charset="UTF-8"
-              data-basin-form
-              data-basin-success-action="render"
-              data-basin-success-id="mix-form-success"
-              data-basin-error-id="mix-form-error"
-              data-basin-spam-protection="none"
               class="request-form"
               id="mixRequestForm"
             >
@@ -2326,8 +2321,6 @@
         </nav>
       </div>
     </footer>
-
-    <script src="https://js.usebasin.com/v2.11.1.min.js" defer></script>
 
     <script>
       const observer = new IntersectionObserver(
@@ -2942,62 +2935,143 @@
         });
       }
 
-      if (mixRequestForm) {
-        mixRequestForm.addEventListener(
-          "submit",
-          (event) => {
-            if (
-              selectedUploadFiles.length > 0 &&
-              !uploadCompleted
-            ) {
-              event.preventDefault();
-              event.stopImmediatePropagation();
-
-              setUploadMessage(
-                "選択したファイルのアップロードを完了してから、依頼内容を送信してください。",
-                "error"
-              );
-
-              uploadMessage?.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-              });
-            }
-          },
-          true
-        );
-      }
-
-      updateSubmitAvailability();
-
       const basinSuccess = document.getElementById("mix-form-success");
       const basinError = document.getElementById("mix-form-error");
 
-      if (basinSuccess) {
-        const successObserver = new MutationObserver(() => {
-          if (basinSuccess.style.display !== "none") {
-            basinSuccess.classList.add("is-visible");
-            basinError?.classList.remove("is-visible");
+      const setFormStatus = (type, message) => {
+        const target =
+          type === "success" ? basinSuccess : basinError;
+        const other =
+          type === "success" ? basinError : basinSuccess;
+
+        if (other) {
+          other.classList.remove("is-visible");
+        }
+
+        if (target) {
+          target.textContent = message;
+          target.classList.add("is-visible");
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      };
+
+      if (mixRequestForm) {
+        mixRequestForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          if (uploadInProgress) {
+            setUploadMessage(
+              "ファイルをアップロードしています。完了までお待ちください。",
+              "error"
+            );
+            return;
           }
-        });
-        successObserver.observe(basinSuccess, {
-          attributes: true,
-          attributeFilter: ["style", "class"],
+
+          if (
+            selectedUploadFiles.length > 0 &&
+            !uploadCompleted
+          ) {
+            setUploadMessage(
+              "選択したファイルのアップロードを完了してから、依頼内容を送信してください。",
+              "error"
+            );
+
+            uploadMessage?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+            return;
+          }
+
+          if (!mixRequestForm.reportValidity()) {
+            return;
+          }
+
+          const originalButtonText =
+            submitRequestButton?.textContent ||
+            "この内容で依頼する";
+
+          const controller = new AbortController();
+          const timeoutId = window.setTimeout(() => {
+            controller.abort();
+          }, 30000);
+
+          try {
+            if (submitRequestButton) {
+              submitRequestButton.disabled = true;
+              submitRequestButton.textContent = "送信中…";
+            }
+
+            basinSuccess?.classList.remove("is-visible");
+            basinError?.classList.remove("is-visible");
+
+            const formData = new FormData(mixRequestForm);
+
+            const response = await fetch(
+              mixRequestForm.action,
+              {
+                method: "POST",
+                body: formData,
+                headers: {
+                  Accept: "application/json",
+                },
+                signal: controller.signal,
+              }
+            );
+
+            if (!response.ok) {
+              let detail = "";
+
+              try {
+                const responseData = await response.json();
+                detail =
+                  responseData?.message ||
+                  responseData?.error ||
+                  "";
+              } catch {
+                detail = await response.text();
+              }
+
+              throw new Error(
+                detail ||
+                  `送信に失敗しました（${response.status}）。`
+              );
+            }
+
+            setFormStatus(
+              "success",
+              "依頼を送信しました。内容を確認のうえ、折り返しご連絡いたします。しばらくお待ちください。"
+            );
+
+            if (submitRequestButton) {
+              submitRequestButton.textContent = "送信完了";
+            }
+          } catch (error) {
+            const message =
+              error instanceof DOMException &&
+              error.name === "AbortError"
+                ? "送信が30秒以内に完了しませんでした。通信状況を確認し、再度お試しください。ファイルは再アップロード不要です。"
+                : error instanceof Error
+                  ? error.message
+                  : "送信に失敗しました。時間をおいて再度お試しください。";
+
+            setFormStatus("error", message);
+
+            if (submitRequestButton) {
+              submitRequestButton.disabled = false;
+              submitRequestButton.textContent =
+                originalButtonText;
+            }
+          } finally {
+            window.clearTimeout(timeoutId);
+          }
         });
       }
 
-      if (basinError) {
-        const errorObserver = new MutationObserver(() => {
-          if (basinError.style.display !== "none") {
-            basinError.classList.add("is-visible");
-            basinSuccess?.classList.remove("is-visible");
-          }
-        });
-        errorObserver.observe(basinError, {
-          attributes: true,
-          attributeFilter: ["style", "class"],
-        });
-      }
+      updateSubmitAvailability();
     </script>
   </body>
 </html>
