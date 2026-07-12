@@ -497,11 +497,13 @@
 
       .price-stack {
         display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 14px;
       }
 
       .price-card {
-        padding: 24px;
+        min-width: 0;
+        padding: 22px 20px;
         border-radius: 26px;
         background: linear-gradient(
           180deg,
@@ -982,6 +984,93 @@
         line-height: 1.7;
       }
 
+      .contact-choice-note {
+        grid-column: 1 / -1;
+        margin: -4px 0 2px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.035);
+        border: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .contact-choice-note strong {
+        color: var(--text);
+      }
+
+      .info-disclosure,
+      .inline-disclosure,
+      .card-detail {
+        border-radius: 18px;
+      }
+
+      .info-disclosure > summary,
+      .inline-disclosure > summary,
+      .card-detail > summary {
+        list-style: none;
+        cursor: pointer;
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      .info-disclosure > summary::-webkit-details-marker,
+      .inline-disclosure > summary::-webkit-details-marker,
+      .card-detail > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .info-disclosure > summary::after,
+      .inline-disclosure > summary::after,
+      .card-detail > summary::after {
+        content: "＋";
+        float: right;
+        color: var(--muted);
+        font-weight: 400;
+      }
+
+      .info-disclosure[open] > summary::after,
+      .inline-disclosure[open] > summary::after,
+      .card-detail[open] > summary::after {
+        content: "−";
+      }
+
+      .info-disclosure {
+        padding: 18px 20px;
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid var(--line);
+      }
+
+      .info-disclosure > summary {
+        font-size: 16px;
+      }
+
+      .info-disclosure[open] > summary {
+        margin-bottom: 16px;
+      }
+
+      .inline-disclosure {
+        margin-top: 14px;
+        padding: 12px 14px;
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid rgba(255,255,255,0.06);
+      }
+
+      .inline-disclosure > summary,
+      .card-detail > summary {
+        font-size: 13px;
+      }
+
+      .inline-disclosure p,
+      .card-detail p {
+        margin: 10px 0 0;
+      }
+
+      .card-detail {
+        margin-top: 12px;
+      }
+
       .turnstile-panel {
         padding: 18px;
         border-radius: 20px;
@@ -1248,6 +1337,10 @@
           grid-template-columns: 1fr;
         }
 
+        .price-stack {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
         .header-inner {
           min-height: auto;
           padding: 14px 0;
@@ -1387,7 +1480,8 @@
           font-size: 14px;
         }
 
-        .links {
+        .links,
+        .price-stack {
           grid-template-columns: 1fr;
         }
 
@@ -1569,31 +1663,46 @@
             <article class="discount-card reveal delay-a">
               <span class="discount-name">納期お任せ割引</span>
               <span class="discount-value">-¥500</span>
-              <p>納期をこちらに一任いただける場合に適用いたします。</p>
+              <details class="card-detail">
+                <summary>条件を見る</summary>
+                <p>納期をこちらに一任いただける場合に適用いたします。</p>
+              </details>
             </article>
 
             <article class="discount-card reveal delay-a">
               <span class="discount-name">銀行振込割引</span>
               <span class="discount-value">-¥500</span>
-              <p>お支払い方法を銀行振込でご指定いただく場合に適用いたします。</p>
+              <details class="card-detail">
+                <summary>条件を見る</summary>
+                <p>お支払い方法を銀行振込でご指定いただく場合に適用いたします。</p>
+              </details>
             </article>
 
             <article class="discount-card reveal delay-b">
               <span class="discount-name">補正不要割引</span>
               <span class="discount-value">-¥1,000</span>
-              <p>ピッチ補正・タイミング補正が不要な場合に適用いたします。</p>
+              <details class="card-detail">
+                <summary>条件を見る</summary>
+                <p>ピッチ補正・タイミング補正が不要な場合に適用いたします。</p>
+              </details>
             </article>
 
             <article class="discount-card reveal delay-b">
               <span class="discount-name">継続依頼割引</span>
               <span class="discount-value">-¥1,000</span>
-              <p>3回目ごとのご依頼時に適用いたします。</p>
+              <details class="card-detail">
+                <summary>条件を見る</summary>
+                <p>3回目ごとのご依頼時に適用いたします。</p>
+              </details>
             </article>
 
             <article class="discount-card reveal delay-c">
               <span class="discount-name">ご友人紹介割引</span>
               <span class="discount-value">-¥1,000</span>
-              <p>ご紹介いただいたご友人様が実際にご依頼された場合に適用いたします。</p>
+              <details class="card-detail">
+                <summary>条件を見る</summary>
+                <p>ご紹介いただいたご友人様が実際にご依頼された場合に適用いたします。</p>
+              </details>
             </article>
           </div>
 
@@ -1658,11 +1767,14 @@
               <span class="payment-chip">PayPay</span>
             </div>
 
-            <p class="payment-note">
-              ※ PayPayでのお支払いにも対応しております。<br />
-              ※ 今後、PayPay決済については決済手数料として
-              <strong>5％</strong>を頂く可能性があります。適用時は事前にご案内いたします。
-            </p>
+            <details class="inline-disclosure">
+              <summary>決済方法の補足</summary>
+              <p class="payment-note">
+                ※ PayPayでのお支払いにも対応しております。<br />
+                ※ 今後、PayPay決済については決済手数料として
+                <strong>5％</strong>を頂く可能性があります。適用時は事前にご案内いたします。
+              </p>
+            </details>
           </div>
 
           <div class="section-cta reveal delay-c">
@@ -2049,7 +2161,8 @@
                 </article>
 
               </div>
-            </div>
+              </div>
+            </details>
           </div>
 
           <div class="section-cta reveal delay-c">
@@ -2063,14 +2176,13 @@
           <div class="section-head reveal delay-a">
             <h2 class="section-title">依頼方法</h2>
             <p class="section-lead">
-              下記フォームより、そのままご依頼いただけます。大きい音源はURL提出を推奨しております。
+              下記フォームから直接ご依頼いただけます。音源はファイルまたはURLで送信できます。
             </p>
           </div>
 
           <div class="card reveal delay-b">
             <p class="form-note">
-              曲名、希望納期、ご要望、音源URLをご入力ください。<br />
-              添付ファイルも使用できますが、容量の大きい音源はギガファイル便 / Google Drive などのURL提出をおすすめします。
+              必要事項をご入力のうえ、音源ファイルまたは外部URLをご提出ください。
             </p>
 
             <form
@@ -2088,14 +2200,19 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="email">メールアドレス</label>
-                  <input id="email" name="email" type="email" required maxlength="254" placeholder="例：sample@example.com" />
+                  <label for="email">メールアドレス（どちらか必須）</label>
+                  <input id="email" name="email" type="email" maxlength="254" placeholder="例：sample@example.com" />
                 </div>
 
                 <div class="form-group">
-                  <label for="x_account">Xアカウント</label>
+                  <label for="x_account">Xアカウント（どちらか必須）</label>
                   <input id="x_account" name="x_account" type="text" maxlength="100" placeholder="例：@Kemurina_BGM" />
                 </div>
+
+                <p class="contact-choice-note">
+                  <strong>連絡先は、Xアカウントまたはメールアドレスのどちらか一方をご入力ください。</strong>
+                  両方入力いただいても問題ありません。
+                </p>
 
                 <div class="form-group">
                   <label for="request_type">依頼種別</label>
@@ -2332,7 +2449,9 @@
           </div>
 
           <div class="terms-card reveal delay-c">
-            <div class="terms-grid">
+            <details class="info-disclosure">
+              <summary>規約・注意事項の詳細を確認する</summary>
+              <div class="terms-grid">
               <div class="terms-block">
                 <h4>割引利用について</h4>
                 <ul>
@@ -2540,6 +2659,8 @@
       const uploadedObjectKeysField = document.getElementById("uploadedObjectKeysField");
       const uploadedTotalBytesField = document.getElementById("uploadedTotalBytesField");
       const uploadStatusField = document.getElementById("uploadStatusField");
+      const emailInput = document.getElementById("email");
+      const xAccountInput = document.getElementById("x_account");
 
       const turnstileStatus =
         document.getElementById("turnstileStatus");
@@ -3174,6 +3295,26 @@
         }
       };
 
+      const validateContactMethod = () => {
+        const email = emailInput?.value.trim() || "";
+        const xAccount = xAccountInput?.value.trim() || "";
+        const message =
+          email || xAccount
+            ? ""
+            : "Xアカウントまたはメールアドレスのどちらか一方を入力してください。";
+
+        emailInput?.setCustomValidity(message);
+        xAccountInput?.setCustomValidity(message);
+
+        return message === "";
+      };
+
+      [emailInput, xAccountInput].forEach((field) => {
+        field?.addEventListener("input", () => {
+          validateContactMethod();
+        });
+      });
+
       if (mixRequestForm) {
         mixRequestForm.addEventListener("submit", async (event) => {
           event.preventDefault();
@@ -3209,6 +3350,8 @@
             );
             return;
           }
+
+          validateContactMethod();
 
           if (!mixRequestForm.reportValidity()) {
             return;
