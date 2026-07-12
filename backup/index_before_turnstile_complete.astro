@@ -1,0 +1,3155 @@
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kemurina_BGM | 歌ってみたMIX受付</title>
+    <meta
+      name="description"
+      content="歌を前に出しつつ、オケに自然に馴染む歌ってみたMIXをご案内しています。"
+    />
+
+    <style>
+      :root {
+        --bg: #151517;
+        --bg-soft: #1d1d21;
+        --panel: rgba(255, 255, 255, 0.05);
+        --line: rgba(255, 255, 255, 0.08);
+        --text: #f3f3f4;
+        --muted: #b8b8be;
+        --accent: #dbdde2;
+        --accent-hover: #f0f1f3;
+        --accent-dark: #111214;
+        --max-width: 1120px;
+        --success-bg: rgba(70, 180, 120, 0.12);
+        --success-line: rgba(70, 180, 120, 0.35);
+        --error-bg: rgba(220, 90, 90, 0.12);
+        --error-line: rgba(220, 90, 90, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+          "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 20% 0%, rgba(255,255,255,0.05), transparent 28%),
+          radial-gradient(circle at 80% 20%, rgba(255,255,255,0.035), transparent 22%),
+          linear-gradient(180deg, #111214 0%, #18191c 45%, #1f2024 100%);
+        line-height: 1.75;
+        letter-spacing: 0.01em;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: -10% -10% auto -10%;
+        height: 60vh;
+        background:
+          radial-gradient(circle at 30% 40%, rgba(255,255,255,0.04), transparent 22%),
+          radial-gradient(circle at 70% 30%, rgba(255,255,255,0.03), transparent 18%);
+        filter: blur(40px);
+        pointer-events: none;
+        z-index: 0;
+        animation: ambientShift 14s ease-in-out infinite alternate;
+      }
+
+      @keyframes ambientShift {
+        0% {
+          transform: translate3d(0, 0, 0) scale(1);
+          opacity: 0.9;
+        }
+        100% {
+          transform: translate3d(0, 18px, 0) scale(1.03);
+          opacity: 1;
+        }
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        width: min(var(--max-width), calc(100% - 32px));
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        backdrop-filter: blur(14px);
+        background: rgba(20, 20, 22, 0.72);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .header-inner {
+        min-height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .brand-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .brand {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      .header-nav {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+
+      .header-nav a {
+        font-size: 14px;
+        color: var(--muted);
+        transition: color 0.2s ease;
+      }
+
+      .header-nav a:hover {
+        color: var(--text);
+      }
+
+      .hero {
+        padding: 112px 0 92px;
+      }
+
+      .hero-inner {
+        max-width: 980px;
+        animation: heroScaleIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+        transform-origin: center top;
+      }
+
+      @keyframes heroScaleIn {
+        0% {
+          opacity: 0;
+          transform: translateY(30px) scale(1.02);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .hero-animate {
+        opacity: 0;
+        transform: translateY(24px);
+        animation: heroReveal 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+
+      .hero-animate.delay-2 {
+        animation-delay: 0.18s;
+      }
+
+      .hero-animate.delay-3 {
+        animation-delay: 0.38s;
+      }
+
+      .hero-animate.delay-4 {
+        animation-delay: 0.58s;
+      }
+
+      @keyframes heroReveal {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero-title-wrap {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+      }
+
+      .hero-title-wrap::after {
+        content: "";
+        position: absolute;
+        left: 7%;
+        right: 7%;
+        bottom: -10px;
+        height: 34px;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(255,255,255,0.12) 0%,
+          rgba(255,255,255,0.05) 38%,
+          transparent 78%
+        );
+        filter: blur(18px);
+        pointer-events: none;
+        opacity: 0.9;
+      }
+
+      .hero-title {
+        position: relative;
+        z-index: 1;
+        margin: 22px 0 18px;
+        font-size: clamp(24px, 4.3vw, 64px);
+        line-height: 1.08;
+        letter-spacing: -0.05em;
+        white-space: nowrap;
+        color: transparent;
+        background: linear-gradient(
+          180deg,
+          rgba(255,255,255,0.98) 0%,
+          rgba(236,236,240,0.9) 42%,
+          rgba(186,186,194,0.72) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        text-shadow:
+          0 0 12px rgba(255,255,255,0.06),
+          0 10px 28px rgba(255,255,255,0.04);
+        filter: saturate(0.88);
+      }
+
+      .hero-lead {
+        max-width: 820px;
+        margin: 0;
+        font-size: 18px;
+        color: var(--muted);
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 30px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 50px;
+        padding: 0 22px;
+        border-radius: 999px;
+        font-weight: 700;
+        transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+        border: 1px solid transparent;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .button-primary {
+        background: var(--accent);
+        color: var(--accent-dark);
+      }
+
+      .button-primary:hover {
+        transform: translateY(-2px) scale(1.01);
+        background: var(--accent-hover);
+      }
+
+      .button-secondary {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: var(--line);
+        color: var(--text);
+      }
+
+      .button-secondary:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.07);
+      }
+
+      .inline-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text);
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        padding-bottom: 1px;
+      }
+
+      .inline-link:hover {
+        color: var(--accent-hover);
+        border-bottom-color: rgba(255,255,255,0.45);
+      }
+
+      section {
+        padding: 88px 0;
+      }
+
+      .section-head {
+        margin-bottom: 26px;
+      }
+
+      .section-title {
+        margin: 0 0 10px;
+        font-size: clamp(28px, 4vw, 44px);
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+      }
+
+      .section-lead {
+        margin: 0;
+        color: var(--muted);
+        max-width: 760px;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .card,
+      .price-card,
+      .cta,
+      .works-card,
+      .discount-card,
+      .terms-card,
+      .payment-card,
+      .recommend-line,
+      .preview-card,
+      .delivery-card {
+        transition:
+          transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+          background 0.25s ease,
+          border-color 0.25s ease,
+          opacity 1s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .card,
+      .discount-card,
+      .terms-card,
+      .payment-card,
+      .recommend-line,
+      .preview-card,
+      .delivery-card {
+        padding: 24px;
+        border-radius: 28px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.06),
+          rgba(255, 255, 255, 0.03)
+        );
+        border: 1px solid var(--line);
+      }
+
+      .card:hover,
+      .discount-card:hover,
+      .terms-card:hover,
+      .payment-card:hover,
+      .recommend-line:hover,
+      .preview-card:hover,
+      .delivery-card:hover {
+        transform: translateY(-6px);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.075),
+          rgba(255, 255, 255, 0.04)
+        );
+      }
+
+      .card h3,
+      .discount-card h3,
+      .terms-card h3,
+      .payment-card h3,
+      .preview-card h3,
+      .delivery-card h3 {
+        margin: 0 0 10px;
+        font-size: 20px;
+      }
+
+      .card p,
+      .card li,
+      .discount-card p,
+      .discount-card li,
+      .terms-card p,
+      .terms-card li,
+      .payment-card p,
+      .payment-card li,
+      .preview-card p,
+      .delivery-card p,
+      .delivery-card li {
+        color: var(--muted);
+      }
+
+      .card ul,
+      .discount-card ul,
+      .terms-card ul,
+      .payment-card ul,
+      .delivery-card ul {
+        margin: 10px 0 0;
+        padding-left: 18px;
+      }
+
+      .preview-card {
+        overflow: hidden;
+      }
+
+      .preview-video {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%;
+        margin-top: 14px;
+        border-radius: 20px;
+        overflow: hidden;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+      }
+
+      .preview-video iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      .recommend-line {
+        padding: 18px 20px;
+      }
+
+      .recommend-label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 15px;
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      .recommend-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .recommend-chip,
+      .payment-chip,
+      .works-tab {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        color: var(--text);
+        font-size: 14px;
+      }
+
+      .discount-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .discount-card .discount-name {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      .discount-card .discount-value {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 28px;
+        line-height: 1.1;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+      }
+
+      .discount-card p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .discount-footer-link {
+        margin-top: 14px;
+        color: var(--muted);
+      }
+
+      .price-stack {
+        display: grid;
+        gap: 14px;
+      }
+
+      .price-card {
+        padding: 24px;
+        border-radius: 26px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.07),
+          rgba(255, 255, 255, 0.04)
+        );
+        border: 1px solid var(--line);
+      }
+
+      .price-card:hover {
+        transform: translateY(-6px);
+      }
+
+      .price-label {
+        color: var(--muted);
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .price-value {
+        font-size: 32px;
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+      }
+
+      .price-subtext {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .price-highlight {
+        margin-top: 16px;
+        padding: 18px 20px;
+        border-radius: 22px;
+        background: linear-gradient(
+          180deg,
+          rgba(219, 221, 226, 0.14),
+          rgba(255, 255, 255, 0.05)
+        );
+        border: 1px solid rgba(219, 221, 226, 0.18);
+      }
+
+      .price-highlight strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 16px;
+      }
+
+      .price-highlight p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .section-cta {
+        margin-top: 18px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .sub {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 8px;
+      }
+
+      .terms-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 14px;
+      }
+
+      .terms-block {
+        padding: 18px;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+      }
+
+      .terms-block h4 {
+        margin: 0 0 10px;
+        font-size: 16px;
+        color: var(--text);
+      }
+
+      .terms-block ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .payment-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .payment-note {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.8;
+      }
+
+      .delivery-card ul {
+        margin-top: 12px;
+      }
+
+      .works-tabs {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+
+      .works-tab {
+        cursor: pointer;
+        transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      }
+
+      .works-tab:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .works-tab.is-active {
+        background: var(--accent);
+        color: var(--accent-dark);
+        border-color: transparent;
+      }
+
+      .works-panel {
+        display: none;
+      }
+
+      .works-panel.is-active {
+        display: block;
+      }
+
+      .works-scroll-wrap {
+        position: relative;
+      }
+
+      .works-controls {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .works-nav-button {
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        font-size: 18px;
+        cursor: pointer;
+        transition: transform 0.2s ease, background 0.25s ease;
+      }
+
+      .works-nav-button:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .works-scroll {
+        display: grid;
+        grid-auto-flow: column;
+        gap: 16px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+      }
+
+      .works-scroll.full-scroll {
+        grid-auto-columns: min(420px, 85vw);
+      }
+
+      .works-scroll.short-scroll {
+        grid-auto-columns: min(260px, 72vw);
+      }
+
+      .works-scroll::-webkit-scrollbar {
+        height: 10px;
+      }
+
+      .works-scroll::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 999px;
+      }
+
+      .works-scroll::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+      }
+
+      .works-scroll::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.22);
+      }
+
+      .works-card {
+        scroll-snap-align: start;
+        border-radius: 28px;
+        overflow: hidden;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.06),
+          rgba(255, 255, 255, 0.03)
+        );
+        border: 1px solid var(--line);
+      }
+
+      .works-card:hover {
+        transform: translateY(-6px);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.075),
+          rgba(255, 255, 255, 0.04)
+        );
+      }
+
+      .works-video {
+        position: relative;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .works-video.full-video {
+        padding-top: 56.25%;
+      }
+
+      .works-video iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      .works-body {
+        padding: 18px 18px 20px;
+      }
+
+      .works-body h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+
+      .works-body p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .works-card.short-card .works-body {
+        padding: 14px 16px 18px;
+      }
+
+      .works-card.short-card .works-body h3 {
+        font-size: 16px;
+        line-height: 1.5;
+        margin: 0 0 6px;
+      }
+
+      .works-card.short-card .works-body p {
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .short-thumb-link {
+        position: relative;
+        display: block;
+        width: 100%;
+        aspect-ratio: 9 / 16;
+        background: #000;
+        overflow: hidden;
+      }
+
+      .short-thumb-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        background: #000;
+      }
+
+      .short-play-badge {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 74px;
+        height: 52px;
+        border-radius: 18px;
+        background: rgba(255, 0, 0, 0.92);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32);
+      }
+
+      .short-play-badge::before {
+        content: "";
+        position: absolute;
+        left: 30px;
+        top: 16px;
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 16px solid #fff;
+      }
+
+      .cta {
+        padding: 32px;
+        border-radius: 30px;
+        background:
+          radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.08), transparent 32%),
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.07),
+            rgba(255, 255, 255, 0.04)
+          );
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .cta:hover {
+        transform: translateY(-4px);
+      }
+
+      .cta p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .cta-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+
+      .template-card {
+        margin-top: 18px;
+      }
+
+      .template-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .template-box {
+        margin-top: 12px;
+        padding: 18px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--line);
+        color: var(--muted);
+        white-space: pre-wrap;
+      }
+
+      .links {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .mini-link {
+        display: inline-flex;
+        align-items: center;
+        min-height: 42px;
+        padding: 0 16px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--line);
+        color: var(--muted);
+        transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+      }
+
+      .mini-link:hover {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.07);
+        transform: translateY(-2px);
+      }
+
+      .request-form {
+        display: grid;
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .form-group {
+        display: grid;
+        gap: 8px;
+      }
+
+      .full-width {
+        grid-column: 1 / -1;
+      }
+
+      .form-group label {
+        font-size: 14px;
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        font: inherit;
+        outline: none;
+      }
+
+      .form-group select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background:
+          linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+          linear-gradient(135deg, var(--muted) 50%, transparent 50%),
+          rgba(255, 255, 255, 0.04);
+        background-position:
+          calc(100% - 20px) calc(50% - 3px),
+          calc(100% - 14px) calc(50% - 3px),
+          0 0;
+        background-size: 6px 6px, 6px 6px, 100% 100%;
+        background-repeat: no-repeat;
+        padding-right: 42px;
+      }
+
+      .form-group select option {
+        background: #1b1c1f;
+        color: #f3f3f4;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        border-color: rgba(255,255,255,0.22);
+        background-color: rgba(255,255,255,0.06);
+      }
+
+      .form-group input::placeholder,
+      .form-group textarea::placeholder {
+        color: var(--muted);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 140px;
+      }
+
+      .form-note {
+        margin: 0;
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .upload-panel {
+        padding: 18px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--line);
+      }
+
+      .upload-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .upload-panel-title {
+        margin: 0;
+        font-size: 16px;
+        color: var(--text);
+      }
+
+      .upload-panel-note {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .upload-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+
+      .upload-actions .button {
+        min-height: 44px;
+      }
+
+      .upload-file-input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+
+      .upload-summary {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .upload-file-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .upload-file-item {
+        padding: 14px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.035);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+      }
+
+      .upload-file-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .upload-file-name {
+        min-width: 0;
+        color: var(--text);
+        font-size: 14px;
+        overflow-wrap: anywhere;
+      }
+
+      .upload-file-size,
+      .upload-file-state {
+        color: var(--muted);
+        font-size: 12px;
+        white-space: nowrap;
+      }
+
+      .upload-progress-track {
+        width: 100%;
+        height: 8px;
+        margin-top: 10px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .upload-progress-bar {
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: var(--accent);
+        transition: width 0.15s linear;
+      }
+
+      .upload-message {
+        display: none;
+        margin-top: 14px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .upload-message.is-visible {
+        display: block;
+      }
+
+      .upload-message.success {
+        background: var(--success-bg);
+        border: 1px solid var(--success-line);
+      }
+
+      .upload-message.error {
+        background: var(--error-bg);
+        border: 1px solid var(--error-line);
+      }
+
+      .button:disabled {
+        cursor: not-allowed;
+        opacity: 0.48;
+        transform: none;
+      }
+
+      .form-status {
+        display: none;
+        margin-top: 18px;
+        padding: 16px 18px;
+        border-radius: 18px;
+        border: 1px solid transparent;
+        font-size: 14px;
+        line-height: 1.8;
+      }
+
+      .form-status.is-visible {
+        display: block;
+      }
+
+      .form-status.success {
+        background: var(--success-bg);
+        border-color: var(--success-line);
+        color: var(--text);
+      }
+
+      .form-status.error {
+        background: var(--error-bg);
+        border-color: var(--error-line);
+        color: var(--text);
+      }
+
+      .footer {
+        padding: 40px 0 70px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .footer p {
+        margin: 0 0 10px;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 18px;
+        align-items: center;
+      }
+
+      .footer-links a {
+        color: var(--muted);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+        padding-bottom: 2px;
+        transition: color 0.2s ease, border-bottom-color 0.2s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--text);
+        border-bottom-color: rgba(255, 255, 255, 0.45);
+      }
+
+      .divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.06);
+        margin-bottom: 18px;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(42px) scale(0.985);
+        transition:
+          opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: opacity, transform;
+      }
+
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      .delay-a {
+        transition-delay: 0.05s;
+      }
+
+      .delay-b {
+        transition-delay: 0.18s;
+      }
+
+      .delay-c {
+        transition-delay: 0.32s;
+      }
+
+      @media (max-width: 900px) {
+        .grid-2,
+        .grid-3,
+        .discount-grid,
+        .terms-grid,
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .header-inner {
+          min-height: auto;
+          padding: 14px 0;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .header-nav {
+          width: 100%;
+          gap: 10px 14px;
+        }
+
+        .header-nav a {
+          font-size: 13px;
+        }
+
+        .hero {
+          padding: 72px 0 48px;
+        }
+
+        .hero-title {
+          font-size: clamp(22px, 6vw, 34px);
+          line-height: 1.1;
+          letter-spacing: -0.05em;
+          margin: 18px 0 14px;
+          white-space: nowrap;
+        }
+
+        .hero-title-wrap::after {
+          left: 4%;
+          right: 4%;
+          height: 20px;
+          bottom: -4px;
+        }
+
+        .hero-lead {
+          font-size: 15px;
+          line-height: 1.7;
+        }
+
+        .hero-actions,
+        .section-cta,
+        .cta-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .button {
+          width: 100%;
+          min-height: 48px;
+        }
+
+        section {
+          padding: 64px 0;
+        }
+
+        .section-title {
+          font-size: clamp(24px, 8vw, 34px);
+          line-height: 1.2;
+        }
+
+        .section-lead {
+          font-size: 14px;
+          line-height: 1.7;
+        }
+
+        .card,
+        .price-card,
+        .cta,
+        .discount-card,
+        .terms-card,
+        .payment-card,
+        .recommend-line,
+        .preview-card,
+        .delivery-card {
+          padding: 20px;
+          border-radius: 22px;
+        }
+
+        .price-value,
+        .discount-card .discount-value {
+          font-size: 28px;
+        }
+
+        .template-header {
+          align-items: stretch;
+        }
+
+        .template-header .button {
+          width: 100%;
+        }
+
+        .links {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+
+        .mini-link {
+          justify-content: center;
+          width: 100%;
+          min-height: 40px;
+        }
+
+        .works-scroll.full-scroll {
+          grid-auto-columns: 88vw;
+        }
+
+        .works-scroll.short-scroll {
+          grid-auto-columns: min(220px, 78vw);
+        }
+
+        .works-controls {
+          justify-content: flex-start;
+        }
+
+        .full-width {
+          grid-column: auto;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          width: min(var(--max-width), calc(100% - 20px));
+        }
+
+        .hero {
+          padding: 64px 0 42px;
+        }
+
+        .hero-title {
+          font-size: clamp(20px, 6.4vw, 28px);
+          white-space: nowrap;
+        }
+
+        .hero-lead {
+          font-size: 14px;
+        }
+
+        .links {
+          grid-template-columns: 1fr;
+        }
+
+        .works-scroll.short-scroll {
+          grid-auto-columns: min(210px, 82vw);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+
+        .hero-animate,
+        .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand-wrap">
+          <div class="brand">Kemurina_BGM</div>
+        </div>
+
+        <nav class="header-nav">
+          <a href="#service">サービス</a>
+          <a href="#discount">割引</a>
+          <a href="#price">料金</a>
+          <a href="#works">実績</a>
+          <a href="#contact">依頼方法</a>
+          <a href="#delivery">納期</a>
+          <a href="#terms">規約</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-title-wrap hero-animate delay-2">
+            <h1 class="hero-title">自然で聞きやすいMIXを</h1>
+          </div>
+
+          <p class="hero-lead hero-animate delay-3">
+            歌を前に出しつつ、オケに自然に馴染む歌ってみたMIX。
+            ピッチ補正・タイミング補正込みで、聞きやすい仕上がりへ整えます。
+            初めてのご依頼でもお気軽にご相談ください。
+          </p>
+
+          <div class="hero-actions hero-animate delay-4">
+            <a class="button button-primary" href="#contact">依頼する</a>
+            <a class="button button-secondary" href="#works">実績を見る</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="preview">
+        <div class="container">
+          <div class="section-head reveal delay-a">
+            <h2 class="section-title">仕上がりイメージ</h2>
+            <p class="section-lead">
+              まずは音で、仕上がりの方向性をご確認ください。代表実績とBefore / Afterを掲載しています。
+            </p>
+          </div>
+
+          <div class="grid-2">
+            <article class="preview-card reveal delay-a">
+              <h3>MIX実績まとめ</h3>
+              <p>これまでのMIX実績をまとめて確認したい方向けの動画です。</p>
+              <div class="preview-video">
+                <iframe
+                  src="https://www.youtube.com/embed/AFOxrX_DV-s"
+                  title="MIX実績まとめ"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            </article>
+
+            <article class="preview-card reveal delay-b">
+              <h3>Before / After</h3>
+              <p>補正やバランス調整による変化を確認したい方向けの動画です。</p>
+              <div class="preview-video">
+                <iframe
+                  src="https://www.youtube.com/embed/KuftHOlZtrM"
+                  title="Before After"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            </article>
+          </div>
+
+          <div class="section-cta reveal delay-c">
+            <a class="button button-secondary" href="#works">実績一覧を見る</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="service">
+        <div class="container">
+          <div class="section-head reveal delay-a">
+            <h2 class="section-title">サービス</h2>
+            <p class="section-lead">
+              歌をしっかり前に出しつつ、オケとの自然な馴染みも両立したMIXを目指しています。
+            </p>
+          </div>
+
+          <div class="recommend-line reveal delay-a" style="margin-bottom: 16px;">
+            <span class="recommend-label">こんな方におすすめ</span>
+            <div class="recommend-chips">
+              <span class="recommend-chip">歌をしっかり前に出したい</span>
+              <span class="recommend-chip">自然な補正感を重視したい</span>
+              <span class="recommend-chip">中低域の厚みを整えたい</span>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <article class="card reveal delay-a">
+              <h3>対応内容</h3>
+              <ul>
+                <li>ピッチ補正</li>
+                <li>タイミング補正</li>
+                <li>MIX / マスタリング</li>
+                <li>ノイズ除去</li>
+                <li>ハモリ生成</li>
+              </ul>
+            </article>
+
+            <article class="card reveal delay-b">
+              <h3>方向性</h3>
+              <ul>
+                <li>歌を前に出すバランス調整</li>
+                <li>オケに自然に馴染ませる</li>
+                <li>聞きやすさを意識した仕上がり</li>
+              </ul>
+            </article>
+
+            <article class="card reveal delay-c">
+              <h3>修正</h3>
+              <ul>
+                <li>無料修正 2回まで</li>
+                <li>初回依頼は 1回まで</li>
+                <li>基本修正以外は別途ご相談</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="discount">
+        <div class="container">
+          <div class="section-head reveal delay-a">
+            <h2 class="section-title">割引</h2>
+            <p class="section-lead">
+              ご依頼内容に応じて、各種割引をご利用いただけます。
+              お見積り時に該当するものがあれば、あらかじめお申し付けください。
+            </p>
+          </div>
+
+          <div class="discount-grid">
+            <article class="discount-card reveal delay-a">
+              <span class="discount-name">納期お任せ割引</span>
+              <span class="discount-value">-¥500</span>
+              <p>納期をこちらに一任いただける場合に適用いたします。</p>
+            </article>
+
+            <article class="discount-card reveal delay-a">
+              <span class="discount-name">銀行振込割引</span>
+              <span class="discount-value">-¥500</span>
+              <p>お支払い方法を銀行振込でご指定いただく場合に適用いたします。</p>
+            </article>
+
+            <article class="discount-card reveal delay-b">
+              <span class="discount-name">補正不要割引</span>
+              <span class="discount-value">-¥1,000</span>
+              <p>ピッチ補正・タイミング補正が不要な場合に適用いたします。</p>
+            </article>
+
+            <article class="discount-card reveal delay-b">
+              <span class="discount-name">継続依頼割引</span>
+              <span class="discount-value">-¥1,000</span>
+              <p>3回目ごとのご依頼時に適用いたします。</p>
+            </article>
+
+            <article class="discount-card reveal delay-c">
+              <span class="discount-name">ご友人紹介割引</span>
+              <span class="discount-value">-¥1,000</span>
+              <p>ご紹介いただいたご友人様が実際にご依頼された場合に適用いたします。</p>
+            </article>
+          </div>
+
+          <p class="discount-footer-link reveal delay-c">
+            詳しい注意点・お願い事項は
+            <a class="inline-link" href="#terms">こちらの規約・注意事項</a>
+            をご確認ください。
+          </p>
+        </div>
+      </section>
+
+      <section id="price">
+        <div class="container">
+          <div class="section-head reveal delay-a">
+            <h2 class="section-title">料金</h2>
+            <p class="section-lead">
+              見積り時に内容を確認のうえご案内します。基本修正の範囲であれば、追加料金なしで対応します。
+            </p>
+          </div>
+
+          <div class="price-highlight reveal delay-a">
+            <strong>基本修正以外での追加料金なし / ハモリ生成込み</strong>
+            <p>基本内容の範囲であれば追加料金なし。ハモリ生成も含めてご案内しています。</p>
+          </div>
+
+          <div class="price-stack" style="margin-top: 16px;">
+            <div class="price-card reveal delay-a">
+              <div class="price-label">初回依頼</div>
+              <div class="price-value">¥4,500</div>
+              <div class="price-subtext">無料修正は1回まで</div>
+            </div>
+
+            <div class="price-card reveal delay-b">
+              <div class="price-label">Short</div>
+              <div class="price-value">¥2,500</div>
+            </div>
+
+            <div class="price-card reveal delay-c">
+              <div class="price-label">ワンコーラス</div>
+              <div class="price-value">¥4,000</div>
+            </div>
+
+            <div class="price-card reveal delay-c">
+              <div class="price-label">フルコーラス</div>
+              <div class="price-value">¥5,500</div>
+            </div>
+          </div>
+
+          <div class="payment-card reveal delay-c" style="margin-top: 18px;">
+            <h3>決済方法</h3>
+            <p>
+              下記のお支払い方法に対応しています。可能であれば、
+              <strong>銀行振込 / Apple Pay / Google Pay / 各種クレジットカード</strong>
+              を優先してご利用いただけますと助かります。
+            </p>
+
+            <div class="payment-list">
+              <span class="payment-chip">銀行振込</span>
+              <span class="payment-chip">Apple Pay</span>
+              <span class="payment-chip">Google Pay</span>
+              <span class="payment-chip">各種クレジットカード</span>
+              <span class="payment-chip">PayPay</span>
+            </div>
+
+            <p class="payment-note">
+              ※ PayPayでのお支払いにも対応しております。<br />
+              ※ 今後、PayPay決済については決済手数料として
+              <strong>5％</strong>を頂く可能性があります。適用時は事前にご案内いたします。
+            </p>
+          </div>
+
+          <div class="section-cta reveal delay-c">
+            <a class="button button-primary" href="#contact">料金を確認して依頼する</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="works">
+        <div class="container">
+          <div class="section-head reveal delay-a">
+            <h2 class="section-title">実績</h2>
+            <p class="section-lead">
+              Full / Short を切り替えて、左右にスクロールしながら実績作品をご確認いただけます。
+            </p>
+          </div>
+
+          <div class="works-tabs reveal delay-a" role="tablist" aria-label="実績カテゴリ切り替え">
+            <button class="works-tab is-active" type="button" data-works-tab="short" aria-selected="true">
+              Short
+            </button>
+            <button class="works-tab" type="button" data-works-tab="full" aria-selected="false">
+              Full
+            </button>
+          </div>
+
+          <div class="works-panel reveal delay-b" data-works-panel="full">
+            <div class="works-scroll-wrap">
+              <div class="works-controls">
+                <button class="works-nav-button" type="button" id="worksPrevButton" aria-label="前の実績を見る">←</button>
+                <button class="works-nav-button" type="button" id="worksNextButton" aria-label="次の実績を見る">→</button>
+              </div>
+
+              <div class="works-scroll full-scroll" id="worksScrollFull">
+                <article class="works-card">
+                  <div class="works-video full-video">
+                    <iframe
+                      src="https://www.youtube.com/embed/mp7CqTKDtzM"
+                      title="Full MIX実績 1"
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+                  <div class="works-body">
+                    <h3>アイリッド / ぬゆり (Cover) 【歌ってみた】</h3>
+                    <p>Full</p>
+                  </div>
+                </article>
+
+                <article class="works-card">
+                  <div class="works-video full-video">
+                    <iframe
+                      src="https://www.youtube.com/embed/QlIenrDbxn4"
+                      title="Full MIX実績 2"
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+                  <div class="works-body">
+                    <h3>【 歌ってみた 】シャンティ / 緑月 Cover 【 新人Vtuber 】</h3>
+                    <p>Full</p>
+                  </div>
+                </article>
+
+                <article class="works-card">
+                  <div class="works-video full-video">
+                    <iframe
+                      src="https://www.youtube.com/embed/nXQ-MYNGZ_Q"
+                      title="Full MIX実績 3"
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+                  <div class="works-body">
+                    <h3>月のワルツ 歌ってみた【砂つみの】</h3>
+                    <p>Full</p>
+                  </div>
+                </article>
+
+                <article class="works-card">
+                  <div class="works-video full-video">
+                    <iframe
+                      src="https://www.youtube.com/embed/AwDtTxBscYU"
+                      title="Full MIX実績 4"
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+                  <div class="works-body">
+                    <h3>スキスキ絶頂症 covered by うたげ</h3>
+                    <p>Full</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+
+          <div class="works-panel is-active reveal delay-b" data-works-panel="short">
+            <div class="works-scroll-wrap">
+              <div class="works-controls">
+                <button class="works-nav-button" type="button" id="worksPrevButtonShort" aria-label="前の実績を見る">←</button>
+                <button class="works-nav-button" type="button" id="worksNextButtonShort" aria-label="次の実績を見る">→</button>
+              </div>
+
+              <div class="works-scroll short-scroll" id="worksScrollShort">
+                <article class="works-card short-card">
+                  <a
+                    class="short-thumb-link"
+                    href="https://www.youtube.com/shorts/QmbpXXyG47c"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="♬【ラプラスショコラ】編集して歌ってみた。"
+                  >
+                    <img
+                      class="short-thumb-image"
+                      src="https://i.ytimg.com/vi/QmbpXXyG47c/maxresdefault.jpg"
+                      alt="♬【ラプラスショコラ】編集して歌ってみた。"
+                      loading="lazy"
+                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/QmbpXXyG47c/hqdefault.jpg';"
+                    />
+                    <span class="short-play-badge" aria-hidden="true"></span>
+                  </a>
+                  <div class="works-body">
+                    <h3>♬【ラプラスショコラ】編集して歌ってみた。</h3>
+                    <p>Short</p>
+                  </div>
+                </article>
+
+                <article class="works-card short-card">
+                  <a
+                    class="short-thumb-link"
+                    href="https://www.youtube.com/shorts/KdWQRyU9moA"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Short 実績 1"
+                  >
+                    <img
+                      class="short-thumb-image"
+                      src="https://i.ytimg.com/vi/KdWQRyU9moA/maxresdefault.jpg"
+                      alt="Short 実績 1"
+                      loading="lazy"
+                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/KdWQRyU9moA/hqdefault.jpg';"
+                    />
+                    <span class="short-play-badge" aria-hidden="true"></span>
+                  </a>
+                  <div class="works-body">
+                    <h3>♫【G4L/Giga】編集して歌ってみた。</h3>
+                    <p>Short</p>
+                  </div>
+                </article>
+
+                <article class="works-card short-card">
+                  <a
+                    class="short-thumb-link"
+                    href="https://www.youtube.com/shorts/E5cYXHNgqU8"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Short 実績 2"
+                  >
+                    <img
+                      class="short-thumb-image"
+                      src="https://i.ytimg.com/vi/E5cYXHNgqU8/maxresdefault.jpg"
+                      alt="Short 実績 2"
+                      loading="lazy"
+                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/E5cYXHNgqU8/hqdefault.jpg';"
+                    />
+                    <span class="short-play-badge" aria-hidden="true"></span>
+                  </a>
+                  <div class="works-body">
+                    <h3>プレイ(PLAY) / Giga 歌ってみた</h3>
+                    <p>Short</p>
+                  </div>
+                </article>
+
+                <article class="works-card short-card">
+                  <a
+                    class="short-thumb-link"
+                    href="https://www.youtube.com/shorts/t1uw-C0MCMc"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Short 実績 3"
+                  >
+                    <img
+                      class="short-thumb-image"
+                      src="https://i.ytimg.com/vi/t1uw-C0MCMc/maxresdefault.jpg"
+                      alt="Short 実績 3"
+                      loading="lazy"
+                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/t1uw-C0MCMc/hqdefault.jpg';"
+                    />
+                    <span class="short-play-badge" aria-hidden="true"></span>
+                  </a>
+                  <div class="works-body">
+                    <h3>【リクエスト】偽物人間40号 / ¿?shimon サビ歌ってみた</h3>
+                    <p>Short</p>
+                  </div>
+                </article>
+
+                <article class="works-card short-card">
+                  <a
+                    class="short-thumb-link"
+                    href="https://www.youtube.com/shorts/G1bXqKQeIz8"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Short 実績 4"
+                  >
+                    <img
+                      class="short-thumb-image"
+                      src="https://i.ytimg.com/vi/G1bXqKQeIz8/maxresdefault.jpg"
+                      alt="Short 実績 4"
+                      loading="lazy"
+                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/G1bXqKQeIz8/hqdefault.jpg';"
+                    />
+                    <span class="short-play-badge" aria-hidden="true"></span>
+                  </a>
+                  <div class="works-body">
+                    <h3>セレナーデ / なとり 歌ってみた</h3>
+                    <p>Short</p>
+                  </div>
+                </article>
+
+                <article class="works-card short-card">
+                  <a
+                    class="short-thumb-link"
+                    href="https://www.youtube.com/shorts/l88HAdX0ADE"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Short 実績 5"
+                  >
+                    <img
+                      class="short-thumb-image"
+                      src="https://i.ytimg.com/vi/l88HAdX0ADE/maxresdefault.jpg"
+                      alt="Short 実績 5"
+                      loading="lazy"
+                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/l88HAdX0ADE/hqdefault.jpg';"
+                    />
+                    <span class="short-play-badge" aria-hidden="true"></span>
+                  </a>
+                  <div class="works-body">
+                    <h3>LA･LA･LA LOVE SONG / 久保田利伸 サビ歌ってみた</h3>
+                    <p>Short</p>
+                  </div>
+                </article>
+
+                <article class="works-card short-card">
+                  <a
+                    class="short-thumb-link"
+                    href="https://www.youtube.com/shorts/1EVafrCgQZA"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Short 実績 6"
+                  >
+                    <img
+                      class="short-thumb-image"
+                      src="https://i.ytimg.com/vi/1EVafrCgQZA/maxresdefault.jpg"
+                      alt="Short 実績 6"
+                      loading="lazy"
+                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/1EVafrCgQZA/hqdefault.jpg';"
+                    />
+                    <span class="short-play-badge" aria-hidden="true"></span>
+                  </a>
+                  <div class="works-body">
+                    <h3>IRIS OUT / 米津玄師 サビ歌ってみた</h3>
+                    <p>Short</p>
+                  </div>
+                </article>
+
+                <article class="works-card short-card">
+                  <a
+                    class="short-thumb-link"
+                    href="https://www.youtube.com/shorts/iYz05eqiRFM"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Short 実績 7"
+                  >
+                    <img
+                      class="short-thumb-image"
+                      src="https://i.ytimg.com/vi/iYz05eqiRFM/maxresdefault.jpg"
+                      alt="Short 実績 7"
+                      loading="lazy"
+                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/iYz05eqiRFM/hqdefault.jpg';"
+                    />
+                    <span class="short-play-badge" aria-hidden="true"></span>
+                  </a>
+                  <div class="works-body">
+                    <h3>「プロポーズ／なとり」歌ってみた</h3>
+                    <p>Short</p>
+                  </div>
+                </article>
+
+                <article class="works-card short-card">
+                  <a
+                    class="short-thumb-link"
+                    href="https://www.youtube.com/shorts/scxmy883xIM"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Short 実績 8"
+                  >
+                    <img
+                      class="short-thumb-image"
+                      src="https://i.ytimg.com/vi/scxmy883xIM/maxresdefault.jpg"
+                      alt="Short 実績 8"
+                      loading="lazy"
+                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/scxmy883xIM/hqdefault.jpg';"
+                    />
+                    <span class="short-play-badge" aria-hidden="true"></span>
+                  </a>
+                  <div class="works-body">
+                    <h3>「革命道中 - On The Way／アイナ・ジ・エンド」歌ってみた</h3>
+                    <p>Short</p>
+                  </div>
+                </article>
+
+                <article class="works-card short-card">
+                  <a
+                    class="short-thumb-link"
+                    href="https://www.youtube.com/shorts/bc1O84fGR8U"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Short 実績 9"
+                  >
+                    <img
+                      class="short-thumb-image"
+                      src="https://i.ytimg.com/vi/bc1O84fGR8U/maxresdefault.jpg"
+                      alt="Short 実績 9"
+                      loading="lazy"
+                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/bc1O84fGR8U/hqdefault.jpg';"
+                    />
+                    <span class="short-play-badge" aria-hidden="true"></span>
+                  </a>
+                  <div class="works-body">
+                    <h3>「IRIS OUT」歌ってみた</h3>
+                    <p>Short</p>
+                  </div>
+                </article>
+
+                <article class="works-card short-card">
+                  <a
+                    class="short-thumb-link"
+                    href="https://www.youtube.com/shorts/DiM_eg4D44U"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Short 実績 10"
+                  >
+                    <img
+                      class="short-thumb-image"
+                      src="https://i.ytimg.com/vi/DiM_eg4D44U/maxresdefault.jpg"
+                      alt="Short 実績 10"
+                      loading="lazy"
+                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/DiM_eg4D44U/hqdefault.jpg';"
+                    />
+                    <span class="short-play-badge" aria-hidden="true"></span>
+                  </a>
+                  <div class="works-body">
+                    <h3>ワールドイズマインCPK!Remix 葬星むくろcover</h3>
+                    <p>Short</p>
+                  </div>
+                </article>
+
+                <article class="works-card short-card">
+                  <a
+                    class="short-thumb-link"
+                    href="https://www.youtube.com/shorts/49plVaZKlJ0"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Short 実績 11"
+                  >
+                    <img
+                      class="short-thumb-image"
+                      src="https://i.ytimg.com/vi/49plVaZKlJ0/maxresdefault.jpg"
+                      alt="Short 実績 11"
+                      loading="lazy"
+                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/49plVaZKlJ0/hqdefault.jpg';"
+                    />
+                    <span class="short-play-badge" aria-hidden="true"></span>
+                  </a>
+                  <div class="works-body">
+                    <h3>『 IRIS OUT 』歌ってみた 【葬星むくろ】</h3>
+                    <p>Short</p>
+                  </div>
+                </article>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="section-cta reveal delay-c">
+            <a class="button button-secondary" href="#contact">このような仕上がりを希望する</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="container">
+          <div class="section-head reveal delay-a">
+            <h2 class="section-title">依頼方法</h2>
+            <p class="section-lead">
+              下記フォームより、そのままご依頼いただけます。大きい音源はURL提出を推奨しております。
+            </p>
+          </div>
+
+          <div class="card reveal delay-b">
+            <p class="form-note">
+              曲名、希望納期、ご要望、音源URLをご入力ください。<br />
+              添付ファイルも使用できますが、容量の大きい音源はギガファイル便 / Google Drive などのURL提出をおすすめします。
+            </p>
+
+            <form
+              action="https://usebasin.com/f/37f8b31c20f9"
+              method="POST"
+              enctype="multipart/form-data"
+              accept-charset="UTF-8"
+              class="request-form"
+              id="mixRequestForm"
+            >
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="name">お名前 / 活動名</label>
+                  <input id="name" name="name" type="text" required placeholder="例：Kemurina_BGM" />
+                </div>
+
+                <div class="form-group">
+                  <label for="email">メールアドレス</label>
+                  <input id="email" name="email" type="email" required placeholder="例：sample@example.com" />
+                </div>
+
+                <div class="form-group">
+                  <label for="x_account">Xアカウント</label>
+                  <input id="x_account" name="x_account" type="text" placeholder="例：@Kemurina_BGM" />
+                </div>
+
+                <div class="form-group">
+                  <label for="request_type">依頼種別</label>
+                  <select id="request_type" name="request_type" required>
+                    <option value="">選択してください</option>
+                    <option value="short">Short</option>
+                    <option value="onechorus">ワンコーラス</option>
+                    <option value="full">フルコーラス</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="discount">割引利用</label>
+                  <select id="discount" name="discount">
+                    <option value="">選択してください</option>
+                    <option value="delivery-flex">納期お任せ割引</option>
+                    <option value="bank-transfer">銀行振込割引</option>
+                    <option value="no-correction">補正不要割引</option>
+                    <option value="repeat">継続依頼割引</option>
+                    <option value="referral">ご友人紹介割引</option>
+                    <option value="none">なし</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="payment_method">お支払い方法</label>
+                  <select id="payment_method" name="payment_method" required>
+                    <option value="">選択してください</option>
+                    <option value="bank">銀行振込</option>
+                    <option value="applepay">Apple Pay</option>
+                    <option value="googlepay">Google Pay</option>
+                    <option value="card">各種クレジットカード</option>
+                    <option value="paypay">PayPay</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="deadline">希望納期</label>
+                  <input id="deadline" name="deadline" type="date" />
+                </div>
+
+                <div class="form-group">
+                  <label for="song_title">曲名</label>
+                  <input id="song_title" name="song_title" type="text" placeholder="例：シャンティ" />
+                </div>
+
+                <div class="form-group">
+                  <label for="key_change">キー変更</label>
+                  <input id="key_change" name="key_change" type="text" placeholder="例：原キー / -2 / +3" />
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="original_url">本家URL</label>
+                  <input id="original_url" name="original_url" type="url" placeholder="例：https://..." />
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="reference_url">参考URL</label>
+                  <input id="reference_url" name="reference_url" type="url" placeholder="例：https://..." />
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="audio_url">外部音源URL（任意）</label>
+                  <input
+                    id="audio_url"
+                    name="audio_url"
+                    type="url"
+                    placeholder="すでにクラウドへ保存済みの場合のみ入力してください"
+                  />
+                </div>
+
+                <div class="form-group full-width">
+                  <div class="upload-panel">
+                    <div class="upload-panel-header">
+                      <div>
+                        <h3 class="upload-panel-title">録音データ・関連ファイル</h3>
+                        <p class="upload-panel-note">
+                          このサイトから直接送信できます。最大10ファイル、1ファイル1GB、合計3GBまで。<br />
+                          対応形式：WAV / MP3 / FLAC / AIF / AIFF / ZIP
+                        </p>
+                      </div>
+                    </div>
+
+                    <input
+                      class="upload-file-input"
+                      id="r2Files"
+                      type="file"
+                      multiple
+                      accept=".wav,.mp3,.flac,.aif,.aiff,.zip"
+                    />
+
+                    <div class="upload-actions">
+                      <label class="button button-secondary" for="r2Files">ファイルを選択</label>
+                      <button
+                        class="button button-primary"
+                        id="uploadFilesButton"
+                        type="button"
+                        disabled
+                      >
+                        ファイルをアップロード
+                      </button>
+                    </div>
+
+                    <p class="upload-summary" id="uploadSummary">
+                      ファイルはまだ選択されていません。
+                    </p>
+
+                    <div class="upload-file-list" id="uploadFileList"></div>
+
+                    <div class="upload-message" id="uploadMessage" role="status"></div>
+                  </div>
+                </div>
+
+                <input id="requestIdField" name="request_id" type="hidden" />
+                <input id="uploadedFilesJsonField" name="uploaded_files_json" type="hidden" />
+                <input id="uploadedFileNamesField" name="uploaded_file_names" type="hidden" />
+                <input id="uploadedObjectKeysField" name="uploaded_object_keys" type="hidden" />
+                <input id="uploadedTotalBytesField" name="uploaded_total_bytes" type="hidden" />
+                <input id="uploadStatusField" name="upload_status" type="hidden" value="not_selected" />
+
+                <div class="form-group full-width">
+                  <label for="message">ご要望・備考</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="6"
+                    placeholder="例：歌を前に出しつつ自然に馴染む仕上がりを希望します。"
+                  ></textarea>
+                </div>
+              </div>
+
+              <button class="button button-primary" id="submitRequestButton" type="submit">この内容で依頼する</button>
+            </form>
+
+            <div id="mix-form-success" class="form-status success">
+              依頼を送信しました。内容を確認のうえ、折り返しご連絡いたします。しばらくお待ちください。
+            </div>
+
+            <div id="mix-form-error" class="form-status error">
+              送信に失敗しました。時間をおいて再度お試しいただくか、Xよりご連絡ください。
+            </div>
+          </div>
+
+          <div class="card template-card reveal delay-c">
+            <div class="template-header">
+              <h3 style="margin: 0;">X依頼テンプレート</h3>
+              <button
+                id="copyTemplateButton"
+                type="button"
+                class="button button-secondary"
+                style="min-height: 42px; cursor: pointer;"
+              >
+                テンプレートをコピー
+              </button>
+            </div>
+
+            <div id="xTemplateText" class="template-box">【X依頼テンプレート】
+・曲名
+・キー（原キー / ±）
+・録音音源URL（Vocal / Inst）
+・本家様音源URL
+・参考音源URL（あれば）
+・希望納期
+・ご要望
+・割引利用の有無
+・お支払方法（銀行振込 / Apple Pay / Google Pay / 各種クレジットカード / PayPay）</div>
+
+            <p id="copyTemplateMessage" class="sub">
+              コピーしてそのままDMでお送りください。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="delivery">
+        <div class="container">
+          <div class="section-head reveal delay-a">
+            <h2 class="section-title">目安納期</h2>
+            <p class="section-lead">
+              ご依頼内容や受付状況により前後しますが、下記を目安としてご案内しています。
+            </p>
+          </div>
+
+          <div class="delivery-card reveal delay-b">
+            <h3>納期の目安</h3>
+            <ul>
+              <li>第一稿のお渡しは、通常 <strong>7日〜14日程度</strong> を目安としております。</li>
+              <li>ご依頼内容、トラック数、修正回数、受付状況により前後する場合があります。</li>
+              <li>お急ぎ対応や納期指定がある場合は、事前にご相談ください。</li>
+              <li>納期お任せ割引をご利用の場合は、通常進行よりお時間をいただく場合があります。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="terms">
+        <div class="container">
+          <div class="section-head reveal delay-a">
+            <h2 class="section-title">規約・注意事項</h2>
+            <p class="section-lead">
+              安心してご依頼いただくため、事前にご確認いただきたい内容をまとめています。
+              特に割引をご利用の場合は、該当条件をご確認ください。
+            </p>
+          </div>
+
+          <div class="terms-card reveal delay-c">
+            <div class="terms-grid">
+              <div class="terms-block">
+                <h4>割引利用について</h4>
+                <ul>
+                  <li><strong>共通：</strong>割引のご利用を希望される場合は、ご相談・お見積り時に事前申告をお願いいたします。</li>
+                  <li><strong>共通：</strong>割引の併用は不可とさせていただきます。</li>
+                  <li><strong>納期お任せ割引：</strong>納期指定・お急ぎ対応がある場合は対象外です。</li>
+                  <li><strong>銀行振込割引：</strong>お支払い方法を銀行振込でご指定いただく場合のみ適用となります。</li>
+                  <li><strong>補正不要割引：</strong>ピッチ補正・タイミング補正が不要な場合のみ適用となります。</li>
+                  <li><strong>継続依頼割引：</strong>同一名義・ご本人様からのご依頼に限ります。</li>
+                  <li><strong>ご友人紹介割引：</strong>ご紹介者様・ご友人様双方の確認が取れた場合のみ対象です。</li>
+                  <li><strong>共通：</strong>作業内容や受付状況により、適用可否をこちらで判断させていただく場合がございます。</li>
+                </ul>
+              </div>
+
+              <div class="terms-block">
+                <h4>ご依頼・作業について</h4>
+                <ul>
+                  <li>第一稿納期は目安であり、確約ではありません。受付状況や内容により変動します。</li>
+                  <li>初回依頼の無料修正は1回まで、通常依頼は2回までを目安とし、大幅修正や追加作業は別料金となる場合があります。</li>
+                  <li>音源差し替え、構成変更、追加トラック対応など、当初見積り外の作業は追加料金の対象となる場合があります。</li>
+                  <li>ご提出いただく音源状態によっては、仕上がりや対応範囲に制限が出る場合があります。</li>
+                  <li>納品後のデータ管理には限りがあるため、納品物はお早めに保存をお願いいたします。</li>
+                  <li>実績としての掲載可否は事前に確認のうえ対応します。掲載不可の場合はあらかじめお知らせください。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-cta reveal delay-c">
+            <a class="button button-primary" href="#contact">内容を確認して依頼する</a>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container reveal delay-a">
+          <div class="section-head">
+            <h2 class="section-title">SNS</h2>
+          </div>
+
+          <div class="links">
+            <a class="mini-link" href="https://www.instagram.com/kemurina_bgm/#" target="_blank" rel="noreferrer">Instagram</a>
+            <a class="mini-link" href="https://x.com/Kemurina_BGM" target="_blank" rel="noreferrer">X</a>
+            <a class="mini-link" href="https://youtube.com/@kemurina_bgm?si=Siy1VBU_bJsQlawH" target="_blank" rel="noreferrer">YouTube</a>
+            <a class="mini-link" href="https://fori.io/Kemurina-BGM" target="_blank" rel="noreferrer">foriio</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="divider"></div>
+        <p>© Kemurina_BGM</p>
+        <nav class="footer-links" aria-label="法的表示">
+          <a href="/tokushoho">特定商取引法に基づく表記</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.14,
+        }
+      );
+
+      document.querySelectorAll(".reveal").forEach((el) => {
+        observer.observe(el);
+      });
+
+      const copyButton = document.getElementById("copyTemplateButton");
+      const templateText = document.getElementById("xTemplateText");
+      const copyMessage = document.getElementById("copyTemplateMessage");
+
+      if (copyButton && templateText && copyMessage) {
+        copyButton.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(templateText.innerText);
+            copyButton.textContent = "コピーしました";
+            copyMessage.textContent =
+              "テンプレートをコピーしました。DMにそのまま貼り付けできます。";
+
+            setTimeout(() => {
+              copyButton.textContent = "テンプレートをコピー";
+              copyMessage.textContent =
+                "コピーしてそのままDMでお送りください。";
+            }, 2000);
+          } catch (error) {
+            copyMessage.textContent =
+              "コピーに失敗しました。手動でコピーしてください。";
+          }
+        });
+      }
+
+      const worksTabs = document.querySelectorAll("[data-works-tab]");
+      const worksPanels = document.querySelectorAll("[data-works-panel]");
+
+      worksTabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const target = tab.dataset.worksTab;
+
+          worksTabs.forEach((item) => {
+            item.classList.remove("is-active");
+            item.setAttribute("aria-selected", "false");
+          });
+
+          worksPanels.forEach((panel) => {
+            panel.classList.remove("is-active");
+          });
+
+          tab.classList.add("is-active");
+          tab.setAttribute("aria-selected", "true");
+
+          const activePanel = document.querySelector(`[data-works-panel="${target}"]`);
+          if (activePanel) {
+            activePanel.classList.add("is-active");
+          }
+        });
+      });
+
+      const shuffleWorksCards = (scrollId) => {
+        const container = document.getElementById(scrollId);
+        if (!container) return;
+
+        const cards = Array.from(container.querySelectorAll(".works-card"));
+
+        for (let i = cards.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
+
+        cards.forEach((card) => container.appendChild(card));
+      };
+
+      shuffleWorksCards("worksScrollFull");
+      shuffleWorksCards("worksScrollShort");
+
+      const setupScrollButtons = (scrollId, prevId, nextId) => {
+        const scrollElement = document.getElementById(scrollId);
+        const prevButton = document.getElementById(prevId);
+        const nextButton = document.getElementById(nextId);
+
+        if (!scrollElement || !prevButton || !nextButton) return;
+
+        const getScrollAmount = () => {
+          const firstCard = scrollElement.querySelector(".works-card");
+          if (!firstCard) return 420;
+          const cardWidth = firstCard.getBoundingClientRect().width;
+          return cardWidth + 16;
+        };
+
+        prevButton.addEventListener("click", () => {
+          scrollElement.scrollBy({
+            left: -getScrollAmount(),
+            behavior: "smooth",
+          });
+        });
+
+        nextButton.addEventListener("click", () => {
+          scrollElement.scrollBy({
+            left: getScrollAmount(),
+            behavior: "smooth",
+          });
+        });
+      };
+
+      setupScrollButtons("worksScrollFull", "worksPrevButton", "worksNextButton");
+      setupScrollButtons("worksScrollShort", "worksPrevButtonShort", "worksNextButtonShort");
+
+      const R2_UPLOAD_API =
+        "https://mix-upload-api.kemurina1011.workers.dev";
+
+      const MAX_UPLOAD_FILES = 10;
+      const MAX_SINGLE_FILE_SIZE = 1024 * 1024 * 1024;
+      const MAX_TOTAL_FILE_SIZE = 3 * 1024 * 1024 * 1024;
+      const ALLOWED_UPLOAD_EXTENSIONS = new Set([
+        "wav",
+        "mp3",
+        "flac",
+        "aif",
+        "aiff",
+        "zip",
+      ]);
+
+      const mixRequestForm = document.getElementById("mixRequestForm");
+      const r2FilesInput = document.getElementById("r2Files");
+      const uploadFilesButton = document.getElementById("uploadFilesButton");
+      const submitRequestButton = document.getElementById("submitRequestButton");
+      const uploadSummary = document.getElementById("uploadSummary");
+      const uploadFileList = document.getElementById("uploadFileList");
+      const uploadMessage = document.getElementById("uploadMessage");
+
+      const requestIdField = document.getElementById("requestIdField");
+      const uploadedFilesJsonField = document.getElementById("uploadedFilesJsonField");
+      const uploadedFileNamesField = document.getElementById("uploadedFileNamesField");
+      const uploadedObjectKeysField = document.getElementById("uploadedObjectKeysField");
+      const uploadedTotalBytesField = document.getElementById("uploadedTotalBytesField");
+      const uploadStatusField = document.getElementById("uploadStatusField");
+
+      let selectedUploadFiles = [];
+      let uploadedFileRecords = [];
+      let uploadCompleted = false;
+      let uploadInProgress = false;
+
+      const requestId = crypto.randomUUID();
+
+      if (requestIdField) {
+        requestIdField.value = requestId;
+      }
+
+      const formatBytes = (bytes) => {
+        if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
+
+        const units = ["B", "KB", "MB", "GB"];
+        const unitIndex = Math.min(
+          Math.floor(Math.log(bytes) / Math.log(1024)),
+          units.length - 1
+        );
+
+        const value = bytes / 1024 ** unitIndex;
+        const digits = unitIndex >= 2 ? 2 : 0;
+
+        return `${value.toFixed(digits)} ${units[unitIndex]}`;
+      };
+
+      const getFileExtension = (fileName) => {
+        const index = fileName.lastIndexOf(".");
+        return index === -1
+          ? ""
+          : fileName.slice(index + 1).toLowerCase();
+      };
+
+      const setUploadMessage = (message, type = "") => {
+        if (!uploadMessage) return;
+
+        uploadMessage.textContent = message;
+        uploadMessage.className = "upload-message";
+
+        if (message) {
+          uploadMessage.classList.add("is-visible");
+
+          if (type) {
+            uploadMessage.classList.add(type);
+          }
+        }
+      };
+
+      const resetUploadMetadata = () => {
+        uploadedFileRecords = [];
+        uploadCompleted = false;
+
+        if (uploadedFilesJsonField) uploadedFilesJsonField.value = "";
+        if (uploadedFileNamesField) uploadedFileNamesField.value = "";
+        if (uploadedObjectKeysField) uploadedObjectKeysField.value = "";
+        if (uploadedTotalBytesField) uploadedTotalBytesField.value = "";
+        if (uploadStatusField) uploadStatusField.value = "selected";
+      };
+
+      const updateSubmitAvailability = () => {
+        if (!submitRequestButton) return;
+
+        const filesNeedUpload =
+          selectedUploadFiles.length > 0 && !uploadCompleted;
+
+        submitRequestButton.disabled =
+          uploadInProgress || filesNeedUpload;
+      };
+
+      const validateSelectedFiles = (files) => {
+        if (files.length > MAX_UPLOAD_FILES) {
+          throw new Error(
+            `選択できるファイルは最大${MAX_UPLOAD_FILES}個です。`
+          );
+        }
+
+        let totalSize = 0;
+
+        for (const file of files) {
+          const extension = getFileExtension(file.name);
+
+          if (!ALLOWED_UPLOAD_EXTENSIONS.has(extension)) {
+            throw new Error(
+              `${file.name}は対応していない形式です。`
+            );
+          }
+
+          if (file.size <= 0) {
+            throw new Error(
+              `${file.name}の容量を確認できません。`
+            );
+          }
+
+          if (file.size > MAX_SINGLE_FILE_SIZE) {
+            throw new Error(
+              `${file.name}は1GBを超えています。`
+            );
+          }
+
+          totalSize += file.size;
+        }
+
+        if (totalSize > MAX_TOTAL_FILE_SIZE) {
+          throw new Error(
+            "選択したファイルの合計容量が3GBを超えています。"
+          );
+        }
+
+        return totalSize;
+      };
+
+      const renderSelectedFiles = () => {
+        if (!uploadFileList || !uploadSummary) return;
+
+        uploadFileList.innerHTML = "";
+
+        if (selectedUploadFiles.length === 0) {
+          uploadSummary.textContent =
+            "ファイルはまだ選択されていません。";
+          return;
+        }
+
+        const totalSize = selectedUploadFiles.reduce(
+          (sum, file) => sum + file.size,
+          0
+        );
+
+        uploadSummary.textContent =
+          `${selectedUploadFiles.length}ファイル・合計${formatBytes(totalSize)}`;
+
+        selectedUploadFiles.forEach((file, index) => {
+          const item = document.createElement("div");
+          item.className = "upload-file-item";
+          item.dataset.uploadIndex = String(index);
+
+          item.innerHTML = `
+            <div class="upload-file-row">
+              <span class="upload-file-name"></span>
+              <span class="upload-file-size"></span>
+            </div>
+            <div class="upload-progress-track" aria-hidden="true">
+              <div class="upload-progress-bar"></div>
+            </div>
+            <div class="upload-file-row" style="margin-top: 8px;">
+              <span class="upload-file-state">アップロード待ち</span>
+            </div>
+          `;
+
+          const nameElement = item.querySelector(".upload-file-name");
+          const sizeElement = item.querySelector(".upload-file-size");
+
+          if (nameElement) nameElement.textContent = file.name;
+          if (sizeElement) sizeElement.textContent = formatBytes(file.size);
+
+          uploadFileList.appendChild(item);
+        });
+      };
+
+      const updateFileProgress = (index, percent, stateText) => {
+        const item = uploadFileList?.querySelector(
+          `[data-upload-index="${index}"]`
+        );
+
+        if (!item) return;
+
+        const progressBar = item.querySelector(".upload-progress-bar");
+        const state = item.querySelector(".upload-file-state");
+
+        if (progressBar) {
+          progressBar.style.width =
+            `${Math.max(0, Math.min(100, percent))}%`;
+        }
+
+        if (state && stateText) {
+          state.textContent = stateText;
+        }
+      };
+
+      const requestPresignedUrl = async (file) => {
+        const contentType =
+          file.type || "application/octet-stream";
+
+        const response = await fetch(
+          `${R2_UPLOAD_API}/presign`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              requestId,
+              fileName: file.name,
+              fileSize: file.size,
+              contentType,
+            }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.error || "アップロードURLの発行に失敗しました。"
+          );
+        }
+
+        return {
+          ...data,
+          contentType,
+        };
+      };
+
+      const uploadFileWithProgress = (
+        file,
+        uploadUrl,
+        contentType,
+        index
+      ) =>
+        new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+
+          xhr.open("PUT", uploadUrl);
+          xhr.setRequestHeader("Content-Type", contentType);
+
+          xhr.upload.addEventListener("progress", (event) => {
+            if (!event.lengthComputable) return;
+
+            const percent = Math.round(
+              (event.loaded / event.total) * 100
+            );
+
+            updateFileProgress(
+              index,
+              percent,
+              `アップロード中 ${percent}%`
+            );
+          });
+
+          xhr.addEventListener("load", () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              updateFileProgress(index, 100, "アップロード完了");
+              resolve();
+              return;
+            }
+
+            reject(
+              new Error(
+                `R2アップロードに失敗しました（${xhr.status}）。`
+              )
+            );
+          });
+
+          xhr.addEventListener("error", () => {
+            reject(
+              new Error(
+                "通信エラーによりアップロードできませんでした。"
+              )
+            );
+          });
+
+          xhr.addEventListener("abort", () => {
+            reject(
+              new Error("アップロードが中断されました。")
+            );
+          });
+
+          xhr.send(file);
+        });
+
+      if (r2FilesInput) {
+        r2FilesInput.addEventListener("change", () => {
+          try {
+            const files = Array.from(r2FilesInput.files || []);
+            validateSelectedFiles(files);
+
+            selectedUploadFiles = files;
+            resetUploadMetadata();
+            renderSelectedFiles();
+            setUploadMessage("");
+
+            if (uploadFilesButton) {
+              uploadFilesButton.disabled =
+                selectedUploadFiles.length === 0;
+            }
+
+            updateSubmitAvailability();
+          } catch (error) {
+            selectedUploadFiles = [];
+            resetUploadMetadata();
+            renderSelectedFiles();
+
+            if (r2FilesInput) {
+              r2FilesInput.value = "";
+            }
+
+            if (uploadFilesButton) {
+              uploadFilesButton.disabled = true;
+            }
+
+            if (uploadStatusField) {
+              uploadStatusField.value = "validation_error";
+            }
+
+            setUploadMessage(
+              error instanceof Error
+                ? error.message
+                : "ファイルを確認できませんでした。",
+              "error"
+            );
+
+            updateSubmitAvailability();
+          }
+        });
+      }
+
+      if (uploadFilesButton) {
+        uploadFilesButton.addEventListener("click", async () => {
+          if (
+            uploadInProgress ||
+            selectedUploadFiles.length === 0
+          ) {
+            return;
+          }
+
+          try {
+            validateSelectedFiles(selectedUploadFiles);
+
+            uploadInProgress = true;
+            uploadCompleted = false;
+            uploadedFileRecords = [];
+
+            uploadFilesButton.disabled = true;
+
+            if (r2FilesInput) {
+              r2FilesInput.disabled = true;
+            }
+
+            if (uploadStatusField) {
+              uploadStatusField.value = "uploading";
+            }
+
+            setUploadMessage(
+              "アップロードを開始しました。この画面を閉じずにお待ちください。"
+            );
+
+            updateSubmitAvailability();
+
+            for (
+              let index = 0;
+              index < selectedUploadFiles.length;
+              index += 1
+            ) {
+              const file = selectedUploadFiles[index];
+
+              updateFileProgress(
+                index,
+                0,
+                "アップロード準備中"
+              );
+
+              const presignData =
+                await requestPresignedUrl(file);
+
+              await uploadFileWithProgress(
+                file,
+                presignData.uploadUrl,
+                presignData.contentType,
+                index
+              );
+
+              uploadedFileRecords.push({
+                originalFileName: file.name,
+                fileSize: file.size,
+                contentType: presignData.contentType,
+                objectKey: presignData.objectKey,
+              });
+            }
+
+            const totalBytes = uploadedFileRecords.reduce(
+              (sum, file) => sum + file.fileSize,
+              0
+            );
+
+            if (uploadedFilesJsonField) {
+              uploadedFilesJsonField.value =
+                JSON.stringify(uploadedFileRecords);
+            }
+
+            if (uploadedFileNamesField) {
+              uploadedFileNamesField.value =
+                uploadedFileRecords
+                  .map((file) => file.originalFileName)
+                  .join(" / ");
+            }
+
+            if (uploadedObjectKeysField) {
+              uploadedObjectKeysField.value =
+                uploadedFileRecords
+                  .map((file) => file.objectKey)
+                  .join("\n");
+            }
+
+            if (uploadedTotalBytesField) {
+              uploadedTotalBytesField.value =
+                String(totalBytes);
+            }
+
+            if (uploadStatusField) {
+              uploadStatusField.value = "completed";
+            }
+
+            uploadCompleted = true;
+
+            setUploadMessage(
+              `${uploadedFileRecords.length}ファイルのアップロードが完了しました。続けて依頼内容を送信してください。`,
+              "success"
+            );
+          } catch (error) {
+            uploadedFileRecords = [];
+            uploadCompleted = false;
+
+            if (uploadStatusField) {
+              uploadStatusField.value = "failed";
+            }
+
+            setUploadMessage(
+              error instanceof Error
+                ? error.message
+                : "ファイルのアップロードに失敗しました。",
+              "error"
+            );
+
+            selectedUploadFiles.forEach((_, index) => {
+              const item = uploadFileList?.querySelector(
+                `[data-upload-index="${index}"]`
+              );
+
+              const state =
+                item?.querySelector(".upload-file-state");
+
+              if (
+                state &&
+                state.textContent !== "アップロード完了"
+              ) {
+                state.textContent = "未完了";
+              }
+            });
+          } finally {
+            uploadInProgress = false;
+
+            if (r2FilesInput) {
+              r2FilesInput.disabled = false;
+            }
+
+            if (uploadFilesButton) {
+              uploadFilesButton.disabled =
+                selectedUploadFiles.length === 0 ||
+                uploadCompleted;
+            }
+
+            updateSubmitAvailability();
+          }
+        });
+      }
+
+      const basinSuccess = document.getElementById("mix-form-success");
+      const basinError = document.getElementById("mix-form-error");
+
+      const setFormStatus = (type, message) => {
+        const target =
+          type === "success" ? basinSuccess : basinError;
+        const other =
+          type === "success" ? basinError : basinSuccess;
+
+        if (other) {
+          other.classList.remove("is-visible");
+        }
+
+        if (target) {
+          target.textContent = message;
+          target.classList.add("is-visible");
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      };
+
+      let mixManagerRegistered = false;
+
+      const getFormValue = (name) => {
+        const field = mixRequestForm?.elements.namedItem(name);
+
+        if (
+          field instanceof HTMLInputElement ||
+          field instanceof HTMLSelectElement ||
+          field instanceof HTMLTextAreaElement
+        ) {
+          return field.value.trim();
+        }
+
+        return "";
+      };
+
+      const registerProjectInMixManager = async (signal) => {
+        if (mixManagerRegistered) {
+          return {
+            success: true,
+            alreadyRegistered: true,
+          };
+        }
+
+        const response = await fetch(
+          `${R2_UPLOAD_API}/submit-project`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              requestId,
+              clientName: getFormValue("name"),
+              email: getFormValue("email"),
+              xAccount: getFormValue("x_account"),
+              songTitle: getFormValue("song_title"),
+              requestType: getFormValue("request_type"),
+              paymentMethod: getFormValue("payment_method"),
+              discount: getFormValue("discount"),
+              deadline: getFormValue("deadline"),
+              keyChange: getFormValue("key_change"),
+              originalUrl: getFormValue("original_url"),
+              referenceUrl: getFormValue("reference_url"),
+              externalAudioUrl: getFormValue("audio_url"),
+              message: getFormValue("message"),
+              uploadedFiles: uploadedFileRecords,
+            }),
+            signal,
+          }
+        );
+
+        const responseData = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(
+            responseData.detail ||
+              responseData.error ||
+              `MIX Managerへの登録に失敗しました（${response.status}）。`
+          );
+        }
+
+        mixManagerRegistered = true;
+        return responseData;
+      };
+
+      const sendToBasin = async (signal) => {
+        const formData = new FormData(mixRequestForm);
+
+        const response = await fetch(
+          mixRequestForm.action,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Accept: "application/json",
+            },
+            signal,
+          }
+        );
+
+        if (!response.ok) {
+          let detail = "";
+
+          try {
+            const responseData = await response.json();
+            detail =
+              responseData?.message ||
+              responseData?.error ||
+              "";
+          } catch {
+            detail = await response.text();
+          }
+
+          throw new Error(
+            detail ||
+              `Basinへの送信に失敗しました（${response.status}）。`
+          );
+        }
+      };
+
+      if (mixRequestForm) {
+        mixRequestForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          if (uploadInProgress) {
+            setUploadMessage(
+              "ファイルをアップロードしています。完了までお待ちください。",
+              "error"
+            );
+            return;
+          }
+
+          if (
+            selectedUploadFiles.length > 0 &&
+            !uploadCompleted
+          ) {
+            setUploadMessage(
+              "選択したファイルのアップロードを完了してから、依頼内容を送信してください。",
+              "error"
+            );
+
+            uploadMessage?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+            return;
+          }
+
+          if (!mixRequestForm.reportValidity()) {
+            return;
+          }
+
+          const originalButtonText =
+            submitRequestButton?.textContent ||
+            "この内容で依頼する";
+
+          const controller = new AbortController();
+          const timeoutId = window.setTimeout(() => {
+            controller.abort();
+          }, 30000);
+
+          try {
+            if (submitRequestButton) {
+              submitRequestButton.disabled = true;
+              submitRequestButton.textContent =
+                "案件管理へ登録中…";
+            }
+
+            basinSuccess?.classList.remove("is-visible");
+            basinError?.classList.remove("is-visible");
+
+            await registerProjectInMixManager(controller.signal);
+
+            if (submitRequestButton) {
+              submitRequestButton.textContent =
+                "通知を送信中…";
+            }
+
+            await sendToBasin(controller.signal);
+
+            setFormStatus(
+              "success",
+              "依頼を送信しました。案件管理への登録と受付通知が完了しています。内容を確認のうえ、折り返しご連絡いたします。"
+            );
+
+            if (submitRequestButton) {
+              submitRequestButton.textContent = "送信完了";
+            }
+          } catch (error) {
+            const message =
+              error instanceof DOMException &&
+              error.name === "AbortError"
+                ? "送信が30秒以内に完了しませんでした。通信状況を確認し、再度お試しください。アップロード済みファイルの再送は不要です。"
+                : error instanceof Error
+                  ? error.message
+                  : "送信に失敗しました。時間をおいて再度お試しください。";
+
+            setFormStatus("error", message);
+
+            if (submitRequestButton) {
+              submitRequestButton.disabled = false;
+              submitRequestButton.textContent =
+                originalButtonText;
+            }
+          } finally {
+            window.clearTimeout(timeoutId);
+          }
+        });
+      }
+
+      updateSubmitAvailability();
+    </script>
+  </body>
+</html>
