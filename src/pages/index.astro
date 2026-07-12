@@ -982,6 +982,41 @@
         line-height: 1.7;
       }
 
+      .turnstile-panel {
+        padding: 18px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--line);
+      }
+
+      .turnstile-panel-title {
+        margin: 0 0 6px;
+        font-size: 16px;
+        color: var(--text);
+      }
+
+      .turnstile-panel-note {
+        margin: 0 0 14px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .turnstile-status {
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .turnstile-status.success {
+        color: #9fe0b0;
+      }
+
+      .turnstile-status.error {
+        color: #ffb2b2;
+      }
+
       .upload-panel {
         padding: 18px;
         border-radius: 20px;
@@ -1377,6 +1412,12 @@
         }
       }
     </style>
+
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer
+    ></script>
   </head>
 
   <body>
@@ -2043,17 +2084,17 @@
               <div class="form-grid">
                 <div class="form-group">
                   <label for="name">お名前 / 活動名</label>
-                  <input id="name" name="name" type="text" required placeholder="例：Kemurina_BGM" />
+                  <input id="name" name="name" type="text" required maxlength="100" placeholder="例：Kemurina_BGM" />
                 </div>
 
                 <div class="form-group">
                   <label for="email">メールアドレス</label>
-                  <input id="email" name="email" type="email" required placeholder="例：sample@example.com" />
+                  <input id="email" name="email" type="email" required maxlength="254" placeholder="例：sample@example.com" />
                 </div>
 
                 <div class="form-group">
                   <label for="x_account">Xアカウント</label>
-                  <input id="x_account" name="x_account" type="text" placeholder="例：@Kemurina_BGM" />
+                  <input id="x_account" name="x_account" type="text" maxlength="100" placeholder="例：@Kemurina_BGM" />
                 </div>
 
                 <div class="form-group">
@@ -2098,12 +2139,12 @@
 
                 <div class="form-group">
                   <label for="song_title">曲名</label>
-                  <input id="song_title" name="song_title" type="text" placeholder="例：シャンティ" />
+                  <input id="song_title" name="song_title" type="text" maxlength="200" placeholder="例：シャンティ" />
                 </div>
 
                 <div class="form-group">
                   <label for="key_change">キー変更</label>
-                  <input id="key_change" name="key_change" type="text" placeholder="例：原キー / -2 / +3" />
+                  <input id="key_change" name="key_change" type="text" maxlength="50" placeholder="例：原キー / -2 / +3" />
                 </div>
 
                 <div class="form-group full-width">
@@ -2124,6 +2165,35 @@
                     type="url"
                     placeholder="すでにクラウドへ保存済みの場合のみ入力してください"
                   />
+                </div>
+
+                <div class="form-group full-width">
+                  <div class="turnstile-panel">
+                    <h3 class="turnstile-panel-title">セキュリティ確認</h3>
+                    <p class="turnstile-panel-note">
+                      不正送信を防ぐため、Cloudflare Turnstileによる確認を行います。
+                      確認完了後、ファイルのアップロードと依頼送信が可能になります。
+                    </p>
+
+                    <div
+                      class="cf-turnstile"
+                      data-sitekey="0x4AAAAAAD0EAvkoEt8YY9Ds"
+                      data-action="mix_request"
+                      data-theme="auto"
+                      data-callback="onTurnstileSuccess"
+                      data-expired-callback="onTurnstileExpired"
+                      data-error-callback="onTurnstileError"
+                      data-response-field="false"
+                    ></div>
+
+                    <p
+                      id="turnstileStatus"
+                      class="turnstile-status"
+                      role="status"
+                    >
+                      セキュリティ確認を完了してください。
+                    </p>
+                  </div>
                 </div>
 
                 <div class="form-group full-width">
@@ -2181,6 +2251,7 @@
                     id="message"
                     name="message"
                     rows="6"
+                    maxlength="3000"
                     placeholder="例：歌を前に出しつつ自然に馴染む仕上がりを希望します。"
                   ></textarea>
                 </div>
@@ -2470,16 +2541,46 @@
       const uploadedTotalBytesField = document.getElementById("uploadedTotalBytesField");
       const uploadStatusField = document.getElementById("uploadStatusField");
 
+      const turnstileStatus =
+        document.getElementById("turnstileStatus");
+
       let selectedUploadFiles = [];
       let uploadedFileRecords = [];
       let uploadCompleted = false;
       let uploadInProgress = false;
 
-      const requestId = crypto.randomUUID();
+      let requestId = "";
+      let formSessionToken = "";
+      let formSessionExpiresAt = 0;
+      let turnstileRequestInProgress = false;
 
-      if (requestIdField) {
-        requestIdField.value = requestId;
-      }
+      const hasValidFormSession = () =>
+        Boolean(
+          formSessionToken &&
+            requestId &&
+            Date.now() < formSessionExpiresAt * 1000
+        );
+
+      const setTurnstileStatus = (message, type = "") => {
+        if (!turnstileStatus) return;
+
+        turnstileStatus.textContent = message;
+        turnstileStatus.className = "turnstile-status";
+
+        if (type) {
+          turnstileStatus.classList.add(type);
+        }
+      };
+
+      const clearFormSession = () => {
+        requestId = "";
+        formSessionToken = "";
+        formSessionExpiresAt = 0;
+
+        if (requestIdField) {
+          requestIdField.value = "";
+        }
+      };
 
       const formatBytes = (bytes) => {
         if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
@@ -2536,7 +2637,9 @@
           selectedUploadFiles.length > 0 && !uploadCompleted;
 
         submitRequestButton.disabled =
-          uploadInProgress || filesNeedUpload;
+          uploadInProgress ||
+          filesNeedUpload ||
+          !hasValidFormSession();
       };
 
       const validateSelectedFiles = (files) => {
@@ -2658,6 +2761,7 @@
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${formSessionToken}`,
             },
             body: JSON.stringify({
               requestId,
@@ -2752,7 +2856,8 @@
 
             if (uploadFilesButton) {
               uploadFilesButton.disabled =
-                selectedUploadFiles.length === 0;
+                selectedUploadFiles.length === 0 ||
+                !hasValidFormSession();
             }
 
             updateSubmitAvailability();
@@ -2791,6 +2896,14 @@
             uploadInProgress ||
             selectedUploadFiles.length === 0
           ) {
+            return;
+          }
+
+          if (!hasValidFormSession()) {
+            setUploadMessage(
+              "セキュリティ確認を完了してからアップロードしてください。",
+              "error"
+            );
             return;
           }
 
@@ -2927,7 +3040,8 @@
             if (uploadFilesButton) {
               uploadFilesButton.disabled =
                 selectedUploadFiles.length === 0 ||
-                uploadCompleted;
+                uploadCompleted ||
+                !hasValidFormSession();
             }
 
             updateSubmitAvailability();
@@ -2988,6 +3102,7 @@
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${formSessionToken}`,
             },
             body: JSON.stringify({
               requestId,
@@ -3087,6 +3202,14 @@
             return;
           }
 
+          if (!hasValidFormSession()) {
+            setFormStatus(
+              "error",
+              "セキュリティ確認の有効期限が切れています。ページを再読み込みして、もう一度お試しください。"
+            );
+            return;
+          }
+
           if (!mixRequestForm.reportValidity()) {
             return;
           }
@@ -3148,6 +3271,117 @@
           }
         });
       }
+
+      window.onTurnstileSuccess = async (turnstileToken) => {
+        if (turnstileRequestInProgress) {
+          return;
+        }
+
+        turnstileRequestInProgress = true;
+        clearFormSession();
+
+        setTurnstileStatus(
+          "セキュリティ確認を検証しています…"
+        );
+
+        updateSubmitAvailability();
+
+        if (uploadFilesButton) {
+          uploadFilesButton.disabled = true;
+        }
+
+        try {
+          const response = await fetch(
+            `${R2_UPLOAD_API}/create-form-session`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                turnstileToken,
+              }),
+            }
+          );
+
+          const data = await response.json().catch(() => ({}));
+
+          if (!response.ok) {
+            throw new Error(
+              data.error ||
+                "セキュリティ確認に失敗しました。"
+            );
+          }
+
+          requestId = data.requestId;
+          formSessionToken = data.sessionToken;
+          formSessionExpiresAt = data.expiresAt;
+
+          if (requestIdField) {
+            requestIdField.value = requestId;
+          }
+
+          setTurnstileStatus(
+            "セキュリティ確認が完了しました。",
+            "success"
+          );
+
+          if (uploadFilesButton) {
+            uploadFilesButton.disabled =
+              selectedUploadFiles.length === 0 ||
+              uploadCompleted;
+          }
+
+          updateSubmitAvailability();
+        } catch (error) {
+          clearFormSession();
+
+          setTurnstileStatus(
+            error instanceof Error
+              ? error.message
+              : "セキュリティ確認に失敗しました。",
+            "error"
+          );
+
+          updateSubmitAvailability();
+
+          if (window.turnstile) {
+            window.turnstile.reset();
+          }
+        } finally {
+          turnstileRequestInProgress = false;
+        }
+      };
+
+      window.onTurnstileExpired = () => {
+        clearFormSession();
+
+        setTurnstileStatus(
+          "セキュリティ確認の有効期限が切れました。もう一度確認してください。",
+          "error"
+        );
+
+        if (uploadFilesButton) {
+          uploadFilesButton.disabled = true;
+        }
+
+        updateSubmitAvailability();
+      };
+
+      window.onTurnstileError = () => {
+        clearFormSession();
+
+        setTurnstileStatus(
+          "セキュリティ確認を読み込めませんでした。ページを再読み込みしてください。",
+          "error"
+        );
+
+        if (uploadFilesButton) {
+          uploadFilesButton.disabled = true;
+        }
+
+        updateSubmitAvailability();
+      };
 
       updateSubmitAvailability();
     </script>
