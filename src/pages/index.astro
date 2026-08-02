@@ -1134,6 +1134,46 @@
         line-height: 1.7;
       }
 
+      .upload-drop-zone {
+        margin-top: 14px;
+        padding: 28px 20px;
+        border: 2px dashed rgba(255, 255, 255, 0.18);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.025);
+        text-align: center;
+        cursor: pointer;
+        transition:
+          border-color 0.2s ease,
+          background 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      .upload-drop-zone:hover,
+      .upload-drop-zone.is-dragover {
+        border-color: rgba(255, 255, 255, 0.48);
+        background: rgba(255, 255, 255, 0.07);
+        transform: translateY(-1px);
+      }
+
+      .upload-drop-zone:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      .upload-drop-zone-title {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .upload-drop-zone-note {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.7;
+      }
+
       .upload-actions {
         display: flex;
         gap: 10px;
@@ -1742,12 +1782,12 @@
 
             <div class="price-card reveal delay-c">
               <div class="price-label">ワンコーラス</div>
-              <div class="price-value">¥4,000</div>
+              <div class="price-value">¥3,500</div>
             </div>
 
             <div class="price-card reveal delay-c">
               <div class="price-label">フルコーラス</div>
-              <div class="price-value">¥5,500</div>
+              <div class="price-value">¥5,000</div>
             </div>
           </div>
 
@@ -2333,6 +2373,21 @@
                       accept=".wav,.mp3,.flac,.aif,.aiff,.zip"
                     />
 
+                    <div
+                      class="upload-drop-zone"
+                      id="uploadDropZone"
+                      role="button"
+                      tabindex="0"
+                      aria-label="ファイルをドラッグ＆ドロップ、またはクリックして選択"
+                    >
+                      <p class="upload-drop-zone-title">
+                        ここにファイルをドラッグ＆ドロップ
+                      </p>
+                      <p class="upload-drop-zone-note">
+                        またはクリックしてファイルを選択してください
+                      </p>
+                    </div>
+
                     <div class="upload-actions">
                       <label class="button button-secondary" for="r2Files">ファイルを選択</label>
                       <button
@@ -2652,6 +2707,7 @@
       const uploadSummary = document.getElementById("uploadSummary");
       const uploadFileList = document.getElementById("uploadFileList");
       const uploadMessage = document.getElementById("uploadMessage");
+      const uploadDropZone = document.getElementById("uploadDropZone");
 
       const requestIdField = document.getElementById("requestIdField");
       const uploadedFilesJsonField = document.getElementById("uploadedFilesJsonField");
@@ -2964,49 +3020,95 @@
           xhr.send(file);
         });
 
+      const applySelectedFiles = (files) => {
+        try {
+          validateSelectedFiles(files);
+
+          selectedUploadFiles = files;
+          resetUploadMetadata();
+          renderSelectedFiles();
+          setUploadMessage("");
+
+          if (uploadFilesButton) {
+            uploadFilesButton.disabled =
+              selectedUploadFiles.length === 0 ||
+              !hasValidFormSession();
+          }
+
+          updateSubmitAvailability();
+        } catch (error) {
+          selectedUploadFiles = [];
+          resetUploadMetadata();
+          renderSelectedFiles();
+
+          if (r2FilesInput) {
+            r2FilesInput.value = "";
+          }
+
+          if (uploadFilesButton) {
+            uploadFilesButton.disabled = true;
+          }
+
+          if (uploadStatusField) {
+            uploadStatusField.value = "validation_error";
+          }
+
+          setUploadMessage(
+            error instanceof Error
+              ? error.message
+              : "ファイルを確認できませんでした。",
+            "error"
+          );
+
+          updateSubmitAvailability();
+        }
+      };
+
       if (r2FilesInput) {
         r2FilesInput.addEventListener("change", () => {
-          try {
-            const files = Array.from(r2FilesInput.files || []);
-            validateSelectedFiles(files);
+          const files = Array.from(r2FilesInput.files || []);
+          applySelectedFiles(files);
+        });
+      }
 
-            selectedUploadFiles = files;
-            resetUploadMetadata();
-            renderSelectedFiles();
-            setUploadMessage("");
+      if (uploadDropZone && r2FilesInput) {
+        const preventDragDefaults = (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+        };
 
-            if (uploadFilesButton) {
-              uploadFilesButton.disabled =
-                selectedUploadFiles.length === 0 ||
-                !hasValidFormSession();
-            }
+        ["dragenter", "dragover"].forEach((eventName) => {
+          uploadDropZone.addEventListener(eventName, (event) => {
+            preventDragDefaults(event);
+            uploadDropZone.classList.add("is-dragover");
+          });
+        });
 
-            updateSubmitAvailability();
-          } catch (error) {
-            selectedUploadFiles = [];
-            resetUploadMetadata();
-            renderSelectedFiles();
+        ["dragleave", "drop"].forEach((eventName) => {
+          uploadDropZone.addEventListener(eventName, (event) => {
+            preventDragDefaults(event);
+            uploadDropZone.classList.remove("is-dragover");
+          });
+        });
 
-            if (r2FilesInput) {
-              r2FilesInput.value = "";
-            }
+        uploadDropZone.addEventListener("drop", (event) => {
+          const files = Array.from(event.dataTransfer?.files || []);
+          applySelectedFiles(files);
+        });
 
-            if (uploadFilesButton) {
-              uploadFilesButton.disabled = true;
-            }
+        uploadDropZone.addEventListener("click", () => {
+          if (!r2FilesInput.disabled) {
+            r2FilesInput.click();
+          }
+        });
 
-            if (uploadStatusField) {
-              uploadStatusField.value = "validation_error";
-            }
-
-            setUploadMessage(
-              error instanceof Error
-                ? error.message
-                : "ファイルを確認できませんでした。",
-              "error"
-            );
-
-            updateSubmitAvailability();
+        uploadDropZone.addEventListener("keydown", (event) => {
+          if (
+            (event.key === "Enter" || event.key === " ") &&
+            !r2FilesInput.disabled
+          ) {
+            event.preventDefault();
+            r2FilesInput.click();
           }
         });
       }
