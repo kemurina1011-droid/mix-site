@@ -1,12 +1,16 @@
 /* =========================================================
    Kemurina_BGM
-   Rotary Carousel v1
+   Rotary Carousel v2
 
-   使用予定
+   使用箇所
    - Price
    - Discount
+   - Service（Phase 7で接続）
 
-   Service cardsには使用しない
+   v2変更点
+   - 中央カードの3D transformを2D transformへ変更
+   - 中央カードの文字描画をシャープ化
+   - 左右カードのみ3D変形
    ========================================================= */
 
 
@@ -57,6 +61,15 @@
     );
 
   line-height: 1.25;
+
+  -webkit-font-smoothing:
+    antialiased;
+
+  -moz-osx-font-smoothing:
+    grayscale;
+
+  text-rendering:
+    geometricPrecision;
 }
 
 .rotary-description {
@@ -71,6 +84,12 @@
 
   font-size: 14px;
   line-height: 1.8;
+
+  -webkit-font-smoothing:
+    antialiased;
+
+  -moz-osx-font-smoothing:
+    grayscale;
 }
 
 
@@ -187,8 +206,6 @@
 
 /* =========================================================
    STAGE
-
-   perspectiveが3D空間の核
    ========================================================= */
 
 .rotary-stage {
@@ -221,8 +238,6 @@
 
 /* =========================================================
    TRACK
-
-   transform-styleで子要素のZ軸を有効化
    ========================================================= */
 
 .rotary-track {
@@ -307,20 +322,13 @@
     blur(18px);
 
   transform:
-    translate3d(
+    translate(
       -50%,
-      -50%,
-      0
+      -50%
     );
 
   transform-origin:
     center center;
-
-  transform-style:
-    preserve-3d;
-
-  -webkit-transform-style:
-    preserve-3d;
 
   opacity: 1;
 
@@ -330,6 +338,18 @@
     transform,
     opacity,
     filter;
+
+  /*
+   * 文字描画改善
+   */
+  -webkit-font-smoothing:
+    antialiased;
+
+  -moz-osx-font-smoothing:
+    grayscale;
+
+  text-rendering:
+    geometricPrecision;
 
   transition:
     transform
@@ -423,7 +443,18 @@
       30px
     );
 
+  font-weight: 700;
+
   line-height: 1.25;
+
+  -webkit-font-smoothing:
+    antialiased;
+
+  -moz-osx-font-smoothing:
+    grayscale;
+
+  text-rendering:
+    geometricPrecision;
 }
 
 .rotary-card-value {
@@ -455,6 +486,12 @@
 
   letter-spacing:
     -0.045em;
+
+  -webkit-font-smoothing:
+    antialiased;
+
+  -moz-osx-font-smoothing:
+    grayscale;
 }
 
 .rotary-card-value-suffix {
@@ -480,6 +517,12 @@
 
   font-size: 14px;
   line-height: 1.75;
+
+  -webkit-font-smoothing:
+    antialiased;
+
+  -moz-osx-font-smoothing:
+    grayscale;
 }
 
 .rotary-card-note {
@@ -493,6 +536,12 @@
 
   font-size: 12px;
   line-height: 1.7;
+
+  -webkit-font-smoothing:
+    antialiased;
+
+  -moz-osx-font-smoothing:
+    grayscale;
 }
 
 
@@ -606,14 +655,12 @@
 /* =========================================================
    POSITION
 
-   JavaScript側で
-   data-rotary-positionを設定する。
+   重要：
+   中央カードは2D transform。
+   左右カードだけ3D transform。
 
-   0  = 中央
-   -1 = 左
-   1  = 右
-   -2 = 左奥
-   2  = 右奥
+   これにより中央の文字を
+   可能な限りシャープにする。
    ========================================================= */
 
 
@@ -630,13 +677,10 @@
     brightness(1);
 
   transform:
-    translate3d(
+    translate(
       -50%,
-      -50%,
-      150px
-    )
-    rotateY(0deg)
-    scale(1);
+      -50%
+    );
 }
 
 
@@ -658,7 +702,7 @@
         -50% - 310px
       ),
       -50%,
-      20px
+      -40px
     )
     rotateY(28deg)
     scale(0.84);
@@ -683,7 +727,7 @@
         -50% + 310px
       ),
       -50%,
-      20px
+      -40px
     )
     rotateY(-28deg)
     scale(0.84);
@@ -710,7 +754,7 @@
         -50% - 500px
       ),
       -50%,
-      -190px
+      -220px
     )
     rotateY(42deg)
     scale(0.68);
@@ -737,7 +781,7 @@
         -50% + 500px
       ),
       -50%,
-      -190px
+      -220px
     )
     rotateY(-42deg)
     scale(0.68);
@@ -862,13 +906,17 @@
   font-size: 12px;
 
   text-align: center;
+
+  -webkit-font-smoothing:
+    antialiased;
+
+  -moz-osx-font-smoothing:
+    grayscale;
 }
 
 
 /* =========================================================
    PAYMENT AREA
-
-   Price Carousel直下に使用予定
    ========================================================= */
 
 .payment-methods-compact {
@@ -918,6 +966,12 @@
 
   font-size: 12px;
   font-weight: 600;
+
+  -webkit-font-smoothing:
+    antialiased;
+
+  -moz-osx-font-smoothing:
+    grayscale;
 }
 
 
@@ -962,7 +1016,7 @@
           -50% - 250px
         ),
         -50%,
-        -20px
+        -60px
       )
       rotateY(26deg)
       scale(0.8);
@@ -978,7 +1032,7 @@
           -50% + 250px
         ),
         -50%,
-        -20px
+        -60px
       )
       rotateY(-26deg)
       scale(0.8);
@@ -996,7 +1050,7 @@
           -50% - 410px
         ),
         -50%,
-        -220px
+        -240px
       )
       rotateY(38deg)
       scale(0.62);
@@ -1014,7 +1068,7 @@
           -50% + 410px
         ),
         -50%,
-        -220px
+        -240px
       )
       rotateY(-38deg)
       scale(0.62);
@@ -1096,8 +1150,7 @@
 
 
   /*
-   * スマホは左右1枚までを
-   * 主に見せる。
+   * スマホは中央 + 左右1枚
    */
 
   .rotary-card[
@@ -1116,7 +1169,7 @@
           -50% - 205px
         ),
         -50%,
-        -120px
+        -140px
       )
       rotateY(32deg)
       scale(0.72);
@@ -1139,7 +1192,7 @@
           -50% + 205px
         ),
         -50%,
-        -120px
+        -140px
       )
       rotateY(-32deg)
       scale(0.72);
@@ -1204,7 +1257,7 @@
           -50% - 180px
         ),
         -50%,
-        -150px
+        -165px
       )
       rotateY(34deg)
       scale(0.68);
@@ -1220,7 +1273,7 @@
           -50% + 180px
         ),
         -50%,
-        -150px
+        -165px
       )
       rotateY(-34deg)
       scale(0.68);
@@ -1231,7 +1284,8 @@
 /* =========================================================
    HOVER
 
-   中央カードのみ少し浮かせる
+   中央は2Dのまま少し上へ移動。
+   scale / translateZは使わない。
    ========================================================= */
 
 @media (
@@ -1249,15 +1303,12 @@
       );
 
     transform:
-      translate3d(
+      translate(
         -50%,
         calc(
           -50% - 6px
-        ),
-        160px
-      )
-      rotateY(0deg)
-      scale(1.015);
+        )
+      );
 
     box-shadow:
       0 42px 100px
@@ -1296,12 +1347,9 @@
     data-rotary-position="0"
   ]:hover {
     transform:
-      translate3d(
+      translate(
         -50%,
-        -50%,
-        150px
-      )
-      rotateY(0deg)
-      scale(1);
+        -50%
+      );
   }
 }
