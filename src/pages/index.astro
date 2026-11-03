@@ -1,3 +1,7 @@
+---
+import "../styles/works.css";
+---
+
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
@@ -1888,434 +1892,115 @@
           <div class="section-head reveal delay-a">
             <h2 class="section-title">実績</h2>
             <p class="section-lead">
-              Full / Short を切り替えて、左右にスクロールしながら実績作品をご確認いただけます。
+              制作実績の一部をアクセスごとにランダムでご紹介しています。
+              Full / Short を切り替えてご確認いただけます。
             </p>
           </div>
 
-          <div class="works-tabs reveal delay-a" role="tablist" aria-label="実績カテゴリ切り替え">
-            <button class="works-tab is-active" type="button" data-works-tab="short" aria-selected="true">
+          <div
+            class="works-tabs reveal delay-a"
+            role="tablist"
+            aria-label="実績カテゴリ切り替え"
+          >
+            <button
+              class="works-tab is-active"
+              type="button"
+              data-home-works-tab="short"
+              aria-selected="true"
+            >
               Short
             </button>
-            <button class="works-tab" type="button" data-works-tab="full" aria-selected="false">
+
+            <button
+              class="works-tab"
+              type="button"
+              data-home-works-tab="full"
+              aria-selected="false"
+            >
               Full
             </button>
           </div>
 
-          <div class="works-panel reveal delay-b" data-works-panel="full">
+          <div
+            class="works-panel reveal delay-b"
+            data-home-works-panel="full"
+          >
             <div class="works-scroll-wrap">
               <div class="works-controls">
-                <button class="works-nav-button" type="button" id="worksPrevButton" aria-label="前の実績を見る">←</button>
-                <button class="works-nav-button" type="button" id="worksNextButton" aria-label="次の実績を見る">→</button>
+                <button
+                  class="works-nav-button"
+                  type="button"
+                  id="homeFullPrev"
+                  aria-label="前のFull実績を見る"
+                >
+                  ←
+                </button>
+
+                <button
+                  class="works-nav-button"
+                  type="button"
+                  id="homeFullNext"
+                  aria-label="次のFull実績を見る"
+                >
+                  →
+                </button>
               </div>
 
-              <div class="works-scroll full-scroll" id="worksScrollFull">
-                <article class="works-card">
-                  <div class="works-video full-video">
-                    <button
-                      class="full-video-facade"
-                      type="button"
-                      data-video-id="eid5V3nHLPo"
-                      data-video-title="キュートアグレッション / キタニタツヤ (cover) 【歌ってみた】"
-                      aria-label="キュートアグレッション / キタニタツヤを再生"
-                    >
-                      <img
-                        src="https://i.ytimg.com/vi/eid5V3nHLPo/maxresdefault.jpg"
-                        alt="キュートアグレッション / キタニタツヤ (cover) 【歌ってみた】"
-                        loading="lazy"
-                        onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/eid5V3nHLPo/hqdefault.jpg';"
-                      />
-                    </button>
-                  </div>
-                  <div class="works-body">
-                    <h3>キュートアグレッション / キタニタツヤ (cover) 【歌ってみた】</h3>
-                    <p>Full</p>
-                  </div>
-                </article>
-
-                <article class="works-card">
-                  <div class="works-video full-video">
-                    <button
-                      class="full-video-facade"
-                      type="button"
-                      data-video-id="mp7CqTKDtzM"
-                      data-video-title="アイリッド / ぬゆり (Cover) 【歌ってみた】"
-                      aria-label="アイリッド / ぬゆりを再生"
-                    >
-                      <img
-                        src="https://i.ytimg.com/vi/mp7CqTKDtzM/maxresdefault.jpg"
-                        alt="アイリッド / ぬゆり (Cover) 【歌ってみた】"
-                        loading="lazy"
-                        onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/mp7CqTKDtzM/hqdefault.jpg';"
-                      />
-                    </button>
-                  </div>
-                  <div class="works-body">
-                    <h3>アイリッド / ぬゆり (Cover) 【歌ってみた】</h3>
-                    <p>Full</p>
-                  </div>
-                </article>
-
-                <article class="works-card">
-                  <div class="works-video full-video">
-                    <button
-                      class="full-video-facade"
-                      type="button"
-                      data-video-id="QlIenrDbxn4"
-                      data-video-title="【歌ってみた】シャンティ / 緑月 Cover 【新人Vtuber】"
-                      aria-label="シャンティ / 緑月 Coverを再生"
-                    >
-                      <img
-                        src="https://i.ytimg.com/vi/QlIenrDbxn4/maxresdefault.jpg"
-                        alt="【歌ってみた】シャンティ / 緑月 Cover 【新人Vtuber】"
-                        loading="lazy"
-                        onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/QlIenrDbxn4/hqdefault.jpg';"
-                      />
-                    </button>
-                  </div>
-                  <div class="works-body">
-                    <h3>【歌ってみた】シャンティ / 緑月 Cover 【新人Vtuber】</h3>
-                    <p>Full</p>
-                  </div>
-                </article>
-
-                <article class="works-card">
-                  <div class="works-video full-video">
-                    <button
-                      class="full-video-facade"
-                      type="button"
-                      data-video-id="nXQ-MYNGZ_Q"
-                      data-video-title="月のワルツ 歌ってみた【砂つみの】"
-                      aria-label="月のワルツを再生"
-                    >
-                      <img
-                        src="https://i.ytimg.com/vi/nXQ-MYNGZ_Q/maxresdefault.jpg"
-                        alt="月のワルツ 歌ってみた【砂つみの】"
-                        loading="lazy"
-                        onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/nXQ-MYNGZ_Q/hqdefault.jpg';"
-                      />
-                    </button>
-                  </div>
-                  <div class="works-body">
-                    <h3>月のワルツ 歌ってみた【砂つみの】</h3>
-                    <p>Full</p>
-                  </div>
-                </article>
-
-                <article class="works-card">
-                  <div class="works-video full-video">
-                    <button
-                      class="full-video-facade"
-                      type="button"
-                      data-video-id="AwDtTxBscYU"
-                      data-video-title="スキスキ絶頂症 covered by うたげ"
-                      aria-label="スキスキ絶頂症を再生"
-                    >
-                      <img
-                        src="https://i.ytimg.com/vi/AwDtTxBscYU/maxresdefault.jpg"
-                        alt="スキスキ絶頂症 covered by うたげ"
-                        loading="lazy"
-                        onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/AwDtTxBscYU/hqdefault.jpg';"
-                      />
-                    </button>
-                  </div>
-                  <div class="works-body">
-                    <h3>スキスキ絶頂症 covered by うたげ</h3>
-                    <p>Full</p>
-                  </div>
-                </article>
-              </div>
+              <div
+                class="works-scroll full-scroll"
+                id="homeFullWorks"
+                aria-live="polite"
+              ></div>
             </div>
           </div>
 
-          <div class="works-panel is-active reveal delay-b" data-works-panel="short">
+          <div
+            class="works-panel is-active reveal delay-b"
+            data-home-works-panel="short"
+          >
             <div class="works-scroll-wrap">
               <div class="works-controls">
-                <button class="works-nav-button" type="button" id="worksPrevButtonShort" aria-label="前の実績を見る">←</button>
-                <button class="works-nav-button" type="button" id="worksNextButtonShort" aria-label="次の実績を見る">→</button>
+                <button
+                  class="works-nav-button"
+                  type="button"
+                  id="homeShortPrev"
+                  aria-label="前のShort実績を見る"
+                >
+                  ←
+                </button>
+
+                <button
+                  class="works-nav-button"
+                  type="button"
+                  id="homeShortNext"
+                  aria-label="次のShort実績を見る"
+                >
+                  →
+                </button>
               </div>
 
-              <div class="works-scroll short-scroll" id="worksScrollShort">
-                <article class="works-card short-card">
-                  <a
-                    class="short-thumb-link"
-                    href="https://www.youtube.com/shorts/QmbpXXyG47c"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="♬【ラプラスショコラ】編集して歌ってみた。"
-                  >
-                    <img
-                      class="short-thumb-image"
-                      src="https://i.ytimg.com/vi/QmbpXXyG47c/maxresdefault.jpg"
-                      alt="♬【ラプラスショコラ】編集して歌ってみた。"
-                      loading="lazy"
-                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/QmbpXXyG47c/hqdefault.jpg';"
-                    />
-                    <span class="short-play-badge" aria-hidden="true"></span>
-                  </a>
-                  <div class="works-body">
-                    <h3>♬【ラプラスショコラ】編集して歌ってみた。</h3>
-                    <p>Short</p>
-                  </div>
-                </article>
-
-                <article class="works-card short-card">
-                  <a
-                    class="short-thumb-link"
-                    href="https://www.youtube.com/shorts/KdWQRyU9moA"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Short 実績 1"
-                  >
-                    <img
-                      class="short-thumb-image"
-                      src="https://i.ytimg.com/vi/KdWQRyU9moA/maxresdefault.jpg"
-                      alt="Short 実績 1"
-                      loading="lazy"
-                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/KdWQRyU9moA/hqdefault.jpg';"
-                    />
-                    <span class="short-play-badge" aria-hidden="true"></span>
-                  </a>
-                  <div class="works-body">
-                    <h3>♫【G4L/Giga】編集して歌ってみた。</h3>
-                    <p>Short</p>
-                  </div>
-                </article>
-
-                <article class="works-card short-card">
-                  <a
-                    class="short-thumb-link"
-                    href="https://www.youtube.com/shorts/E5cYXHNgqU8"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Short 実績 2"
-                  >
-                    <img
-                      class="short-thumb-image"
-                      src="https://i.ytimg.com/vi/E5cYXHNgqU8/maxresdefault.jpg"
-                      alt="Short 実績 2"
-                      loading="lazy"
-                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/E5cYXHNgqU8/hqdefault.jpg';"
-                    />
-                    <span class="short-play-badge" aria-hidden="true"></span>
-                  </a>
-                  <div class="works-body">
-                    <h3>プレイ(PLAY) / Giga 歌ってみた</h3>
-                    <p>Short</p>
-                  </div>
-                </article>
-
-                <article class="works-card short-card">
-                  <a
-                    class="short-thumb-link"
-                    href="https://www.youtube.com/shorts/t1uw-C0MCMc"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Short 実績 3"
-                  >
-                    <img
-                      class="short-thumb-image"
-                      src="https://i.ytimg.com/vi/t1uw-C0MCMc/maxresdefault.jpg"
-                      alt="Short 実績 3"
-                      loading="lazy"
-                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/t1uw-C0MCMc/hqdefault.jpg';"
-                    />
-                    <span class="short-play-badge" aria-hidden="true"></span>
-                  </a>
-                  <div class="works-body">
-                    <h3>【リクエスト】偽物人間40号 / ¿?shimon サビ歌ってみた</h3>
-                    <p>Short</p>
-                  </div>
-                </article>
-
-                <article class="works-card short-card">
-                  <a
-                    class="short-thumb-link"
-                    href="https://www.youtube.com/shorts/G1bXqKQeIz8"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Short 実績 4"
-                  >
-                    <img
-                      class="short-thumb-image"
-                      src="https://i.ytimg.com/vi/G1bXqKQeIz8/maxresdefault.jpg"
-                      alt="Short 実績 4"
-                      loading="lazy"
-                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/G1bXqKQeIz8/hqdefault.jpg';"
-                    />
-                    <span class="short-play-badge" aria-hidden="true"></span>
-                  </a>
-                  <div class="works-body">
-                    <h3>セレナーデ / なとり 歌ってみた</h3>
-                    <p>Short</p>
-                  </div>
-                </article>
-
-                <article class="works-card short-card">
-                  <a
-                    class="short-thumb-link"
-                    href="https://www.youtube.com/shorts/l88HAdX0ADE"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Short 実績 5"
-                  >
-                    <img
-                      class="short-thumb-image"
-                      src="https://i.ytimg.com/vi/l88HAdX0ADE/maxresdefault.jpg"
-                      alt="Short 実績 5"
-                      loading="lazy"
-                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/l88HAdX0ADE/hqdefault.jpg';"
-                    />
-                    <span class="short-play-badge" aria-hidden="true"></span>
-                  </a>
-                  <div class="works-body">
-                    <h3>LA･LA･LA LOVE SONG / 久保田利伸 サビ歌ってみた</h3>
-                    <p>Short</p>
-                  </div>
-                </article>
-
-                <article class="works-card short-card">
-                  <a
-                    class="short-thumb-link"
-                    href="https://www.youtube.com/shorts/1EVafrCgQZA"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Short 実績 6"
-                  >
-                    <img
-                      class="short-thumb-image"
-                      src="https://i.ytimg.com/vi/1EVafrCgQZA/maxresdefault.jpg"
-                      alt="Short 実績 6"
-                      loading="lazy"
-                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/1EVafrCgQZA/hqdefault.jpg';"
-                    />
-                    <span class="short-play-badge" aria-hidden="true"></span>
-                  </a>
-                  <div class="works-body">
-                    <h3>IRIS OUT / 米津玄師 サビ歌ってみた</h3>
-                    <p>Short</p>
-                  </div>
-                </article>
-
-                <article class="works-card short-card">
-                  <a
-                    class="short-thumb-link"
-                    href="https://www.youtube.com/shorts/iYz05eqiRFM"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Short 実績 7"
-                  >
-                    <img
-                      class="short-thumb-image"
-                      src="https://i.ytimg.com/vi/iYz05eqiRFM/maxresdefault.jpg"
-                      alt="Short 実績 7"
-                      loading="lazy"
-                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/iYz05eqiRFM/hqdefault.jpg';"
-                    />
-                    <span class="short-play-badge" aria-hidden="true"></span>
-                  </a>
-                  <div class="works-body">
-                    <h3>「プロポーズ／なとり」歌ってみた</h3>
-                    <p>Short</p>
-                  </div>
-                </article>
-
-                <article class="works-card short-card">
-                  <a
-                    class="short-thumb-link"
-                    href="https://www.youtube.com/shorts/scxmy883xIM"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Short 実績 8"
-                  >
-                    <img
-                      class="short-thumb-image"
-                      src="https://i.ytimg.com/vi/scxmy883xIM/maxresdefault.jpg"
-                      alt="Short 実績 8"
-                      loading="lazy"
-                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/scxmy883xIM/hqdefault.jpg';"
-                    />
-                    <span class="short-play-badge" aria-hidden="true"></span>
-                  </a>
-                  <div class="works-body">
-                    <h3>「革命道中 - On The Way／アイナ・ジ・エンド」歌ってみた</h3>
-                    <p>Short</p>
-                  </div>
-                </article>
-
-                <article class="works-card short-card">
-                  <a
-                    class="short-thumb-link"
-                    href="https://www.youtube.com/shorts/bc1O84fGR8U"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Short 実績 9"
-                  >
-                    <img
-                      class="short-thumb-image"
-                      src="https://i.ytimg.com/vi/bc1O84fGR8U/maxresdefault.jpg"
-                      alt="Short 実績 9"
-                      loading="lazy"
-                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/bc1O84fGR8U/hqdefault.jpg';"
-                    />
-                    <span class="short-play-badge" aria-hidden="true"></span>
-                  </a>
-                  <div class="works-body">
-                    <h3>「IRIS OUT」歌ってみた</h3>
-                    <p>Short</p>
-                  </div>
-                </article>
-
-                <article class="works-card short-card">
-                  <a
-                    class="short-thumb-link"
-                    href="https://www.youtube.com/shorts/DiM_eg4D44U"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Short 実績 10"
-                  >
-                    <img
-                      class="short-thumb-image"
-                      src="https://i.ytimg.com/vi/DiM_eg4D44U/maxresdefault.jpg"
-                      alt="Short 実績 10"
-                      loading="lazy"
-                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/DiM_eg4D44U/hqdefault.jpg';"
-                    />
-                    <span class="short-play-badge" aria-hidden="true"></span>
-                  </a>
-                  <div class="works-body">
-                    <h3>ワールドイズマインCPK!Remix 葬星むくろcover</h3>
-                    <p>Short</p>
-                  </div>
-                </article>
-
-                <article class="works-card short-card">
-                  <a
-                    class="short-thumb-link"
-                    href="https://www.youtube.com/shorts/49plVaZKlJ0"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Short 実績 11"
-                  >
-                    <img
-                      class="short-thumb-image"
-                      src="https://i.ytimg.com/vi/49plVaZKlJ0/maxresdefault.jpg"
-                      alt="Short 実績 11"
-                      loading="lazy"
-                      onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/49plVaZKlJ0/hqdefault.jpg';"
-                    />
-                    <span class="short-play-badge" aria-hidden="true"></span>
-                  </a>
-                  <div class="works-body">
-                    <h3>『 IRIS OUT 』歌ってみた 【葬星むくろ】</h3>
-                    <p>Short</p>
-                  </div>
-                </article>
-              </div>
+              <div
+                class="works-scroll short-scroll"
+                id="homeShortWorks"
+                aria-live="polite"
+              ></div>
             </div>
           </div>
 
           <div class="section-cta reveal delay-c">
-            <a class="button button-secondary" href="#contact">このような仕上がりを希望する</a>
+            <a
+              class="button button-secondary"
+              href="/works"
+            >
+              すべての実績を見る
+            </a>
+
+            <a
+              class="button button-secondary"
+              href="#contact"
+            >
+              このような仕上がりを希望する
+            </a>
           </div>
         </div>
       </section>
@@ -2718,118 +2403,6 @@
           }
         });
       }
-
-      const worksTabs = document.querySelectorAll("[data-works-tab]");
-      const worksPanels = document.querySelectorAll("[data-works-panel]");
-
-      worksTabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-          const target = tab.dataset.worksTab;
-
-          worksTabs.forEach((item) => {
-            item.classList.remove("is-active");
-            item.setAttribute("aria-selected", "false");
-          });
-
-          worksPanels.forEach((panel) => {
-            panel.classList.remove("is-active");
-          });
-
-          tab.classList.add("is-active");
-          tab.setAttribute("aria-selected", "true");
-
-          const activePanel = document.querySelector(
-            `[data-works-panel="${target}"]`
-          );
-
-          if (activePanel) {
-            activePanel.classList.add("is-active");
-          }
-        });
-      });
-
-      const setupFullVideoFacades = () => {
-        const buttons = document.querySelectorAll(".full-video-facade");
-
-        buttons.forEach((button) => {
-          button.addEventListener("click", () => {
-            const videoId = button.dataset.videoId;
-            const title = button.dataset.videoTitle || "YouTube動画";
-
-            if (!videoId) return;
-
-            const player = document.createElement("iframe");
-            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1`;
-            player.title = title;
-            player.allow =
-              "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-            player.allowFullscreen = true;
-
-            button.replaceWith(player);
-          });
-        });
-      };
-
-      setupFullVideoFacades();
-
-      const shuffleWorksCards = (scrollId) => {
-        const container = document.getElementById(scrollId);
-        if (!container) return;
-
-        const cards = Array.from(container.querySelectorAll(".works-card"));
-
-        for (let i = cards.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [cards[i], cards[j]] = [cards[j], cards[i]];
-        }
-
-        cards.forEach((card) => container.appendChild(card));
-      };
-
-      shuffleWorksCards("worksScrollFull");
-      shuffleWorksCards("worksScrollShort");
-
-      const setupScrollButtons = (scrollId, prevId, nextId) => {
-        const scrollElement = document.getElementById(scrollId);
-        const prevButton = document.getElementById(prevId);
-        const nextButton = document.getElementById(nextId);
-
-        if (!scrollElement || !prevButton || !nextButton) return;
-
-        const getScrollAmount = () => {
-          const firstCard = scrollElement.querySelector(".works-card");
-          if (!firstCard) return 520;
-
-          const cardWidth = firstCard.getBoundingClientRect().width;
-          return cardWidth + 16;
-        };
-
-        prevButton.addEventListener("click", () => {
-          scrollElement.scrollBy({
-            left: -getScrollAmount(),
-            behavior: "smooth",
-          });
-        });
-
-        nextButton.addEventListener("click", () => {
-          scrollElement.scrollBy({
-            left: getScrollAmount(),
-            behavior: "smooth",
-          });
-        });
-      };
-
-      setupScrollButtons(
-        "worksScrollFull",
-        "worksPrevButton",
-        "worksNextButton"
-      );
-
-      setupScrollButtons(
-        "worksScrollShort",
-        "worksPrevButtonShort",
-        "worksNextButtonShort"
-      );
 
       const R2_UPLOAD_API =
         "https://mix-upload-api.kemurina1011.workers.dev";
@@ -3775,6 +3348,12 @@
       };
 
       updateSubmitAvailability();
+    </script>
+
+    <script>
+      import { initHomeWorks } from "../scripts/homeWorks.js";
+
+      initHomeWorks();
     </script>
   </body>
 </html>
