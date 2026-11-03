@@ -8,6 +8,11 @@ import {
   getFeaturedDiscount,
 } from "../data/discounts.js";
 
+import {
+  getActiveServices,
+  getFeaturedService,
+} from "../data/services.js";
+
 
 /* =========================================================
    Constants
@@ -52,12 +57,11 @@ function normalizeIndex(
 
 
 /*
- * 無限循環カルーセル用。
+ * 無限循環カルーセル用
  *
- * activeIndexから見て、
- * 各カードが左・右の何番目かを計算。
+ * activeIndexから見て
+ * 各カードが左右何番目かを算出。
  *
- * 例：
  * -2 = 左奥
  * -1 = 左
  *  0 = 中央
@@ -92,13 +96,14 @@ function getCircularPosition(
       total;
   }
 
+
   /*
    * 偶数枚の場合、
-   * 真裏のカードが
-   * +2 / -2 のどちらにもなり得る。
+   * 真裏のカードは
+   * + / -どちらにも置ける。
    *
-   * 表示の安定性のため、
-   * 正方向を採用する。
+   * 表示を安定させるため
+   * 正方向へ統一。
    */
   if (
     total % 2 === 0 &&
@@ -114,8 +119,31 @@ function getCircularPosition(
 
 
 /* =========================================================
-   Value helpers
+   Kind helpers
    ========================================================= */
+
+function getKicker(kind) {
+  if (
+    kind === "pricing"
+  ) {
+    return "PRICE";
+  }
+
+  if (
+    kind === "discount"
+  ) {
+    return "DISCOUNT";
+  }
+
+  if (
+    kind === "service"
+  ) {
+    return "SERVICE";
+  }
+
+  return "";
+}
+
 
 function getItemValue(
   item,
@@ -138,17 +166,28 @@ function getItemValue(
     };
   }
 
-  return {
-    main:
-      item.amountLabel ||
-      `-¥${Number(
-        item.amount || 0
-      ).toLocaleString(
-        "ja-JP"
-      )}`,
 
-    suffix: "",
-  };
+  if (
+    kind === "discount"
+  ) {
+    return {
+      main:
+        item.amountLabel ||
+        `-¥${Number(
+          item.amount || 0
+        ).toLocaleString(
+          "ja-JP"
+        )}`,
+
+      suffix: "",
+    };
+  }
+
+
+  /*
+   * Serviceには価格表示なし
+   */
+  return null;
 }
 
 
@@ -167,11 +206,16 @@ function createRotaryCard(
       "rotary-card"
     );
 
+
   card.dataset.rotaryIndex =
     String(index);
 
   card.dataset.itemId =
     item.id;
+
+  card.dataset.rotaryKind =
+    kind;
+
 
   card.tabIndex =
     0;
@@ -187,12 +231,20 @@ function createRotaryCard(
   );
 
 
+  /* -------------------------
+     Top
+     ------------------------- */
+
   const top =
     createElement(
       "div",
       "rotary-card-top"
     );
 
+
+  /* -------------------------
+     Kicker
+     ------------------------- */
 
   const kicker =
     createElement(
@@ -201,10 +253,12 @@ function createRotaryCard(
     );
 
   kicker.textContent =
-    kind === "pricing"
-      ? "PRICE"
-      : "DISCOUNT";
+    getKicker(kind);
 
+
+  /* -------------------------
+     Title
+     ------------------------- */
 
   const title =
     createElement(
@@ -216,74 +270,6 @@ function createRotaryCard(
     item.title;
 
 
-  const value =
-    createElement(
-      "div",
-      "rotary-card-value"
-    );
-
-
-  const valueData =
-    getItemValue(
-      item,
-      kind
-    );
-
-
-  const valueMain =
-    createElement(
-      "span",
-      "rotary-card-value-main"
-    );
-
-  valueMain.textContent =
-    valueData.main;
-
-
-  const valueSuffix =
-    createElement(
-      "span",
-      "rotary-card-value-suffix"
-    );
-
-  valueSuffix.textContent =
-    valueData.suffix;
-
-
-  value.appendChild(
-    valueMain
-  );
-
-
-  if (
-    valueData.suffix
-  ) {
-    value.appendChild(
-      valueSuffix
-    );
-  }
-
-
-  const description =
-    createElement(
-      "p",
-      "rotary-card-description"
-    );
-
-  description.textContent =
-    item.description || "";
-
-
-  const note =
-    createElement(
-      "p",
-      "rotary-card-note"
-    );
-
-  note.textContent =
-    item.note || "";
-
-
   top.appendChild(
     kicker
   );
@@ -292,13 +278,87 @@ function createRotaryCard(
     title
   );
 
-  top.appendChild(
-    value
-  );
 
-  top.appendChild(
-    description
-  );
+  /* -------------------------
+     Price / Discount value
+     ------------------------- */
+
+  const valueData =
+    getItemValue(
+      item,
+      kind
+    );
+
+
+  if (
+    valueData
+  ) {
+    const value =
+      createElement(
+        "div",
+        "rotary-card-value"
+      );
+
+
+    const valueMain =
+      createElement(
+        "span",
+        "rotary-card-value-main"
+      );
+
+    valueMain.textContent =
+      valueData.main;
+
+
+    value.appendChild(
+      valueMain
+    );
+
+
+    if (
+      valueData.suffix
+    ) {
+      const valueSuffix =
+        createElement(
+          "span",
+          "rotary-card-value-suffix"
+        );
+
+      valueSuffix.textContent =
+        valueData.suffix;
+
+      value.appendChild(
+        valueSuffix
+      );
+    }
+
+
+    top.appendChild(
+      value
+    );
+  }
+
+
+  /* -------------------------
+     Description
+     ------------------------- */
+
+  if (
+    item.description
+  ) {
+    const description =
+      createElement(
+        "p",
+        "rotary-card-description"
+      );
+
+    description.textContent =
+      item.description;
+
+    top.appendChild(
+      description
+    );
+  }
 
 
   card.appendChild(
@@ -306,9 +366,22 @@ function createRotaryCard(
   );
 
 
+  /* -------------------------
+     Note
+     ------------------------- */
+
   if (
     item.note
   ) {
+    const note =
+      createElement(
+        "p",
+        "rotary-card-note"
+      );
+
+    note.textContent =
+      item.note;
+
     card.appendChild(
       note
     );
@@ -333,6 +406,7 @@ function createDot(
       "rotary-dot"
     );
 
+
   dot.type =
     "button";
 
@@ -343,6 +417,7 @@ function createDot(
     "aria-label",
     `${item.title}を表示`
   );
+
 
   return dot;
 }
@@ -404,6 +479,10 @@ function buildCarouselStructure(
     "";
 
 
+  /* -------------------------
+     Header
+     ------------------------- */
+
   const header =
     createElement(
       "div",
@@ -446,6 +525,10 @@ function buildCarouselStructure(
     description
   );
 
+
+  /* -------------------------
+     Controls
+     ------------------------- */
 
   const controls =
     createElement(
@@ -514,11 +597,16 @@ function buildCarouselStructure(
   );
 
 
+  /* -------------------------
+     Stage
+     ------------------------- */
+
   const stage =
     createElement(
       "div",
       "rotary-stage"
     );
+
 
   stage.tabIndex =
     0;
@@ -562,6 +650,10 @@ function buildCarouselStructure(
   );
 
 
+  /* -------------------------
+     Dots
+     ------------------------- */
+
   const indicator =
     createElement(
       "div",
@@ -584,6 +676,10 @@ function buildCarouselStructure(
   );
 
 
+  /* -------------------------
+     Hint
+     ------------------------- */
+
   const hint =
     createElement(
       "p",
@@ -593,6 +689,10 @@ function buildCarouselStructure(
   hint.textContent =
     "左右にドラッグ・スワイプ、または矢印で切り替え";
 
+
+  /* -------------------------
+     Append
+     ------------------------- */
 
   root.appendChild(
     header
@@ -611,6 +711,10 @@ function buildCarouselStructure(
   );
 
 
+  /*
+   * 支払方法は
+   * Priceだけ表示
+   */
   if (
     config.kind ===
     "pricing"
@@ -624,14 +728,17 @@ function buildCarouselStructure(
   return {
     stage,
     track,
+
     previousButton,
     nextButton,
+
     cards:
       Array.from(
         track.querySelectorAll(
           ".rotary-card"
         )
       ),
+
     dots:
       Array.from(
         indicator.querySelectorAll(
@@ -656,7 +763,7 @@ function createRotaryCarousel(
     !Array.isArray(items) ||
     items.length === 0
   ) {
-    return;
+    return null;
   }
 
 
@@ -677,20 +784,26 @@ function createRotaryCarousel(
   } = structure;
 
 
-  let activeIndex = 0;
-
-  let pointerId = null;
-
-  let pointerStartX = 0;
-
-  let pointerCurrentX = 0;
-
-  let hasDragged = false;
+  let activeIndex =
+    0;
 
 
-  /* =========================================
+  let pointerId =
+    null;
+
+  let pointerStartX =
+    0;
+
+  let pointerCurrentX =
+    0;
+
+  let hasDragged =
+    false;
+
+
+  /* =======================================================
      Featured initial card
-     ========================================= */
+     ======================================================= */
 
   if (
     config.featuredId
@@ -702,6 +815,7 @@ function createRotaryCarousel(
           config.featuredId
       );
 
+
     if (
       featuredIndex >= 0
     ) {
@@ -711,9 +825,9 @@ function createRotaryCarousel(
   }
 
 
-  /* =========================================
-     Render positions
-     ========================================= */
+  /* =======================================================
+     Position update
+     ======================================================= */
 
   const update =
     () => {
@@ -768,8 +882,8 @@ function createRotaryCarousel(
 
 
           /*
-           * 中央以外もクリック可能だが、
-           * Tab移動は中央カードだけに限定。
+           * Tab操作は
+           * 中央カードだけ。
            */
           card.tabIndex =
             isActive
@@ -788,10 +902,12 @@ function createRotaryCarousel(
             index ===
             activeIndex;
 
+
           dot.classList.toggle(
             "is-active",
             isActive
           );
+
 
           dot.setAttribute(
             "aria-current",
@@ -804,9 +920,9 @@ function createRotaryCarousel(
     };
 
 
-  /* =========================================
+  /* =======================================================
      Navigation
-     ========================================= */
+     ======================================================= */
 
   const goTo =
     (
@@ -819,6 +935,7 @@ function createRotaryCarousel(
           items.length
         );
 
+
       update();
 
 
@@ -830,7 +947,8 @@ function createRotaryCarousel(
           activeIndex
         ]?.focus(
           {
-            preventScroll: true,
+            preventScroll:
+              true,
           }
         );
       }
@@ -853,9 +971,9 @@ function createRotaryCarousel(
     };
 
 
-  /* =========================================
+  /* =======================================================
      Arrow buttons
-     ========================================= */
+     ======================================================= */
 
   previousButton
     .addEventListener(
@@ -871,9 +989,9 @@ function createRotaryCarousel(
     );
 
 
-  /* =========================================
+  /* =======================================================
      Card click
-     ========================================= */
+     ======================================================= */
 
   cards.forEach(
     (
@@ -889,6 +1007,7 @@ function createRotaryCarousel(
             return;
           }
 
+
           if (
             index ===
             activeIndex
@@ -896,16 +1015,19 @@ function createRotaryCarousel(
             return;
           }
 
-          goTo(index);
+
+          goTo(
+            index
+          );
         }
       );
     }
   );
 
 
-  /* =========================================
+  /* =======================================================
      Dots
-     ========================================= */
+     ======================================================= */
 
   dots.forEach(
     (
@@ -915,16 +1037,18 @@ function createRotaryCarousel(
       dot.addEventListener(
         "click",
         () => {
-          goTo(index);
+          goTo(
+            index
+          );
         }
       );
     }
   );
 
 
-  /* =========================================
+  /* =======================================================
      Keyboard
-     ========================================= */
+     ======================================================= */
 
   stage.addEventListener(
     "keydown",
@@ -936,6 +1060,8 @@ function createRotaryCarousel(
         event.preventDefault();
 
         previous();
+
+        return;
       }
 
 
@@ -967,6 +1093,7 @@ function createRotaryCarousel(
           ) {
             event.preventDefault();
 
+
             goTo(
               index,
               {
@@ -980,15 +1107,15 @@ function createRotaryCarousel(
   );
 
 
-  /* =========================================
+  /* =======================================================
      Pointer drag / swipe
-     ========================================= */
+     ======================================================= */
 
   stage.addEventListener(
     "pointerdown",
     (event) => {
       /*
-       * マウスの右クリックなどは対象外
+       * マウス右クリック等は対象外
        */
       if (
         event.pointerType ===
@@ -1003,11 +1130,14 @@ function createRotaryCarousel(
       pointerId =
         event.pointerId;
 
+
       pointerStartX =
         event.clientX;
 
+
       pointerCurrentX =
         event.clientX;
+
 
       hasDragged =
         false;
@@ -1018,9 +1148,16 @@ function createRotaryCarousel(
       );
 
 
-      stage.setPointerCapture(
-        pointerId
-      );
+      try {
+        stage.setPointerCapture(
+          pointerId
+        );
+      } catch {
+        /*
+         * Pointer Capture非対応環境でも
+         * カルーセル自体は利用可能。
+         */
+      }
     }
   );
 
@@ -1085,14 +1222,20 @@ function createRotaryCarousel(
       );
 
 
-      if (
-        stage.hasPointerCapture(
-          pointerId
-        )
-      ) {
-        stage.releasePointerCapture(
-          pointerId
-        );
+      try {
+        if (
+          stage.hasPointerCapture(
+            pointerId
+          )
+        ) {
+          stage.releasePointerCapture(
+            pointerId
+          );
+        }
+      } catch {
+        /*
+         * Pointer Capture非対応環境用
+         */
       }
 
 
@@ -1100,6 +1243,10 @@ function createRotaryCarousel(
         null;
 
 
+      /*
+       * 一定距離以上動いた場合だけ
+       * カードを切り替える。
+       */
       if (
         Math.abs(
           distance
@@ -1107,7 +1254,7 @@ function createRotaryCarousel(
         DRAG_THRESHOLD
       ) {
         /*
-         * 左へスワイプ
+         * 左へドラッグ
          * → 次
          */
         if (
@@ -1116,8 +1263,9 @@ function createRotaryCarousel(
           next();
         }
 
+
         /*
-         * 右へスワイプ
+         * 右へドラッグ
          * → 前
          */
         if (
@@ -1129,15 +1277,16 @@ function createRotaryCarousel(
 
 
       /*
-       * pointerup直後に発生するclickで
-       * カードが再選択されないよう
-       * 1フレーム後に解除。
+       * pointerup直後に発生する
+       * clickイベントを誤判定しないため
+       * 少し遅れて解除。
        */
-      requestAnimationFrame(
+      window.setTimeout(
         () => {
           hasDragged =
             false;
-        }
+        },
+        0
       );
     };
 
@@ -1154,9 +1303,9 @@ function createRotaryCarousel(
   );
 
 
-  /* =========================================
+  /* =======================================================
      Initial render
-     ========================================= */
+     ======================================================= */
 
   update();
 
@@ -1270,6 +1419,59 @@ function initDiscountCarousel() {
 
 
 /* =========================================================
+   Services
+   ========================================================= */
+
+function initServiceCarousel() {
+  const root =
+    document.getElementById(
+      "serviceRotary"
+    );
+
+
+  /*
+   * Phase 7-3でindex.astroへ
+   * serviceRotaryを追加するまでは
+   * 何もしない。
+   */
+  if (!root) {
+    return;
+  }
+
+
+  const items =
+    getActiveServices();
+
+
+  const featured =
+    getFeaturedService();
+
+
+  createRotaryCarousel(
+    root,
+    items,
+    {
+      kind:
+        "service",
+
+      heading:
+        "サービス内容",
+
+      description:
+        "歌ってみた制作に必要な各工程を、楽曲と歌唱に合わせて丁寧に仕上げます。",
+
+      ariaLabel:
+        "MIXサービス内容",
+
+      featuredId:
+        featured?.id ||
+        null,
+    }
+  );
+}
+
+
+/* =========================================================
    Public initializer
    ========================================================= */
 
@@ -1277,4 +1479,6 @@ export function initRotaryCarousels() {
   initPricingCarousel();
 
   initDiscountCarousel();
+
+  initServiceCarousel();
 }
