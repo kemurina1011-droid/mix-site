@@ -1,5 +1,6 @@
 ---
 import "../styles/works.css";
+import "../styles/rotaryCarousel.css";
 ---
 
 <html lang="ja">
@@ -1609,6 +1610,15 @@ import "../styles/works.css";
           transform: none !important;
         }
       }
+
+      /* Rotary payment chips: keep compact even with legacy payment-chip styles */
+      .rotary-section .payment-chip {
+        min-height: 36px;
+        padding: 0 13px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+      }
     </style>
 
     <script
@@ -1755,60 +1765,11 @@ import "../styles/works.css";
 
       <section id="discount">
         <div class="container">
-          <div class="section-head reveal delay-a">
-            <h2 class="section-title">割引</h2>
-            <p class="section-lead">
-              ご依頼内容に応じて、各種割引をご利用いただけます。
-              お見積り時に該当するものがあれば、あらかじめお申し付けください。
-            </p>
-          </div>
-
-          <div class="discount-grid">
-            <article class="discount-card reveal delay-a">
-              <span class="discount-name">納期お任せ割引</span>
-              <span class="discount-value">-¥500</span>
-              <details class="card-detail">
-                <summary>条件を見る</summary>
-                <p>納期をこちらに一任いただける場合に適用いたします。</p>
-              </details>
-            </article>
-
-            <article class="discount-card reveal delay-a">
-              <span class="discount-name">銀行振込割引</span>
-              <span class="discount-value">-¥500</span>
-              <details class="card-detail">
-                <summary>条件を見る</summary>
-                <p>お支払い方法を銀行振込でご指定いただく場合に適用いたします。</p>
-              </details>
-            </article>
-
-            <article class="discount-card reveal delay-b">
-              <span class="discount-name">補正不要割引</span>
-              <span class="discount-value">-¥1,000</span>
-              <details class="card-detail">
-                <summary>条件を見る</summary>
-                <p>ピッチ補正・タイミング補正が不要な場合に適用いたします。</p>
-              </details>
-            </article>
-
-            <article class="discount-card reveal delay-b">
-              <span class="discount-name">継続依頼割引</span>
-              <span class="discount-value">-¥1,000</span>
-              <details class="card-detail">
-                <summary>条件を見る</summary>
-                <p>3回目ごとのご依頼時に適用いたします。</p>
-              </details>
-            </article>
-
-            <article class="discount-card reveal delay-c">
-              <span class="discount-name">ご友人紹介割引</span>
-              <span class="discount-value">-¥1,000</span>
-              <details class="card-detail">
-                <summary>条件を見る</summary>
-                <p>ご紹介いただいたご友人様が実際にご依頼された場合に適用いたします。</p>
-              </details>
-            </article>
-          </div>
+          <div
+            id="discountRotary"
+            class="rotary-section reveal delay-a"
+            aria-live="polite"
+          ></div>
 
           <p class="discount-footer-link reveal delay-c">
             詳しい注意点・お願い事項は
@@ -1820,66 +1781,27 @@ import "../styles/works.css";
 
       <section id="price">
         <div class="container">
-          <div class="section-head reveal delay-a">
-            <h2 class="section-title">料金</h2>
-            <p class="section-lead">
-              見積り時に内容を確認のうえご案内します。基本修正の範囲であれば、追加料金なしで対応します。
-            </p>
-          </div>
+          <div
+            id="pricingRotary"
+            class="rotary-section reveal delay-a"
+            aria-live="polite"
+          ></div>
 
-          <div class="price-highlight reveal delay-a">
+          <div class="price-highlight reveal delay-b" style="margin-top: 22px;">
             <strong>基本修正以外での追加料金なし / ハモリ生成込み</strong>
-            <p>基本内容の範囲であれば追加料金なし。ハモリ生成も含めてご案内しています。</p>
-          </div>
-
-          <div class="price-stack" style="margin-top: 16px;">
-            <div class="price-card reveal delay-a">
-              <div class="price-label">初回依頼</div>
-              <div class="price-value">¥4,500</div>
-              <div class="price-subtext">無料修正は1回まで</div>
-            </div>
-
-            <div class="price-card reveal delay-b">
-              <div class="price-label">Short</div>
-              <div class="price-value">¥2,500</div>
-            </div>
-
-            <div class="price-card reveal delay-c">
-              <div class="price-label">ワンコーラス</div>
-              <div class="price-value">¥3,500</div>
-            </div>
-
-            <div class="price-card reveal delay-c">
-              <div class="price-label">フルコーラス</div>
-              <div class="price-value">¥5,000</div>
-            </div>
-          </div>
-
-          <div class="payment-card reveal delay-c" style="margin-top: 18px;">
-            <h3>決済方法</h3>
             <p>
-              下記のお支払い方法に対応しています。可能であれば、
-              <strong>銀行振込 / Apple Pay / Google Pay / 各種クレジットカード</strong>
-              を優先してご利用いただけますと助かります。
+              基本内容の範囲であれば追加料金なし。ハモリ生成も含めてご案内しています。
             </p>
-
-            <div class="payment-list">
-              <span class="payment-chip">銀行振込</span>
-              <span class="payment-chip">Apple Pay</span>
-              <span class="payment-chip">Google Pay</span>
-              <span class="payment-chip">各種クレジットカード</span>
-              <span class="payment-chip">PayPay</span>
-            </div>
-
-            <details class="inline-disclosure">
-              <summary>決済方法の補足</summary>
-              <p class="payment-note">
-                ※ PayPayでのお支払いにも対応しております。<br />
-                ※ 今後、PayPay決済については決済手数料として
-                <strong>5％</strong>を頂く可能性があります。適用時は事前にご案内いたします。
-              </p>
-            </details>
           </div>
+
+          <details class="inline-disclosure reveal delay-c" style="margin-top: 18px;">
+            <summary>決済方法の補足</summary>
+            <p class="payment-note">
+              ※ PayPayでのお支払いにも対応しております。<br />
+              ※ 今後、PayPay決済については決済手数料として
+              <strong>5％</strong>を頂く可能性があります。適用時は事前にご案内いたします。
+            </p>
+          </details>
 
           <div class="section-cta reveal delay-c">
             <a class="button button-primary" href="#contact">料金を確認して依頼する</a>
@@ -3352,8 +3274,10 @@ import "../styles/works.css";
 
     <script>
       import { initHomeWorks } from "../scripts/homeWorks.js";
+      import { initRotaryCarousels } from "../scripts/rotaryCarousel.js";
 
       initHomeWorks();
+      initRotaryCarousels();
     </script>
   </body>
 </html>
