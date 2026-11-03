@@ -687,7 +687,7 @@
       }
 
       .works-scroll.full-scroll {
-        grid-auto-columns: min(420px, 85vw);
+        grid-auto-columns: min(520px, 88vw);
       }
 
       .works-scroll.short-scroll {
@@ -736,19 +736,78 @@
       .works-video {
         position: relative;
         width: 100%;
-        background: rgba(255, 255, 255, 0.03);
+        background: #000;
+        overflow: hidden;
       }
 
       .works-video.full-video {
-        padding-top: 56.25%;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        padding: 0;
       }
 
       .works-video iframe {
         position: absolute;
         inset: 0;
+        display: block;
         width: 100%;
         height: 100%;
         border: 0;
+      }
+
+      .full-video-facade {
+        position: absolute;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        appearance: none;
+        background: #000;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .full-video-facade img {
+        position: absolute;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        background: #000;
+      }
+
+      .full-video-facade::after {
+        content: "";
+        position: absolute;
+        z-index: 2;
+        left: 50%;
+        top: 50%;
+        width: 74px;
+        height: 52px;
+        transform: translate(-50%, -50%);
+        border-radius: 18px;
+        background: rgba(255, 0, 0, 0.94);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+      }
+
+      .full-video-facade::before {
+        content: "";
+        position: absolute;
+        z-index: 3;
+        left: calc(50% + 3px);
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 17px solid #fff;
       }
 
       .works-body {
@@ -758,6 +817,7 @@
       .works-body h3 {
         margin: 0 0 8px;
         font-size: 18px;
+        line-height: 1.5;
       }
 
       .works-body p {
@@ -1851,13 +1911,43 @@
               <div class="works-scroll full-scroll" id="worksScrollFull">
                 <article class="works-card">
                   <div class="works-video full-video">
-                    <iframe
-                      src="https://www.youtube.com/embed/mp7CqTKDtzM"
-                      title="Full MIX実績 1"
-                      loading="lazy"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen
-                    ></iframe>
+                    <button
+                      class="full-video-facade"
+                      type="button"
+                      data-video-id="eid5V3nHLPo"
+                      data-video-title="キュートアグレッション / キタニタツヤ (cover) 【歌ってみた】"
+                      aria-label="キュートアグレッション / キタニタツヤを再生"
+                    >
+                      <img
+                        src="https://i.ytimg.com/vi/eid5V3nHLPo/maxresdefault.jpg"
+                        alt="キュートアグレッション / キタニタツヤ (cover) 【歌ってみた】"
+                        loading="lazy"
+                        onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/eid5V3nHLPo/hqdefault.jpg';"
+                      />
+                    </button>
+                  </div>
+                  <div class="works-body">
+                    <h3>キュートアグレッション / キタニタツヤ (cover) 【歌ってみた】</h3>
+                    <p>Full</p>
+                  </div>
+                </article>
+
+                <article class="works-card">
+                  <div class="works-video full-video">
+                    <button
+                      class="full-video-facade"
+                      type="button"
+                      data-video-id="mp7CqTKDtzM"
+                      data-video-title="アイリッド / ぬゆり (Cover) 【歌ってみた】"
+                      aria-label="アイリッド / ぬゆりを再生"
+                    >
+                      <img
+                        src="https://i.ytimg.com/vi/mp7CqTKDtzM/maxresdefault.jpg"
+                        alt="アイリッド / ぬゆり (Cover) 【歌ってみた】"
+                        loading="lazy"
+                        onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/mp7CqTKDtzM/hqdefault.jpg';"
+                      />
+                    </button>
                   </div>
                   <div class="works-body">
                     <h3>アイリッド / ぬゆり (Cover) 【歌ってみた】</h3>
@@ -1867,29 +1957,43 @@
 
                 <article class="works-card">
                   <div class="works-video full-video">
-                    <iframe
-                      src="https://www.youtube.com/embed/QlIenrDbxn4"
-                      title="Full MIX実績 2"
-                      loading="lazy"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen
-                    ></iframe>
+                    <button
+                      class="full-video-facade"
+                      type="button"
+                      data-video-id="QlIenrDbxn4"
+                      data-video-title="【歌ってみた】シャンティ / 緑月 Cover 【新人Vtuber】"
+                      aria-label="シャンティ / 緑月 Coverを再生"
+                    >
+                      <img
+                        src="https://i.ytimg.com/vi/QlIenrDbxn4/maxresdefault.jpg"
+                        alt="【歌ってみた】シャンティ / 緑月 Cover 【新人Vtuber】"
+                        loading="lazy"
+                        onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/QlIenrDbxn4/hqdefault.jpg';"
+                      />
+                    </button>
                   </div>
                   <div class="works-body">
-                    <h3>【 歌ってみた 】シャンティ / 緑月 Cover 【 新人Vtuber 】</h3>
+                    <h3>【歌ってみた】シャンティ / 緑月 Cover 【新人Vtuber】</h3>
                     <p>Full</p>
                   </div>
                 </article>
 
                 <article class="works-card">
                   <div class="works-video full-video">
-                    <iframe
-                      src="https://www.youtube.com/embed/nXQ-MYNGZ_Q"
-                      title="Full MIX実績 3"
-                      loading="lazy"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen
-                    ></iframe>
+                    <button
+                      class="full-video-facade"
+                      type="button"
+                      data-video-id="nXQ-MYNGZ_Q"
+                      data-video-title="月のワルツ 歌ってみた【砂つみの】"
+                      aria-label="月のワルツを再生"
+                    >
+                      <img
+                        src="https://i.ytimg.com/vi/nXQ-MYNGZ_Q/maxresdefault.jpg"
+                        alt="月のワルツ 歌ってみた【砂つみの】"
+                        loading="lazy"
+                        onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/nXQ-MYNGZ_Q/hqdefault.jpg';"
+                      />
+                    </button>
                   </div>
                   <div class="works-body">
                     <h3>月のワルツ 歌ってみた【砂つみの】</h3>
@@ -1899,13 +2003,20 @@
 
                 <article class="works-card">
                   <div class="works-video full-video">
-                    <iframe
-                      src="https://www.youtube.com/embed/AwDtTxBscYU"
-                      title="Full MIX実績 4"
-                      loading="lazy"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen
-                    ></iframe>
+                    <button
+                      class="full-video-facade"
+                      type="button"
+                      data-video-id="AwDtTxBscYU"
+                      data-video-title="スキスキ絶頂症 covered by うたげ"
+                      aria-label="スキスキ絶頂症を再生"
+                    >
+                      <img
+                        src="https://i.ytimg.com/vi/AwDtTxBscYU/maxresdefault.jpg"
+                        alt="スキスキ絶頂症 covered by うたげ"
+                        loading="lazy"
+                        onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/AwDtTxBscYU/hqdefault.jpg';"
+                      />
+                    </button>
                   </div>
                   <div class="works-body">
                     <h3>スキスキ絶頂症 covered by うたげ</h3>
@@ -2199,10 +2310,8 @@
                     <p>Short</p>
                   </div>
                 </article>
-
               </div>
-              </div>
-            </details>
+            </div>
           </div>
 
           <div class="section-cta reveal delay-c">
@@ -2629,12 +2738,39 @@
           tab.classList.add("is-active");
           tab.setAttribute("aria-selected", "true");
 
-          const activePanel = document.querySelector(`[data-works-panel="${target}"]`);
+          const activePanel = document.querySelector(
+            `[data-works-panel="${target}"]`
+          );
+
           if (activePanel) {
             activePanel.classList.add("is-active");
           }
         });
       });
+
+      const setupFullVideoFacades = () => {
+        const buttons = document.querySelectorAll(".full-video-facade");
+
+        buttons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const videoId = button.dataset.videoId;
+            const title = button.dataset.videoTitle || "YouTube動画";
+
+            if (!videoId) return;
+
+            const player = document.createElement("iframe");
+            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1`;
+            player.title = title;
+            player.allow =
+              "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+            player.allowFullscreen = true;
+
+            button.replaceWith(player);
+          });
+        });
+      };
+
+      setupFullVideoFacades();
 
       const shuffleWorksCards = (scrollId) => {
         const container = document.getElementById(scrollId);
@@ -2662,7 +2798,8 @@
 
         const getScrollAmount = () => {
           const firstCard = scrollElement.querySelector(".works-card");
-          if (!firstCard) return 420;
+          if (!firstCard) return 520;
+
           const cardWidth = firstCard.getBoundingClientRect().width;
           return cardWidth + 16;
         };
@@ -2682,8 +2819,17 @@
         });
       };
 
-      setupScrollButtons("worksScrollFull", "worksPrevButton", "worksNextButton");
-      setupScrollButtons("worksScrollShort", "worksPrevButtonShort", "worksNextButtonShort");
+      setupScrollButtons(
+        "worksScrollFull",
+        "worksPrevButton",
+        "worksNextButton"
+      );
+
+      setupScrollButtons(
+        "worksScrollShort",
+        "worksPrevButtonShort",
+        "worksNextButtonShort"
+      );
 
       const R2_UPLOAD_API =
         "https://mix-upload-api.kemurina1011.workers.dev";
