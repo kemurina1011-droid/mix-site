@@ -1714,52 +1714,36 @@ import "../styles/rotaryCarousel.css";
 
       <section id="service">
         <div class="container">
-          <div class="section-head reveal delay-a">
-            <h2 class="section-title">サービス</h2>
-            <p class="section-lead">
-              歌をしっかり前に出しつつ、オケとの自然な馴染みも両立したMIXを目指しています。
-            </p>
-          </div>
+          <div
+            id="serviceRotary"
+            class="rotary-section reveal delay-a"
+            aria-live="polite"
+          ></div>
 
-          <div class="recommend-line reveal delay-a" style="margin-bottom: 16px;">
-            <span class="recommend-label">こんな方におすすめ</span>
-            <div class="recommend-chips">
-              <span class="recommend-chip">歌をしっかり前に出したい</span>
-              <span class="recommend-chip">自然な補正感を重視したい</span>
-              <span class="recommend-chip">中低域の厚みを整えたい</span>
+          <details
+            class="inline-disclosure reveal delay-b"
+            style="margin-top: 20px;"
+          >
+            <summary>
+              修正について
+            </summary>
+
+            <div style="margin-top: 12px;">
+              <ul>
+                <li>
+                  無料修正は基本2回まで
+                </li>
+
+                <li>
+                  初回依頼は1回まで
+                </li>
+
+                <li>
+                  基本修正以外の大幅な変更は別途ご相談
+                </li>
+              </ul>
             </div>
-          </div>
-
-          <div class="grid-3">
-            <article class="card reveal delay-a">
-              <h3>対応内容</h3>
-              <ul>
-                <li>ピッチ補正</li>
-                <li>タイミング補正</li>
-                <li>MIX / マスタリング</li>
-                <li>ノイズ除去</li>
-                <li>ハモリ生成</li>
-              </ul>
-            </article>
-
-            <article class="card reveal delay-b">
-              <h3>方向性</h3>
-              <ul>
-                <li>歌を前に出すバランス調整</li>
-                <li>オケに自然に馴染ませる</li>
-                <li>聞きやすさを意識した仕上がり</li>
-              </ul>
-            </article>
-
-            <article class="card reveal delay-c">
-              <h3>修正</h3>
-              <ul>
-                <li>無料修正 2回まで</li>
-                <li>初回依頼は 1回まで</li>
-                <li>基本修正以外は別途ご相談</li>
-              </ul>
-            </article>
-          </div>
+          </details>
         </div>
       </section>
 
@@ -1793,15 +1777,6 @@ import "../styles/rotaryCarousel.css";
               基本内容の範囲であれば追加料金なし。ハモリ生成も含めてご案内しています。
             </p>
           </div>
-
-          <details class="inline-disclosure reveal delay-c" style="margin-top: 18px;">
-            <summary>決済方法の補足</summary>
-            <p class="payment-note">
-              ※ PayPayでのお支払いにも対応しております。<br />
-              ※ 今後、PayPay決済については決済手数料として
-              <strong>5％</strong>を頂く可能性があります。適用時は事前にご案内いたします。
-            </p>
-          </details>
 
           <div class="section-cta reveal delay-c">
             <a class="button button-primary" href="#contact">料金を確認して依頼する</a>

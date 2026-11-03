@@ -1,16 +1,16 @@
 /* =========================================================
    Kemurina_BGM
-   Rotary Carousel v2
+   Rotary Carousel v2.1
 
    使用箇所
    - Price
    - Discount
-   - Service（Phase 7で接続）
+   - Service
 
-   v2変更点
-   - 中央カードの3D transformを2D transformへ変更
-   - 中央カードの文字描画をシャープ化
-   - 左右カードのみ3D変形
+   変更点
+   - 3D配置ロジックは維持
+   - カード内の文字サイズを全体的に拡大
+   - PC / タブレット / スマホで可読性を改善
    ========================================================= */
 
 
@@ -20,9 +20,7 @@
 
 .rotary-section {
   position: relative;
-
   width: 100%;
-
   overflow: hidden;
 }
 
@@ -37,8 +35,7 @@
   align-items: flex-end;
 
   gap: 20px;
-
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .rotary-header-copy {
@@ -46,50 +43,37 @@
 }
 
 .rotary-heading {
-  margin: 0 0 8px;
+  margin: 0 0 10px;
 
-  color: var(
-    --text,
-    #f3f3f4
-  );
+  color: var(--text, #f3f3f4);
 
   font-size:
     clamp(
-      24px,
-      3vw,
-      34px
+      30px,
+      4vw,
+      42px
     );
 
-  line-height: 1.25;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
 
-  -webkit-font-smoothing:
-    antialiased;
-
-  -moz-osx-font-smoothing:
-    grayscale;
-
-  text-rendering:
-    geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .rotary-description {
-  max-width: 680px;
+  max-width: 760px;
 
   margin: 0;
 
-  color: var(
-    --muted,
-    #b8b8be
-  );
+  color: var(--muted, #b8b8be);
 
-  font-size: 14px;
-  line-height: 1.8;
+  font-size: 16px;
+  line-height: 1.85;
 
-  -webkit-font-smoothing:
-    antialiased;
-
-  -moz-osx-font-smoothing:
-    grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -111,42 +95,24 @@
   align-items: center;
   justify-content: center;
 
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
 
   padding: 0;
 
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.1
-    );
-
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 999px;
 
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.045
-    );
-
-  color: var(
-    --text,
-    #f3f3f4
-  );
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text, #f3f3f4);
 
   font: inherit;
-  font-size: 20px;
+  font-size: 21px;
 
   cursor: pointer;
 
-  backdrop-filter:
-    blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
   transition:
     transform 0.2s ease,
@@ -156,24 +122,10 @@
 }
 
 .rotary-control:hover {
-  transform:
-    translateY(-2px);
+  transform: translateY(-2px);
 
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.09
-    );
-
-  border-color:
-    rgba(
-      255,
-      255,
-      255,
-      0.18
-    );
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 .rotary-control:active {
@@ -183,23 +135,13 @@
 }
 
 .rotary-control:focus-visible {
-  outline:
-    2px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.8
-    );
-
+  outline: 2px solid rgba(255, 255, 255, 0.8);
   outline-offset: 3px;
 }
 
 .rotary-control:disabled {
   opacity: 0.35;
-
   cursor: default;
-
   transform: none;
 }
 
@@ -212,20 +154,16 @@
   position: relative;
 
   width: 100%;
-
-  min-height: 430px;
+  min-height: 440px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   perspective: 1200px;
-
-  perspective-origin:
-    50% 50%;
+  perspective-origin: 50% 50%;
 
   user-select: none;
-
   touch-action: pan-y;
 
   cursor: grab;
@@ -244,13 +182,10 @@
   position: relative;
 
   width: 100%;
-  height: 390px;
+  height: 400px;
 
-  transform-style:
-    preserve-3d;
-
-  -webkit-transform-style:
-    preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
 
 
@@ -266,69 +201,46 @@
 
   width:
     min(
-      360px,
-      78vw
+      380px,
+      80vw
     );
 
-  min-height: 310px;
+  min-height: 320px;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
-  padding: 28px;
+  padding: 30px;
 
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.08
-    );
-
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 30px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(
-        255,
-        255,
-        255,
-        0.085
-      ),
-      rgba(
-        255,
-        255,
-        255,
-        0.025
-      )
+      rgba(255, 255, 255, 0.085),
+      rgba(255, 255, 255, 0.025)
     );
 
   box-shadow:
     0 24px 60px
-    rgba(
-      0,
-      0,
-      0,
-      0.24
-    );
+    rgba(0, 0, 0, 0.24);
 
-  backdrop-filter:
-    blur(18px);
-
-  -webkit-backdrop-filter:
-    blur(18px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 
   transform:
-    translate(
+    translate3d(
       -50%,
-      -50%
+      -50%,
+      0
     );
 
-  transform-origin:
-    center center;
+  transform-origin: center center;
+
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 
   opacity: 1;
 
@@ -339,17 +251,8 @@
     opacity,
     filter;
 
-  /*
-   * 文字描画改善
-   */
-  -webkit-font-smoothing:
-    antialiased;
-
-  -moz-osx-font-smoothing:
-    grayscale;
-
-  text-rendering:
-    geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   transition:
     transform
@@ -360,16 +263,11 @@
         0.36,
         1
       ),
-    opacity
-      0.42s ease,
-    filter
-      0.42s ease,
-    border-color
-      0.3s ease,
-    background
-      0.3s ease,
-    box-shadow
-      0.42s ease;
+    opacity 0.42s ease,
+    filter 0.42s ease,
+    border-color 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.42s ease;
 }
 
 
@@ -379,7 +277,6 @@
 
 .rotary-card-top {
   position: relative;
-
   z-index: 2;
 }
 
@@ -387,161 +284,105 @@
   display: inline-flex;
   align-items: center;
 
-  min-height: 28px;
+  min-height: 30px;
 
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 
-  padding:
-    0 11px;
+  padding: 0 12px;
 
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.08
-    );
-
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 999px;
 
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.04
-    );
+  background: rgba(255, 255, 255, 0.04);
 
-  color:
-    var(
-      --muted,
-      #b8b8be
-    );
+  color: var(--muted, #b8b8be);
 
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
 
-  letter-spacing:
-    0.06em;
+  letter-spacing: 0.07em;
 }
 
 .rotary-card-title {
-  margin:
-    0 0 12px;
+  margin: 0 0 14px;
 
-  color:
-    var(
-      --text,
-      #f3f3f4
-    );
+  color: var(--text, #f3f3f4);
 
   font-size:
     clamp(
-      22px,
-      3vw,
-      30px
+      28px,
+      3.4vw,
+      36px
     );
 
-  font-weight: 700;
-
+  font-weight: 800;
   line-height: 1.25;
+  letter-spacing: -0.025em;
 
-  -webkit-font-smoothing:
-    antialiased;
-
-  -moz-osx-font-smoothing:
-    grayscale;
-
-  text-rendering:
-    geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .rotary-card-value {
   display: flex;
   align-items: baseline;
 
-  gap: 5px;
+  gap: 6px;
 
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .rotary-card-value-main {
-  color:
-    var(
-      --text,
-      #f3f3f4
-    );
+  color: var(--text, #f3f3f4);
 
   font-size:
     clamp(
-      36px,
-      5vw,
-      52px
+      46px,
+      6vw,
+      62px
     );
 
   font-weight: 800;
-
   line-height: 1;
 
-  letter-spacing:
-    -0.045em;
+  letter-spacing: -0.045em;
 
-  -webkit-font-smoothing:
-    antialiased;
-
-  -moz-osx-font-smoothing:
-    grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .rotary-card-value-suffix {
-  color:
-    var(
-      --muted,
-      #b8b8be
-    );
+  color: var(--muted, #b8b8be);
 
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
 }
 
 .rotary-card-description {
-  margin:
-    0 0 12px;
+  margin: 0 0 14px;
 
-  color:
-    var(
-      --text,
-      #f3f3f4
-    );
+  color: var(--text, #f3f3f4);
+
+  font-size: 16px;
+  line-height: 1.8;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.rotary-card-note {
+  position: relative;
+  z-index: 2;
+
+  margin: 0;
+
+  color: var(--muted, #b8b8be);
 
   font-size: 14px;
   line-height: 1.75;
 
-  -webkit-font-smoothing:
-    antialiased;
-
-  -moz-osx-font-smoothing:
-    grayscale;
-}
-
-.rotary-card-note {
-  margin: 0;
-
-  color:
-    var(
-      --muted,
-      #b8b8be
-    );
-
-  font-size: 12px;
-  line-height: 1.7;
-
-  -webkit-font-smoothing:
-    antialiased;
-
-  -moz-osx-font-smoothing:
-    grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -553,27 +394,18 @@
   content: "";
 
   position: absolute;
-
   z-index: 0;
 
-  inset:
-    1px;
+  inset: 1px;
 
-  border-radius:
-    inherit;
+  border-radius: inherit;
 
   pointer-events: none;
 
   background:
     radial-gradient(
-      circle
-      at 20% 0%,
-      rgba(
-        255,
-        255,
-        255,
-        0.07
-      ),
+      circle at 20% 0%,
+      rgba(255, 255, 255, 0.07),
       transparent 34%
     );
 }
@@ -582,7 +414,6 @@
   content: "";
 
   position: absolute;
-
   z-index: 0;
 
   right: -80px;
@@ -598,12 +429,7 @@
   background:
     radial-gradient(
       circle,
-      rgba(
-        255,
-        255,
-        255,
-        0.06
-      ),
+      rgba(255, 255, 255, 0.06),
       transparent 68%
     );
 }
@@ -616,55 +442,24 @@
 .rotary-card.is-active {
   z-index: 20;
 
-  border-color:
-    rgba(
-      255,
-      255,
-      255,
-      0.18
-    );
+  border-color: rgba(255, 255, 255, 0.18);
 
   background:
     linear-gradient(
       145deg,
-      rgba(
-        255,
-        255,
-        255,
-        0.12
-      ),
-      rgba(
-        255,
-        255,
-        255,
-        0.04
-      )
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.04)
     );
 
   box-shadow:
     0 34px 90px
-    rgba(
-      0,
-      0,
-      0,
-      0.35
-    );
+    rgba(0, 0, 0, 0.35);
 }
 
 
 /* =========================================================
    POSITION
-
-   重要：
-   中央カードは2D transform。
-   左右カードだけ3D transform。
-
-   これにより中央の文字を
-   可能な限りシャープにする。
    ========================================================= */
-
-
-/* CENTER */
 
 .rotary-card[
   data-rotary-position="0"
@@ -673,18 +468,18 @@
 
   opacity: 1;
 
-  filter:
-    brightness(1);
+  filter: brightness(1);
 
   transform:
-    translate(
+    translate3d(
       -50%,
-      -50%
-    );
+      -50%,
+      150px
+    )
+    rotateY(0deg)
+    scale(1);
 }
 
-
-/* LEFT 1 */
 
 .rotary-card[
   data-rotary-position="-1"
@@ -693,23 +488,18 @@
 
   opacity: 0.82;
 
-  filter:
-    brightness(0.78);
+  filter: brightness(0.78);
 
   transform:
     translate3d(
-      calc(
-        -50% - 310px
-      ),
+      calc(-50% - 320px),
       -50%,
-      -40px
+      20px
     )
     rotateY(28deg)
     scale(0.84);
 }
 
-
-/* RIGHT 1 */
 
 .rotary-card[
   data-rotary-position="1"
@@ -718,23 +508,18 @@
 
   opacity: 0.82;
 
-  filter:
-    brightness(0.78);
+  filter: brightness(0.78);
 
   transform:
     translate3d(
-      calc(
-        -50% + 310px
-      ),
+      calc(-50% + 320px),
       -50%,
-      -40px
+      20px
     )
     rotateY(-28deg)
     scale(0.84);
 }
 
-
-/* LEFT 2 */
 
 .rotary-card[
   data-rotary-position="-2"
@@ -743,25 +528,20 @@
 
   opacity: 0.38;
 
-  filter:
-    brightness(0.55);
+  filter: brightness(0.55);
 
   pointer-events: auto;
 
   transform:
     translate3d(
-      calc(
-        -50% - 500px
-      ),
+      calc(-50% - 520px),
       -50%,
-      -220px
+      -190px
     )
     rotateY(42deg)
     scale(0.68);
 }
 
-
-/* RIGHT 2 */
 
 .rotary-card[
   data-rotary-position="2"
@@ -770,25 +550,20 @@
 
   opacity: 0.38;
 
-  filter:
-    brightness(0.55);
+  filter: brightness(0.55);
 
   pointer-events: auto;
 
   transform:
     translate3d(
-      calc(
-        -50% + 500px
-      ),
+      calc(-50% + 520px),
       -50%,
-      -220px
+      -190px
     )
     rotateY(-42deg)
     scale(0.68);
 }
 
-
-/* HIDDEN */
 
 .rotary-card[
   data-rotary-hidden="true"
@@ -822,25 +597,19 @@
 
   gap: 8px;
 
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .rotary-dot {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
 
   padding: 0;
 
   border: 0;
   border-radius: 999px;
 
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.22
-    );
+  background: rgba(255, 255, 255, 0.22);
 
   cursor: pointer;
 
@@ -851,40 +620,19 @@
 }
 
 .rotary-dot:hover {
-  transform:
-    scale(1.2);
+  transform: scale(1.2);
 
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.5
-    );
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .rotary-dot.is-active {
-  width: 24px;
+  width: 26px;
 
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.88
-    );
+  background: rgba(255, 255, 255, 0.88);
 }
 
 .rotary-dot:focus-visible {
-  outline:
-    2px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.8
-    );
-
+  outline: 2px solid rgba(255, 255, 255, 0.8);
   outline-offset: 3px;
 }
 
@@ -894,24 +642,14 @@
    ========================================================= */
 
 .rotary-hint {
-  margin:
-    14px 0 0;
+  margin: 15px 0 0;
 
-  color:
-    var(
-      --muted,
-      #b8b8be
-    );
+  color: var(--muted, #b8b8be);
 
-  font-size: 12px;
+  font-size: 13px;
+  line-height: 1.7;
 
   text-align: center;
-
-  -webkit-font-smoothing:
-    antialiased;
-
-  -moz-osx-font-smoothing:
-    grayscale;
 }
 
 
@@ -924,9 +662,9 @@
   flex-wrap: wrap;
   justify-content: center;
 
-  gap: 8px;
+  gap: 9px;
 
-  margin-top: 28px;
+  margin-top: 30px;
 }
 
 .payment-chip {
@@ -934,44 +672,19 @@
   align-items: center;
   justify-content: center;
 
-  min-height: 36px;
+  min-height: 38px;
 
-  padding:
-    0 13px;
+  padding: 0 14px;
 
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.08
-    );
-
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 999px;
 
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.035
-    );
+  background: rgba(255, 255, 255, 0.035);
 
-  color:
-    var(
-      --muted,
-      #b8b8be
-    );
+  color: var(--muted, #b8b8be);
 
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-
-  -webkit-font-smoothing:
-    antialiased;
-
-  -moz-osx-font-smoothing:
-    grayscale;
 }
 
 
@@ -983,27 +696,23 @@
   max-width: 1000px
 ) {
   .rotary-stage {
-    min-height:
-      410px;
+    min-height: 420px;
   }
 
   .rotary-track {
-    height:
-      370px;
+    height: 380px;
   }
 
   .rotary-card {
     width:
       min(
-        330px,
-        76vw
+        345px,
+        78vw
       );
 
-    min-height:
-      290px;
+    min-height: 300px;
 
-    padding:
-      25px;
+    padding: 26px;
   }
 
 
@@ -1012,11 +721,9 @@
   ] {
     transform:
       translate3d(
-        calc(
-          -50% - 250px
-        ),
+        calc(-50% - 255px),
         -50%,
-        -60px
+        -20px
       )
       rotateY(26deg)
       scale(0.8);
@@ -1028,11 +735,9 @@
   ] {
     transform:
       translate3d(
-        calc(
-          -50% + 250px
-        ),
+        calc(-50% + 255px),
         -50%,
-        -60px
+        -20px
       )
       rotateY(-26deg)
       scale(0.8);
@@ -1046,11 +751,9 @@
 
     transform:
       translate3d(
-        calc(
-          -50% - 410px
-        ),
+        calc(-50% - 420px),
         -50%,
-        -240px
+        -220px
       )
       rotateY(38deg)
       scale(0.62);
@@ -1064,11 +767,9 @@
 
     transform:
       translate3d(
-        calc(
-          -50% + 410px
-        ),
+        calc(-50% + 420px),
         -50%,
-        -240px
+        -220px
       )
       rotateY(-38deg)
       scale(0.62);
@@ -1084,74 +785,82 @@
   max-width: 700px
 ) {
   .rotary-header {
-    align-items:
-      flex-start;
+    align-items: flex-start;
 
-    flex-direction:
-      column;
+    flex-direction: column;
 
-    gap: 14px;
+    gap: 15px;
+  }
+
+  .rotary-heading {
+    font-size: 31px;
+  }
+
+  .rotary-description {
+    font-size: 15px;
   }
 
   .rotary-controls {
     width: 100%;
 
-    justify-content:
-      flex-end;
+    justify-content: flex-end;
   }
 
   .rotary-stage {
-    min-height:
-      390px;
+    min-height: 405px;
 
-    margin-inline:
-      -10px;
+    margin-inline: -10px;
 
     width:
       calc(
         100% + 20px
       );
 
-    perspective:
-      900px;
+    perspective: 900px;
   }
 
   .rotary-track {
-    height:
-      350px;
+    height: 365px;
   }
 
   .rotary-card {
     width:
       min(
-        300px,
-        80vw
+        310px,
+        82vw
       );
 
-    min-height:
-      280px;
+    min-height: 290px;
 
-    padding:
-      22px;
+    padding: 23px;
 
-    border-radius:
-      25px;
+    border-radius: 25px;
+  }
+
+  .rotary-card-kicker {
+    font-size: 12px;
   }
 
   .rotary-card-title {
-    font-size:
-      22px;
+    font-size: 27px;
   }
 
   .rotary-card-value-main {
-    font-size:
-      40px;
+    font-size: 46px;
   }
 
+  .rotary-card-value-suffix {
+    font-size: 16px;
+  }
 
-  /*
-   * スマホは中央 + 左右1枚
-   */
+  .rotary-card-description {
+    font-size: 15px;
+  }
+
+  .rotary-card-note {
+    font-size: 13px;
+  }
+
 
   .rotary-card[
     data-rotary-position="-1"
@@ -1160,16 +869,13 @@
 
     opacity: 0.5;
 
-    filter:
-      brightness(0.68);
+    filter: brightness(0.68);
 
     transform:
       translate3d(
-        calc(
-          -50% - 205px
-        ),
+        calc(-50% - 210px),
         -50%,
-        -140px
+        -120px
       )
       rotateY(32deg)
       scale(0.72);
@@ -1183,16 +889,13 @@
 
     opacity: 0.5;
 
-    filter:
-      brightness(0.68);
+    filter: brightness(0.68);
 
     transform:
       translate3d(
-        calc(
-          -50% + 205px
-        ),
+        calc(-50% + 210px),
         -50%,
-        -140px
+        -120px
       )
       rotateY(-32deg)
       scale(0.72);
@@ -1214,14 +917,18 @@
 
 
   .rotary-control {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
   }
 
-
   .rotary-hint {
-    margin-top:
-      10px;
+    margin-top: 11px;
+
+    font-size: 12px;
+  }
+
+  .payment-chip {
+    font-size: 12px;
   }
 }
 
@@ -1236,15 +943,13 @@
   .rotary-card {
     width:
       min(
-        286px,
-        82vw
+        292px,
+        84vw
       );
 
-    min-height:
-      270px;
+    min-height: 280px;
 
-    padding:
-      20px;
+    padding: 21px;
   }
 
 
@@ -1253,11 +958,9 @@
   ] {
     transform:
       translate3d(
-        calc(
-          -50% - 180px
-        ),
+        calc(-50% - 182px),
         -50%,
-        -165px
+        -150px
       )
       rotateY(34deg)
       scale(0.68);
@@ -1269,11 +972,9 @@
   ] {
     transform:
       translate3d(
-        calc(
-          -50% + 180px
-        ),
+        calc(-50% + 182px),
         -50%,
-        -165px
+        -150px
       )
       rotateY(-34deg)
       scale(0.68);
@@ -1283,9 +984,6 @@
 
 /* =========================================================
    HOVER
-
-   中央は2Dのまま少し上へ移動。
-   scale / translateZは使わない。
    ========================================================= */
 
 @media (
@@ -1294,30 +992,20 @@
   .rotary-card[
     data-rotary-position="0"
   ]:hover {
-    border-color:
-      rgba(
-        255,
-        255,
-        255,
-        0.24
-      );
+    border-color: rgba(255, 255, 255, 0.24);
 
     transform:
-      translate(
+      translate3d(
         -50%,
-        calc(
-          -50% - 6px
-        )
-      );
+        calc(-50% - 6px),
+        160px
+      )
+      rotateY(0deg)
+      scale(1.015);
 
     box-shadow:
       0 42px 100px
-      rgba(
-        0,
-        0,
-        0,
-        0.42
-      );
+      rgba(0, 0, 0, 0.42);
   }
 }
 
@@ -1333,23 +1021,24 @@
   .rotary-card,
   .rotary-control,
   .rotary-dot {
-    transition:
-      none !important;
+    transition: none !important;
   }
 
   .rotary-control:hover,
   .rotary-dot:hover {
-    transform:
-      none !important;
+    transform: none !important;
   }
 
   .rotary-card[
     data-rotary-position="0"
   ]:hover {
     transform:
-      translate(
+      translate3d(
         -50%,
-        -50%
-      );
+        -50%,
+        150px
+      )
+      rotateY(0deg)
+      scale(1);
   }
 }

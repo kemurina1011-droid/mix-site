@@ -7,7 +7,7 @@ export const discounts = [
     description:
       "納期をこちらにお任せいただける場合の割引です。",
     note:
-      "スケジュールに余裕がある場合におすすめです。",
+      "原則2週間程度の納期でご案内します。ご依頼内容や受付状況により前後する場合があります。",
     active: true,
     featured: true,
     order: 1,
