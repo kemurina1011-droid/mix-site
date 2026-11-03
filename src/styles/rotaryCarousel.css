@@ -1,16 +1,17 @@
 /* =========================================================
    Kemurina_BGM
-   Rotary Carousel v2.1
+   Rotary Carousel v2.2
 
    使用箇所
    - Price
    - Discount
    - Service
 
-   変更点
-   - 3D配置ロジックは維持
-   - カード内の文字サイズを全体的に拡大
-   - PC / タブレット / スマホで可読性を改善
+   v2.2
+   - 3D UIは維持
+   - 中央カードのみ2D描画
+   - 中央カードのfilter / backdrop-filterを解除
+   - 中央の文字のぼやけを軽減
    ========================================================= */
 
 
@@ -246,11 +247,6 @@
 
   cursor: pointer;
 
-  will-change:
-    transform,
-    opacity,
-    filter;
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -459,7 +455,13 @@
 
 /* =========================================================
    POSITION
+
+   中央だけ2D描画。
+   左右カードだけ3D変形。
    ========================================================= */
+
+
+/* CENTER */
 
 .rotary-card[
   data-rotary-position="0"
@@ -468,18 +470,23 @@
 
   opacity: 1;
 
-  filter: brightness(1);
+  filter: none;
 
   transform:
-    translate3d(
+    translate(
       -50%,
-      -50%,
-      150px
-    )
-    rotateY(0deg)
-    scale(1);
+      -50%
+    );
+
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  transform-style: flat;
+  -webkit-transform-style: flat;
 }
 
+
+/* LEFT 1 */
 
 .rotary-card[
   data-rotary-position="-1"
@@ -501,6 +508,8 @@
 }
 
 
+/* RIGHT 1 */
+
 .rotary-card[
   data-rotary-position="1"
 ] {
@@ -520,6 +529,8 @@
     scale(0.84);
 }
 
+
+/* LEFT 2 */
 
 .rotary-card[
   data-rotary-position="-2"
@@ -543,6 +554,8 @@
 }
 
 
+/* RIGHT 2 */
+
 .rotary-card[
   data-rotary-position="2"
 ] {
@@ -564,6 +577,8 @@
     scale(0.68);
 }
 
+
+/* HIDDEN */
 
 .rotary-card[
   data-rotary-hidden="true"
@@ -984,6 +999,8 @@
 
 /* =========================================================
    HOVER
+
+   中央カードは2Dのまま上へ移動
    ========================================================= */
 
 @media (
@@ -995,13 +1012,10 @@
     border-color: rgba(255, 255, 255, 0.24);
 
     transform:
-      translate3d(
+      translate(
         -50%,
-        calc(-50% - 6px),
-        160px
-      )
-      rotateY(0deg)
-      scale(1.015);
+        calc(-50% - 5px)
+      );
 
     box-shadow:
       0 42px 100px
@@ -1033,12 +1047,9 @@
     data-rotary-position="0"
   ]:hover {
     transform:
-      translate3d(
+      translate(
         -50%,
-        -50%,
-        150px
-      )
-      rotateY(0deg)
-      scale(1);
+        -50%
+      );
   }
 }
