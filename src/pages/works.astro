@@ -1,0 +1,1280 @@
+---
+import "../styles/works.css";
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+
+    <title>実績一覧 | Kemurina_BGM</title>
+
+    <meta
+      name="description"
+      content="Kemurina_BGMが担当した歌ってみたMIXのFull・Short実績一覧です。"
+    />
+
+    <style>
+      :root {
+        --bg: #151517;
+        --bg-soft: #1d1d21;
+        --panel: rgba(255, 255, 255, 0.05);
+        --line: rgba(255, 255, 255, 0.08);
+        --text: #f3f3f4;
+        --muted: #b8b8be;
+        --accent: #dbdde2;
+        --accent-hover: #f0f1f3;
+        --accent-dark: #111214;
+        --max-width: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          "Hiragino Sans",
+          "Hiragino Kaku Gothic ProN",
+          "Yu Gothic",
+          sans-serif;
+
+        color: var(--text);
+
+        background:
+          radial-gradient(
+            circle at 20% 0%,
+            rgba(255, 255, 255, 0.05),
+            transparent 28%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(255, 255, 255, 0.035),
+            transparent 22%
+          ),
+          linear-gradient(
+            180deg,
+            #111214 0%,
+            #18191c 45%,
+            #1f2024 100%
+          );
+
+        line-height: 1.75;
+        letter-spacing: 0.01em;
+
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+
+        position: fixed;
+        z-index: 0;
+
+        inset: -10% -10% auto -10%;
+
+        height: 60vh;
+
+        pointer-events: none;
+
+        background:
+          radial-gradient(
+            circle at 30% 40%,
+            rgba(255, 255, 255, 0.04),
+            transparent 22%
+          ),
+          radial-gradient(
+            circle at 70% 30%,
+            rgba(255, 255, 255, 0.03),
+            transparent 18%
+          );
+
+        filter: blur(40px);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      select {
+        font: inherit;
+      }
+
+      .container {
+        position: relative;
+        z-index: 1;
+
+        width: min(
+          var(--max-width),
+          calc(100% - 32px)
+        );
+
+        margin: 0 auto;
+      }
+
+      /* =========================
+         HEADER
+         ========================= */
+
+      .site-header {
+        position: sticky;
+        z-index: 30;
+
+        top: 0;
+
+        backdrop-filter: blur(14px);
+
+        background:
+          rgba(20, 20, 22, 0.72);
+
+        border-bottom:
+          1px solid
+          rgba(255, 255, 255, 0.05);
+      }
+
+      .header-inner {
+        min-height: 72px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 20px;
+      }
+
+      .brand {
+        font-size: 20px;
+        font-weight: 700;
+
+        letter-spacing: 0.05em;
+
+        white-space: nowrap;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+
+        gap: 10px;
+      }
+
+      .header-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        min-height: 42px;
+
+        padding: 0 16px;
+
+        border-radius: 999px;
+
+        border:
+          1px solid
+          rgba(255, 255, 255, 0.08);
+
+        background:
+          rgba(255, 255, 255, 0.04);
+
+        color: var(--muted);
+
+        font-size: 14px;
+
+        transition:
+          transform 0.2s ease,
+          color 0.2s ease,
+          background 0.2s ease;
+      }
+
+      .header-link:hover {
+        transform: translateY(-1px);
+
+        color: var(--text);
+
+        background:
+          rgba(255, 255, 255, 0.08);
+      }
+
+      /* =========================
+         HERO
+         ========================= */
+
+      .works-page-main {
+        min-height: calc(100vh - 72px);
+      }
+
+      .works-page-hero {
+        padding: 88px 0 36px;
+      }
+
+      .works-page-title {
+        margin: 0 0 14px;
+
+        font-size:
+          clamp(
+            34px,
+            6vw,
+            58px
+          );
+
+        line-height: 1.1;
+
+        letter-spacing: -0.04em;
+      }
+
+      .works-page-lead {
+        max-width: 720px;
+
+        margin: 0;
+
+        color: var(--muted);
+
+        font-size: 16px;
+      }
+
+      /* =========================
+         CONTENT
+         ========================= */
+
+      .works-page-content {
+        padding: 0 0 100px;
+      }
+
+      .works-page-panel {
+        margin-top: 24px;
+      }
+
+      .works-page-section-head {
+        margin-bottom: 20px;
+      }
+
+      .works-page-section-title {
+        margin: 0 0 6px;
+
+        font-size: 24px;
+      }
+
+      .works-page-section-description {
+        margin: 0;
+
+        color: var(--muted);
+
+        font-size: 14px;
+      }
+
+      /* =========================
+         SORT SELECT
+         ========================= */
+
+      .works-sort option {
+        background: #1b1c1f;
+        color: #f3f3f4;
+      }
+
+      /* =========================
+         FOOTER
+         ========================= */
+
+      .footer {
+        position: relative;
+        z-index: 1;
+
+        padding: 36px 0 60px;
+
+        color: var(--muted);
+
+        font-size: 14px;
+      }
+
+      .footer-line {
+        height: 1px;
+
+        margin-bottom: 18px;
+
+        background:
+          rgba(255, 255, 255, 0.06);
+      }
+
+      .footer p {
+        margin: 0;
+      }
+
+      /* =========================
+         MOBILE
+         ========================= */
+
+      @media (max-width: 700px) {
+        .container {
+          width:
+            min(
+              var(--max-width),
+              calc(100% - 20px)
+            );
+        }
+
+        .header-inner {
+          min-height: 64px;
+        }
+
+        .brand {
+          font-size: 17px;
+        }
+
+        .header-link {
+          min-height: 38px;
+
+          padding: 0 13px;
+
+          font-size: 13px;
+        }
+
+        .works-page-hero {
+          padding: 62px 0 28px;
+        }
+
+        .works-page-lead {
+          font-size: 14px;
+        }
+
+        .works-page-content {
+          padding-bottom: 72px;
+        }
+      }
+
+      @media (
+        prefers-reduced-motion:
+        reduce
+      ) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- =========================================
+         HEADER
+         ========================================= -->
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a
+          class="brand"
+          href="/"
+          aria-label="Kemurina_BGM トップへ戻る"
+        >
+          Kemurina_BGM
+        </a>
+
+        <div class="header-actions">
+          <a
+            class="header-link"
+            href="/#works"
+          >
+            トップへ戻る
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- =========================================
+         MAIN
+         ========================================= -->
+
+    <main class="works-page-main">
+      <!-- HERO -->
+
+      <section class="works-page-hero">
+        <div class="container">
+          <h1 class="works-page-title">
+            MIX Works
+          </h1>
+
+          <p class="works-page-lead">
+            Kemurina_BGMが担当したMIX作品をご覧いただけます。
+            Full / Shortを切り替えながら、
+            気になる作品をお楽しみください。
+          </p>
+        </div>
+      </section>
+
+      <!-- WORKS -->
+
+      <section class="works-page-content">
+        <div class="container">
+
+          <!-- Tabs -->
+
+          <div
+            class="works-tabs"
+            role="tablist"
+            aria-label="実績カテゴリ切り替え"
+          >
+            <button
+              class="works-tab is-active"
+              type="button"
+              data-works-tab="full"
+              aria-selected="true"
+            >
+              Full
+            </button>
+
+            <button
+              class="works-tab"
+              type="button"
+              data-works-tab="short"
+              aria-selected="false"
+            >
+              Short
+            </button>
+          </div>
+
+          <!-- Toolbar -->
+
+          <div class="works-page-toolbar">
+            <div
+              id="worksCount"
+              class="works-page-count"
+              aria-live="polite"
+            >
+              読み込み中...
+            </div>
+
+            <select
+              id="worksSort"
+              class="works-sort"
+              aria-label="作品の並び順"
+            >
+              <option value="newest">
+                新着順
+              </option>
+
+              <option value="random">
+                ランダム
+              </option>
+            </select>
+          </div>
+
+          <!-- Full -->
+
+          <div
+            class="works-panel is-active works-page-panel"
+            data-works-panel="full"
+          >
+            <div class="works-page-section-head">
+              <h2 class="works-page-section-title">
+                Full
+              </h2>
+
+              <p
+                class="works-page-section-description"
+              >
+                フルコーラスMIXの実績です。
+              </p>
+            </div>
+
+            <div
+              id="fullWorksGrid"
+              class="works-gallery-grid"
+            ></div>
+          </div>
+
+          <!-- Short -->
+
+          <div
+            class="works-panel works-page-panel"
+            data-works-panel="short"
+          >
+            <div class="works-page-section-head">
+              <h2 class="works-page-section-title">
+                Short
+              </h2>
+
+              <p
+                class="works-page-section-description"
+              >
+                Short動画向けMIXの実績です。
+              </p>
+            </div>
+
+            <div
+              id="shortWorksGrid"
+              class="works-gallery-grid"
+            ></div>
+          </div>
+
+          <!-- Load More -->
+
+          <div
+            class="works-load-more-wrap"
+          >
+            <button
+              id="worksLoadMore"
+              class="works-load-more"
+              type="button"
+            >
+              もっと見る
+            </button>
+          </div>
+
+          <!-- Back -->
+
+          <div
+            class="works-all-link-wrap"
+          >
+            <a
+              class="header-link"
+              href="/#works"
+            >
+              トップページへ戻る
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- =========================================
+         FOOTER
+         ========================================= -->
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-line"></div>
+
+        <p>
+          © Kemurina_BGM
+        </p>
+      </div>
+    </footer>
+
+    <!-- =========================================
+         SCRIPT
+         ========================================= -->
+
+    <script>
+      import {
+        works
+      } from "../data/works.js";
+
+      const PAGE_SIZE = 12;
+
+      const state = {
+        activeType: "full",
+        sortMode: "newest",
+        visibleCount: PAGE_SIZE,
+        randomCache: {
+          full: [],
+          short: [],
+        },
+      };
+
+      const worksTabs =
+        Array.from(
+          document.querySelectorAll(
+            "[data-works-tab]"
+          )
+        );
+
+      const worksPanels =
+        Array.from(
+          document.querySelectorAll(
+            "[data-works-panel]"
+          )
+        );
+
+      const fullWorksGrid =
+        document.getElementById(
+          "fullWorksGrid"
+        );
+
+      const shortWorksGrid =
+        document.getElementById(
+          "shortWorksGrid"
+        );
+
+      const worksCount =
+        document.getElementById(
+          "worksCount"
+        );
+
+      const worksSort =
+        document.getElementById(
+          "worksSort"
+        );
+
+      const worksLoadMore =
+        document.getElementById(
+          "worksLoadMore"
+        );
+
+
+      /* =========================================
+         Utility
+         ========================================= */
+
+      const getActiveWorks = () => {
+        return works.filter(
+          (work) =>
+            work.active !== false
+        );
+      };
+
+
+      const getWorksByType = (
+        type
+      ) => {
+        return getActiveWorks().filter(
+          (work) =>
+            work.type === type
+        );
+      };
+
+
+      const shuffle = (
+        items
+      ) => {
+        const array = [
+          ...items
+        ];
+
+        for (
+          let i =
+            array.length - 1;
+          i > 0;
+          i -= 1
+        ) {
+          const j =
+            Math.floor(
+              Math.random() *
+                (i + 1)
+            );
+
+          [
+            array[i],
+            array[j],
+          ] = [
+            array[j],
+            array[i],
+          ];
+        }
+
+        return array;
+      };
+
+
+      const sortNewest = (
+        items
+      ) => {
+        return [
+          ...items
+        ].sort(
+          (
+            a,
+            b
+          ) => {
+            const aTime =
+              a.publishedAt
+                ? new Date(
+                    a.publishedAt
+                  ).getTime()
+                : 0;
+
+            const bTime =
+              b.publishedAt
+                ? new Date(
+                    b.publishedAt
+                  ).getTime()
+                : 0;
+
+            return (
+              bTime -
+              aTime
+            );
+          }
+        );
+      };
+
+
+      const getSortedWorks = (
+        type
+      ) => {
+        const items =
+          getWorksByType(
+            type
+          );
+
+        if (
+          state.sortMode ===
+          "random"
+        ) {
+          if (
+            state.randomCache[
+              type
+            ].length === 0
+          ) {
+            state.randomCache[
+              type
+            ] =
+              shuffle(
+                items
+              );
+          }
+
+          return (
+            state.randomCache[
+              type
+            ]
+          );
+        }
+
+        return sortNewest(
+          items
+        );
+      };
+
+
+      /* =========================================
+         Element helpers
+         ========================================= */
+
+      const createElement = (
+        tag,
+        className = ""
+      ) => {
+        const element =
+          document.createElement(
+            tag
+          );
+
+        if (className) {
+          element.className =
+            className;
+        }
+
+        return element;
+      };
+
+
+      const createWorksBody = (
+        work
+      ) => {
+        const body =
+          createElement(
+            "div",
+            "works-body"
+          );
+
+        const title =
+          createElement(
+            "h3"
+          );
+
+        title.textContent =
+          work.title;
+
+        const type =
+          createElement(
+            "p"
+          );
+
+        type.textContent =
+          work.type ===
+          "full"
+            ? "Full"
+            : "Short";
+
+        body.appendChild(
+          title
+        );
+
+        body.appendChild(
+          type
+        );
+
+        return body;
+      };
+
+
+      /* =========================================
+         Full card
+         ========================================= */
+
+      const createFullCard = (
+        work
+      ) => {
+        const article =
+          createElement(
+            "article",
+            "works-card"
+          );
+
+        article.dataset.workId =
+          work.id;
+
+        const video =
+          createElement(
+            "div",
+            "works-video full-video"
+          );
+
+        const button =
+          createElement(
+            "button",
+            "full-video-facade"
+          );
+
+        button.type =
+          "button";
+
+        button.dataset.videoId =
+          work.videoId;
+
+        button.dataset.videoTitle =
+          work.title;
+
+        button.setAttribute(
+          "aria-label",
+          `${work.title}を再生`
+        );
+
+        const image =
+          createElement(
+            "img"
+          );
+
+        image.src =
+          `https://i.ytimg.com/vi/${work.videoId}/maxresdefault.jpg`;
+
+        image.alt =
+          work.title;
+
+        image.loading =
+          "lazy";
+
+        image.addEventListener(
+          "error",
+          () => {
+            image.src =
+              `https://i.ytimg.com/vi/${work.videoId}/hqdefault.jpg`;
+          },
+          {
+            once: true,
+          }
+        );
+
+        button.appendChild(
+          image
+        );
+
+        video.appendChild(
+          button
+        );
+
+        article.appendChild(
+          video
+        );
+
+        article.appendChild(
+          createWorksBody(
+            work
+          )
+        );
+
+        return article;
+      };
+
+
+      /* =========================================
+         Short card
+         ========================================= */
+
+      const createShortCard = (
+        work
+      ) => {
+        const article =
+          createElement(
+            "article",
+            "works-card short-card"
+          );
+
+        article.dataset.workId =
+          work.id;
+
+        const link =
+          createElement(
+            "a",
+            "short-thumb-link"
+          );
+
+        link.href =
+          `https://www.youtube.com/shorts/${work.videoId}`;
+
+        link.target =
+          "_blank";
+
+        link.rel =
+          "noreferrer";
+
+        link.setAttribute(
+          "aria-label",
+          `${work.title}をYouTubeで見る`
+        );
+
+        const image =
+          createElement(
+            "img",
+            "short-thumb-image"
+          );
+
+        image.src =
+          `https://i.ytimg.com/vi/${work.videoId}/maxresdefault.jpg`;
+
+        image.alt =
+          work.title;
+
+        image.loading =
+          "lazy";
+
+        image.addEventListener(
+          "error",
+          () => {
+            image.src =
+              `https://i.ytimg.com/vi/${work.videoId}/hqdefault.jpg`;
+          },
+          {
+            once: true,
+          }
+        );
+
+        const playBadge =
+          createElement(
+            "span",
+            "short-play-badge"
+          );
+
+        playBadge.setAttribute(
+          "aria-hidden",
+          "true"
+        );
+
+        link.appendChild(
+          image
+        );
+
+        link.appendChild(
+          playBadge
+        );
+
+        article.appendChild(
+          link
+        );
+
+        article.appendChild(
+          createWorksBody(
+            work
+          )
+        );
+
+        return article;
+      };
+
+
+      /* =========================================
+         Render
+         ========================================= */
+
+      const getActiveGrid = () => {
+        return (
+          state.activeType ===
+          "full"
+            ? fullWorksGrid
+            : shortWorksGrid
+        );
+      };
+
+
+      const renderWorks = () => {
+        const grid =
+          getActiveGrid();
+
+        if (!grid) {
+          return;
+        }
+
+        const items =
+          getSortedWorks(
+            state.activeType
+          );
+
+        const visibleItems =
+          items.slice(
+            0,
+            state.visibleCount
+          );
+
+        grid.innerHTML =
+          "";
+
+        if (
+          visibleItems.length ===
+          0
+        ) {
+          const empty =
+            createElement(
+              "div",
+              "works-empty"
+            );
+
+          empty.textContent =
+            "現在表示できる作品がありません。";
+
+          grid.appendChild(
+            empty
+          );
+        } else {
+          visibleItems.forEach(
+            (work) => {
+              const card =
+                work.type ===
+                "full"
+                  ? createFullCard(
+                      work
+                    )
+                  : createShortCard(
+                      work
+                    );
+
+              grid.appendChild(
+                card
+              );
+            }
+          );
+        }
+
+        if (
+          worksCount
+        ) {
+          worksCount.textContent =
+            `${state.activeType === "full" ? "Full" : "Short"}：${items.length}作品`;
+        }
+
+        if (
+          worksLoadMore
+        ) {
+          const hasMore =
+            state.visibleCount <
+            items.length;
+
+          worksLoadMore.hidden =
+            !hasMore;
+
+          worksLoadMore.disabled =
+            !hasMore;
+        }
+      };
+
+
+      /* =========================================
+         Tabs
+         ========================================= */
+
+      worksTabs.forEach(
+        (tab) => {
+          tab.addEventListener(
+            "click",
+            () => {
+              const target =
+                tab.dataset
+                  .worksTab;
+
+              if (
+                !target
+              ) {
+                return;
+              }
+
+              state.activeType =
+                target;
+
+              state.visibleCount =
+                PAGE_SIZE;
+
+              worksTabs.forEach(
+                (item) => {
+                  const isActive =
+                    item === tab;
+
+                  item.classList.toggle(
+                    "is-active",
+                    isActive
+                  );
+
+                  item.setAttribute(
+                    "aria-selected",
+                    isActive
+                      ? "true"
+                      : "false"
+                  );
+                }
+              );
+
+              worksPanels.forEach(
+                (panel) => {
+                  panel.classList.toggle(
+                    "is-active",
+                    panel.dataset
+                      .worksPanel ===
+                      target
+                  );
+                }
+              );
+
+              renderWorks();
+            }
+          );
+        }
+      );
+
+
+      /* =========================================
+         Sort
+         ========================================= */
+
+      if (
+        worksSort
+      ) {
+        worksSort.addEventListener(
+          "change",
+          () => {
+            state.sortMode =
+              worksSort.value;
+
+            state.visibleCount =
+              PAGE_SIZE;
+
+            state.randomCache =
+              {
+                full: [],
+                short: [],
+              };
+
+            renderWorks();
+          }
+        );
+      }
+
+
+      /* =========================================
+         Load more
+         ========================================= */
+
+      if (
+        worksLoadMore
+      ) {
+        worksLoadMore.addEventListener(
+          "click",
+          () => {
+            state.visibleCount +=
+              PAGE_SIZE;
+
+            renderWorks();
+          }
+        );
+      }
+
+
+      /* =========================================
+         Full video playback
+         ========================================= */
+
+      document.addEventListener(
+        "click",
+        (event) => {
+          const target =
+            event.target;
+
+          if (
+            !(
+              target instanceof
+              Element
+            )
+          ) {
+            return;
+          }
+
+          const facade =
+            target.closest(
+              ".full-video-facade"
+            );
+
+          if (
+            !(
+              facade instanceof
+              HTMLButtonElement
+            )
+          ) {
+            return;
+          }
+
+          const videoId =
+            facade.dataset
+              .videoId;
+
+          const title =
+            facade.dataset
+              .videoTitle ||
+            "YouTube動画";
+
+          if (!videoId) {
+            return;
+          }
+
+          const iframe =
+            document.createElement(
+              "iframe"
+            );
+
+          iframe.src =
+            `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1`;
+
+          iframe.title =
+            title;
+
+          iframe.allow =
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+
+          iframe.allowFullscreen =
+            true;
+
+          facade.replaceWith(
+            iframe
+          );
+        }
+      );
+
+
+      /* =========================================
+         Initial render
+         ========================================= */
+
+      renderWorks();
+    </script>
+  </body>
+</html>
