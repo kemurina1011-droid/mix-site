@@ -1,19 +1,16 @@
-import { works } from "../data/works.js";
+import {
+  getHomeEligibleWorksByType,
+} from "../data/works.js";
+
 
 const HOME_FULL_COUNT = 4;
 const HOME_SHORT_COUNT = 6;
 
-/* =========================================================
-   Utility
-   ========================================================= */
 
-function getActiveWorksByType(type) {
-  return works.filter(
-    (work) =>
-      work.active !== false &&
-      work.type === type
-  );
-}
+/* =========================================================
+   Random
+   Fisher-Yates shuffle
+   ========================================================= */
 
 function shuffle(items) {
   const array = [...items];
@@ -24,10 +21,14 @@ function shuffle(items) {
     i -= 1
   ) {
     const j = Math.floor(
-      Math.random() * (i + 1)
+      Math.random() *
+        (i + 1)
     );
 
-    [array[i], array[j]] = [
+    [
+      array[i],
+      array[j],
+    ] = [
       array[j],
       array[i],
     ];
@@ -36,11 +37,32 @@ function shuffle(items) {
   return array;
 }
 
-function getRandomWorks(type, count) {
+
+/*
+ * homeEligible:true の中から
+ * ランダムで指定件数を取得
+ */
+function getRandomHomeWorks(
+  type,
+  count
+) {
+  const eligibleWorks =
+    getHomeEligibleWorksByType(
+      type
+    );
+
   return shuffle(
-    getActiveWorksByType(type)
-  ).slice(0, count);
+    eligibleWorks
+  ).slice(
+    0,
+    count
+  );
 }
+
+
+/* =========================================================
+   DOM Utility
+   ========================================================= */
 
 function createElement(
   tag,
@@ -57,15 +79,17 @@ function createElement(
   return element;
 }
 
+
 /* =========================================================
-   Card body
+   Works body
    ========================================================= */
 
 function createWorksBody(work) {
-  const body = createElement(
-    "div",
-    "works-body"
-  );
+  const body =
+    createElement(
+      "div",
+      "works-body"
+    );
 
   const title =
     createElement("h3");
@@ -87,6 +111,7 @@ function createWorksBody(work) {
   return body;
 }
 
+
 /* =========================================================
    Full card
    ========================================================= */
@@ -101,11 +126,13 @@ function createFullCard(work) {
   article.dataset.workId =
     work.id;
 
+
   const video =
     createElement(
       "div",
       "works-video full-video"
     );
+
 
   const button =
     createElement(
@@ -113,7 +140,8 @@ function createFullCard(work) {
       "full-video-facade"
     );
 
-  button.type = "button";
+  button.type =
+    "button";
 
   button.dataset.videoId =
     work.videoId;
@@ -125,6 +153,7 @@ function createFullCard(work) {
     "aria-label",
     `${work.title}を再生`
   );
+
 
   const image =
     createElement("img");
@@ -138,6 +167,11 @@ function createFullCard(work) {
   image.loading =
     "lazy";
 
+
+  /*
+   * maxresdefaultが存在しない動画は
+   * hqdefaultへ自動フォールバック
+   */
   image.addEventListener(
     "error",
     () => {
@@ -149,7 +183,9 @@ function createFullCard(work) {
     }
   );
 
+
   button.appendChild(image);
+
   video.appendChild(button);
 
   article.appendChild(video);
@@ -160,6 +196,7 @@ function createFullCard(work) {
 
   return article;
 }
+
 
 /* =========================================================
    Short card
@@ -175,6 +212,7 @@ function createShortCard(work) {
   article.dataset.workId =
     work.id;
 
+
   const link =
     createElement(
       "a",
@@ -184,7 +222,9 @@ function createShortCard(work) {
   link.href =
     `https://www.youtube.com/shorts/${work.videoId}`;
 
-  link.target = "_blank";
+  link.target =
+    "_blank";
+
   link.rel =
     "noopener noreferrer";
 
@@ -192,6 +232,7 @@ function createShortCard(work) {
     "aria-label",
     `${work.title}をYouTubeで見る`
   );
+
 
   const image =
     createElement(
@@ -208,6 +249,7 @@ function createShortCard(work) {
   image.loading =
     "lazy";
 
+
   image.addEventListener(
     "error",
     () => {
@@ -218,6 +260,7 @@ function createShortCard(work) {
       once: true,
     }
   );
+
 
   const playBadge =
     createElement(
@@ -230,8 +273,12 @@ function createShortCard(work) {
     "true"
   );
 
+
   link.appendChild(image);
-  link.appendChild(playBadge);
+
+  link.appendChild(
+    playBadge
+  );
 
   article.appendChild(link);
 
@@ -242,44 +289,76 @@ function createShortCard(work) {
   return article;
 }
 
+
+/* =========================================================
+   Empty state
+   ========================================================= */
+
+function createEmptyState(type) {
+  const empty =
+    createElement(
+      "div",
+      "works-empty"
+    );
+
+  empty.textContent =
+    type === "full"
+      ? "トップページに表示するFull作品が設定されていません。"
+      : "トップページに表示するShort作品が設定されていません。";
+
+  return empty;
+}
+
+
 /* =========================================================
    Render
    ========================================================= */
 
 function renderWorks(
   container,
-  items
+  items,
+  type
 ) {
   if (!container) {
     return;
   }
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
-  if (items.length === 0) {
-    const empty =
-      createElement(
-        "div",
-        "works-empty"
-      );
 
-    empty.textContent =
-      "現在表示できる作品がありません。";
-
-    container.appendChild(empty);
+  if (
+    items.length === 0
+  ) {
+    container.appendChild(
+      createEmptyState(
+        type
+      )
+    );
 
     return;
   }
 
-  items.forEach((work) => {
-    const card =
-      work.type === "full"
-        ? createFullCard(work)
-        : createShortCard(work);
 
-    container.appendChild(card);
-  });
+  items.forEach(
+    (work) => {
+      const card =
+        work.type ===
+        "full"
+          ? createFullCard(
+              work
+            )
+          : createShortCard(
+              work
+            );
+
+      container.appendChild(
+        card
+      );
+    }
+  );
 }
+
 
 /* =========================================================
    Scroll buttons
@@ -298,44 +377,62 @@ function setupScrollButtons(
     return;
   }
 
-  const getScrollAmount = () => {
-    const firstCard =
-      scrollElement.querySelector(
-        ".works-card"
+
+  const getScrollAmount =
+    () => {
+      const firstCard =
+        scrollElement.querySelector(
+          ".works-card"
+        );
+
+      if (!firstCard) {
+        return 420;
+      }
+
+      const cardWidth =
+        firstCard
+          .getBoundingClientRect()
+          .width;
+
+      return (
+        cardWidth +
+        16
       );
+    };
 
-    if (!firstCard) {
-      return 420;
-    }
-
-    const cardWidth =
-      firstCard
-        .getBoundingClientRect()
-        .width;
-
-    return cardWidth + 16;
-  };
 
   previousButton.addEventListener(
     "click",
     () => {
-      scrollElement.scrollBy({
-        left: -getScrollAmount(),
-        behavior: "smooth",
-      });
+      scrollElement.scrollBy(
+        {
+          left:
+            -getScrollAmount(),
+
+          behavior:
+            "smooth",
+        }
+      );
     }
   );
+
 
   nextButton.addEventListener(
     "click",
     () => {
-      scrollElement.scrollBy({
-        left: getScrollAmount(),
-        behavior: "smooth",
-      });
+      scrollElement.scrollBy(
+        {
+          left:
+            getScrollAmount(),
+
+          behavior:
+            "smooth",
+        }
+      );
     }
   );
 }
+
 
 /* =========================================================
    Tabs
@@ -349,6 +446,7 @@ function setupTabs() {
       )
     );
 
+
   const panels =
     Array.from(
       document.querySelectorAll(
@@ -356,49 +454,60 @@ function setupTabs() {
       )
     );
 
-  tabs.forEach((tab) => {
-    tab.addEventListener(
-      "click",
-      () => {
-        const target =
-          tab.dataset.homeWorksTab;
 
-        if (!target) {
-          return;
+  tabs.forEach(
+    (tab) => {
+      tab.addEventListener(
+        "click",
+        () => {
+          const target =
+            tab.dataset
+              .homeWorksTab;
+
+          if (!target) {
+            return;
+          }
+
+
+          tabs.forEach(
+            (item) => {
+              const isActive =
+                item === tab;
+
+              item.classList.toggle(
+                "is-active",
+                isActive
+              );
+
+              item.setAttribute(
+                "aria-selected",
+                isActive
+                  ? "true"
+                  : "false"
+              );
+            }
+          );
+
+
+          panels.forEach(
+            (panel) => {
+              panel.classList.toggle(
+                "is-active",
+                panel.dataset
+                  .homeWorksPanel ===
+                  target
+              );
+            }
+          );
         }
-
-        tabs.forEach((item) => {
-          const isActive =
-            item === tab;
-
-          item.classList.toggle(
-            "is-active",
-            isActive
-          );
-
-          item.setAttribute(
-            "aria-selected",
-            isActive
-              ? "true"
-              : "false"
-          );
-        });
-
-        panels.forEach((panel) => {
-          panel.classList.toggle(
-            "is-active",
-            panel.dataset
-              .homeWorksPanel ===
-              target
-          );
-        });
-      }
-    );
-  });
+      );
+    }
+  );
 }
 
+
 /* =========================================================
-   Full playback
+   Full video playback
    ========================================================= */
 
 function setupFullVideoPlayback() {
@@ -409,15 +518,20 @@ function setupFullVideoPlayback() {
         event.target;
 
       if (
-        !(target instanceof Element)
+        !(
+          target instanceof
+          Element
+        )
       ) {
         return;
       }
+
 
       const facade =
         target.closest(
           ".full-video-facade"
         );
+
 
       if (
         !(
@@ -428,36 +542,62 @@ function setupFullVideoPlayback() {
         return;
       }
 
+
+      /*
+       * /works側など別スクリプトが扱う
+       * facadeには干渉しないため、
+       * HOME実績内だけ対象にする。
+       */
+      const homeWorksArea =
+        facade.closest(
+          "#works"
+        );
+
+      if (!homeWorksArea) {
+        return;
+      }
+
+
       const videoId =
-        facade.dataset.videoId;
+        facade.dataset
+          .videoId;
 
       const title =
-        facade.dataset.videoTitle ||
+        facade.dataset
+          .videoTitle ||
         "YouTube動画";
+
 
       if (!videoId) {
         return;
       }
+
 
       const iframe =
         document.createElement(
           "iframe"
         );
 
+
       iframe.src =
         `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1`;
+
 
       iframe.title =
         title;
 
+
       iframe.allow =
         "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+
 
       iframe.allowFullscreen =
         true;
 
+
       iframe.loading =
         "lazy";
+
 
       facade.replaceWith(
         iframe
@@ -465,6 +605,7 @@ function setupFullVideoPlayback() {
     }
   );
 }
+
 
 /* =========================================================
    Main
@@ -476,14 +617,16 @@ export function initHomeWorks() {
       "homeFullWorks"
     );
 
+
   const shortContainer =
     document.getElementById(
       "homeShortWorks"
     );
 
+
   /*
-   * index.astroがまだv2化されていない状態でも
-   * エラーを発生させない。
+   * HOME v2が存在しないページでは
+   * 何もしない。
    */
   if (
     !fullContainer &&
@@ -492,47 +635,63 @@ export function initHomeWorks() {
     return;
   }
 
+
+  /*
+   * TOP表示対象のみから抽選
+   */
   const fullWorks =
-    getRandomWorks(
+    getRandomHomeWorks(
       "full",
       HOME_FULL_COUNT
     );
 
+
   const shortWorks =
-    getRandomWorks(
+    getRandomHomeWorks(
       "short",
       HOME_SHORT_COUNT
     );
 
+
   renderWorks(
     fullContainer,
-    fullWorks
+    fullWorks,
+    "full"
   );
+
 
   renderWorks(
     shortContainer,
-    shortWorks
+    shortWorks,
+    "short"
   );
+
 
   setupTabs();
 
   setupFullVideoPlayback();
 
+
   setupScrollButtons(
     fullContainer,
+
     document.getElementById(
       "homeFullPrev"
     ),
+
     document.getElementById(
       "homeFullNext"
     )
   );
 
+
   setupScrollButtons(
     shortContainer,
+
     document.getElementById(
       "homeShortPrev"
     ),
+
     document.getElementById(
       "homeShortNext"
     )

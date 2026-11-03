@@ -10,7 +10,12 @@ export const works = [
     title:
       "キュートアグレッション / キタニタツヤ (cover) 【歌ってみた】",
     publishedAt: "2026-11-03",
+
+    // /works に掲載するか
     active: true,
+
+    // トップページのランダム表示候補にするか
+    homeEligible: true,
   },
 
   {
@@ -20,7 +25,9 @@ export const works = [
     title:
       "アイリッド / ぬゆり (Cover) 【歌ってみた】",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -30,7 +37,9 @@ export const works = [
     title:
       "【歌ってみた】シャンティ / 緑月 Cover 【新人Vtuber】",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -40,7 +49,9 @@ export const works = [
     title:
       "月のワルツ 歌ってみた【砂つみの】",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -50,7 +61,9 @@ export const works = [
     title:
       "スキスキ絶頂症 covered by うたげ",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   // =========================================================
@@ -64,7 +77,9 @@ export const works = [
     title:
       "♬【ラプラスショコラ】編集して歌ってみた。",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -74,7 +89,9 @@ export const works = [
     title:
       "♫【G4L/Giga】編集して歌ってみた。",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -84,7 +101,9 @@ export const works = [
     title:
       "プレイ(PLAY) / Giga 歌ってみた",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -94,7 +113,9 @@ export const works = [
     title:
       "【リクエスト】偽物人間40号 / ¿?shimon サビ歌ってみた",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -104,7 +125,9 @@ export const works = [
     title:
       "セレナーデ / なとり 歌ってみた",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -114,7 +137,9 @@ export const works = [
     title:
       "LA･LA･LA LOVE SONG / 久保田利伸 サビ歌ってみた",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -124,7 +149,9 @@ export const works = [
     title:
       "IRIS OUT / 米津玄師 サビ歌ってみた",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -134,7 +161,9 @@ export const works = [
     title:
       "「プロポーズ／なとり」歌ってみた",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -144,7 +173,9 @@ export const works = [
     title:
       "「革命道中 - On The Way／アイナ・ジ・エンド」歌ってみた",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -154,7 +185,9 @@ export const works = [
     title:
       "「IRIS OUT」歌ってみた",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -164,7 +197,9 @@ export const works = [
     title:
       "ワールドイズマインCPK!Remix 葬星むくろcover",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
 
   {
@@ -174,44 +209,98 @@ export const works = [
     title:
       "『 IRIS OUT 』歌ってみた 【葬星むくろ】",
     publishedAt: "",
+
     active: true,
+    homeEligible: true,
   },
-]
+];
 
-// =========================================================
-// Utility
-// =========================================================
 
+/* =========================================================
+   Utility
+   ========================================================= */
+
+
+/*
+ * /works など、公開対象になっている全作品
+ */
 export function getActiveWorks() {
-  return works.filter((work) => work.active)
+  return works.filter(
+    (work) =>
+      work.active === true
+  );
 }
 
+
+/*
+ * 公開中のFull
+ */
 export function getFullWorks() {
   return works.filter(
     (work) =>
-      work.active &&
+      work.active === true &&
       work.type === "full"
-  )
+  );
 }
 
+
+/*
+ * 公開中のShort
+ */
 export function getShortWorks() {
   return works.filter(
     (work) =>
-      work.active &&
+      work.active === true &&
       work.type === "short"
-  )
+  );
 }
 
+
+/*
+ * typeを指定して公開作品を取得
+ */
 export function getWorksByType(type) {
   return works.filter(
     (work) =>
-      work.active &&
+      work.active === true &&
       work.type === type
-  )
+  );
 }
 
+
+/*
+ * トップページに掲載可能な作品
+ */
+export function getHomeEligibleWorks() {
+  return works.filter(
+    (work) =>
+      work.active === true &&
+      work.homeEligible === true
+  );
+}
+
+
+/*
+ * トップ掲載可能作品をtype別に取得
+ */
+export function getHomeEligibleWorksByType(
+  type
+) {
+  return works.filter(
+    (work) =>
+      work.active === true &&
+      work.homeEligible === true &&
+      work.type === type
+  );
+}
+
+
+/*
+ * IDから1作品取得
+ */
 export function getWorkById(id) {
   return works.find(
-    (work) => work.id === id
-  )
+    (work) =>
+      work.id === id
+  );
 }
